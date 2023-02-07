@@ -1,0 +1,12 @@
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\bin\Debug\net6.0\JobStream.Business.deps.json
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\bin\Debug\net6.0\JobStream.Business.dll
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\bin\Debug\net6.0\JobStream.Business.pdb
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.AssemblyInfo.cs
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.dll
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\refint\JobStream.Business.dll
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\JobStream.Business.pdb
+C:\Users\User\Desktop\JobStream\src\JobStream.Business\obj\Debug\net6.0\ref\JobStream.Business.dll

@@ -1,0 +1,18 @@
+﻿using JobStream.Core.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JobStream.Core.Entities
+{
+	public class Category : IEntity
+	{
+		public int Id { get; set; }
+		public string? Name { get; set; }
+		public ICollection<CategoryField>? CategoryField { get; set; } //numune: bank sahesi, marketinq
+		public ICollection<Vacancy>? Vacancies { get; set; }
+		public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; } //ok
+	}
+}

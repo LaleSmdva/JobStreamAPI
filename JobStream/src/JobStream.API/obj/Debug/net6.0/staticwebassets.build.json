@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "KgDQQY0i1eX4wF0woVFG39XbW03jaGOzPT4Zl6/grLY=",
+  "Source": "JobStream.API",
+  "BasePath": "_content/JobStream.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
