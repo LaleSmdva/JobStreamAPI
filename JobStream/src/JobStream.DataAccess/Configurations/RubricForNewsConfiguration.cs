@@ -13,7 +13,7 @@ namespace JobStream.DataAccess.Configurations
 	{
 		public void Configure(EntityTypeBuilder<RubricForNews> builder)
 		{
-			builder.Property(n => n.Name).IsRequired(true);
+			builder.Property(r => r.Name).IsRequired(true);
 		}
 	}
 }

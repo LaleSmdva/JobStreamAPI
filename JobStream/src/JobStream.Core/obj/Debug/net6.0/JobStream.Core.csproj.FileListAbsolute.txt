@@ -10,3 +10,15 @@ C:\Users\User\Desktop\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Co
 C:\Users\User\Desktop\JobStream\src\JobStream.Core\obj\Debug\net6.0\refint\JobStream.Core.dll
 C:\Users\User\Desktop\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.pdb
 C:\Users\User\Desktop\JobStream\src\JobStream.Core\obj\Debug\net6.0\ref\JobStream.Core.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\bin\Debug\net6.0\JobStream.Core.deps.json
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\bin\Debug\net6.0\JobStream.Core.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\bin\Debug\net6.0\JobStream.Core.pdb
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.AssemblyInfo.cs
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\refint\JobStream.Core.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\JobStream.Core.pdb
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.Core\obj\Debug\net6.0\ref\JobStream.Core.dll

@@ -24,7 +24,6 @@ namespace JobStream.Core.Entities
 		public string? Telephone { get; set; }
 		public bool? IsDeleted { get; set; }
 		public ICollection<Vacancy>? Vacancies { get; set; }
-		//public ICollection<Category>? Categories { get; set; }
 		public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }
 	}
 }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\JobStream\\src\\JobStream.Core\\JobStream.Core.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.Core\\JobStream.Core.csproj",
       "projectName": "JobStream.Core",
-      "projectPath": "C:\\Users\\User\\Desktop\\JobStream\\src\\JobStream.Core\\JobStream.Core.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.Core\\JobStream.Core.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\JobStream\\src\\JobStream.Core\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",

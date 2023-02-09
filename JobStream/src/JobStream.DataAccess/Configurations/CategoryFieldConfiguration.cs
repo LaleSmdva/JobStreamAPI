@@ -13,8 +13,8 @@ namespace JobStream.DataAccess.Configurations
 	{
 		public void Configure(EntityTypeBuilder<CategoryField> builder)
 		{
-			builder.Property(cf => cf.Name).IsRequired(true);
 			builder.HasOne(cf=>cf.Category).WithMany(c=>c.CategoryField).HasForeignKey(cf=>cf.CategoryId);
+			builder.Property(cf => cf.Name).IsRequired(true);
 		}
 	}
 }

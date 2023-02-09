@@ -1,4 +1,9 @@
+using JobStream.Business.Mappers;
+using JobStream.Business.Services.Implementations;
+using JobStream.Business.Services.Interfaces;
 using JobStream.DataAccess.Contexts;
+using JobStream.DataAccess.Repositories.Implementations;
+using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +19,12 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 {
 	opts.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
+
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 

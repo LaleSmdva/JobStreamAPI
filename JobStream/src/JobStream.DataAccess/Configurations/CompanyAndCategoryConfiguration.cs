@@ -14,8 +14,10 @@ namespace JobStream.DataAccess.Configurations
 		public void Configure(EntityTypeBuilder<CompanyAndCategory> builder)
 		{
 			builder.HasKey(c => new { c.CompanyId, c.CategoryId });
-			builder.HasOne(c => c.Company).WithMany(cd => cd.CompanyAndCategories).HasForeignKey(c => c.CompanyId);
-			builder.HasOne(c => c.Category).WithMany(cd => cd.CompanyAndCategories).HasForeignKey(c => c.CategoryId);
+			builder.HasOne(c => c.Company).WithMany(cd => cd.CompanyAndCategories)
+				.HasForeignKey(c => c.CompanyId);
+			builder.HasOne(c => c.Category).WithMany(cd => cd.CompanyAndCategories)
+				.HasForeignKey(c => c.CategoryId);
 		}
 	}
 }

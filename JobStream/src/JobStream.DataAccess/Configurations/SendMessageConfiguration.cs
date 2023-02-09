@@ -13,10 +13,10 @@ namespace JobStream.DataAccess.Configurations
 	{
 		public void Configure(EntityTypeBuilder<SendMessage> builder)
 		{
-			builder.Property(n => n.Fullname).IsRequired(true);
-			builder.Property(n => n.Email).IsRequired(true).HasMaxLength(254);
-			builder.Property(n => n.Header).IsRequired(true).HasMaxLength(100);
-			builder.Property(n => n.Message).IsRequired(true);
+			builder.Property(s => s.Fullname).IsRequired(true);
+			builder.Property(s => s.Email).IsRequired(true).HasMaxLength(254);
+			builder.Property(s => s.Header).IsRequired(true).HasMaxLength(100);
+			builder.Property(s => s.Message).IsRequired(true);
 		}
 	}
 }
