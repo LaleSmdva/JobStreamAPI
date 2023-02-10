@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.DTOs.CompanyDTO
 {
-	public class CompanyUpdateDTO
+	public class CompanyPutDTO
 	{
 		public int Id { get; set; }
 		public string? Name { get; set; }

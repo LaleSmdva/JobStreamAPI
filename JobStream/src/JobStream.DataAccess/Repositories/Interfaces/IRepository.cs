@@ -13,7 +13,7 @@ namespace JobStream.DataAccess.Repositories.Interfaces
 	{
 		IQueryable<T> GetAll();
 		Task<T> GetByIdAsync(int id);
-		IQueryable<T> GetByCondition(Expression<Func<T,bool>> expression);
+		IQueryable<T> GetByCondition(Expression<Func<T,bool>> expression, bool isTracking=true);
 		Task CreateAsync(T entity);
 		void Update(T entity);	
 		void Delete(T entity);

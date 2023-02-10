@@ -14,6 +14,8 @@ namespace JobStream.Business.Mappers
 		public CompanyMapper()
 		{
 			CreateMap<Company,CompanyDTO>().ReverseMap();
+			CreateMap<Company,CompanyPutDTO>().ReverseMap();
+			CreateMap<Company,CompanyPostDTO>().ReverseMap();
 		}
 	}
 }

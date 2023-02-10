@@ -20,7 +20,7 @@ namespace JobStream.DataAccess.Repositories.Implementations
 			_context = context;
 		}
 
-		public DbSet<T> _table =>_context.Set<T>();
+		public DbSet<T> _table => _context.Set<T>();
 
 		public IQueryable<T> GetAll()
 		{
@@ -32,9 +32,11 @@ namespace JobStream.DataAccess.Repositories.Implementations
 			return await _table.FindAsync(id);
 		}
 
-		public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression)
+		public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool isTracking=true)
 		{
-			return _table.Where(expression);
+			if (isTracking) return _table.Where(expression);
+			return _table.Where(expression).AsNoTracking();
+			
 		}
 
 		public async Task CreateAsync(T entity)
@@ -47,13 +49,14 @@ namespace JobStream.DataAccess.Repositories.Implementations
 			_table.Remove(entity);
 		}
 
-	
+
 
 		public void Update(T entity)
 		{
-			_context.Entry(entity).State = EntityState.Modified;
+			_context.Update(entity);
+			//_context.Entry(entity).State = EntityState.Detached;
 		}
-	
+
 
 		public async Task SaveAsync()
 		{

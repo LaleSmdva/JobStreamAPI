@@ -1,4 +1,5 @@
 ﻿using JobStream.Business.DTOs.CompanyDTO;
+using JobStream.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace JobStream.Business.Services.Interfaces
 	{
 		List<CompanyDTO> GetAll();
 		Task<CompanyDTO> GetById(int id);
-		IQueryable<CompanyDTO> GetByCondition(Expression<Func<CompanyDTO, bool>> expression);
-		Task CreateAsync(CompanyDTO entity);
-		Task Update(int id, CompanyUpdateDTO company);
+		List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression);
+		Task CreateAsync(CompanyPostDTO entity);
+		Task Update(int id, CompanyPutDTO company);
 		Task Delete(int id);
 		//Task SaveAsync();
 	}
