@@ -22,6 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
+//builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();

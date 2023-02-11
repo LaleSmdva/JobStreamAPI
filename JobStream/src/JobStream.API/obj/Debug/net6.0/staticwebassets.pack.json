@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\035e45ee-38c3-41b8-81d5-9e022c0dbba2Screenshot (16).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\035e45ee-38c3-41b8-81d5-9e022c0dbba2Screenshot (16).png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\2603d545-694c-4706-b2d3-a609d6ae73faScreenshot (29).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\2603d545-694c-4706-b2d3-a609d6ae73faScreenshot (29).png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\347b3b8b-210c-4bb2-8f08-a8e944d6671bScreenshot (12).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\347b3b8b-210c-4bb2-8f08-a8e944d6671bScreenshot (12).png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\598bc3d1-7508-4b7c-a40e-e23b6538e15eScreenshot (29).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\598bc3d1-7508-4b7c-a40e-e23b6538e15eScreenshot (29).png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\9c67562b-d648-4736-ad6b-b7b38c9e2965Screenshot (16).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\9c67562b-d648-4736-ad6b-b7b38c9e2965Screenshot (16).png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\d4aec886-3d51-4863-866b-b5697b2ebc86Screenshot (16).png",
+      "PackagePath": "staticwebassets\\images\\companyLogos\\d4aec886-3d51-4863-866b-b5697b2ebc86Screenshot (16).png"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.JobStream.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.JobStream.API.props",
+      "PackagePath": "build\\JobStream.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.JobStream.API.props",
+      "PackagePath": "buildMultiTargeting\\JobStream.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.JobStream.API.props",
+      "PackagePath": "buildTransitive\\JobStream.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -12,7 +12,7 @@ namespace JobStream.Business.Services.Interfaces
 	public interface ICompanyService
 	{
 		List<CompanyDTO> GetAll();
-		Task<CompanyDTO> GetById(int id);
+		Task<CompanyDTO> GetByIdAsync(int id);
 		List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression);
 		Task CreateAsync(CompanyPostDTO entity);
 		Task Update(int id, CompanyPutDTO company);

@@ -2,9 +2,11 @@
 using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Contexts;
 using JobStream.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +20,13 @@ namespace JobStream.Business.Services.Implementations
 	{
 		private readonly ICompanyRepository _repository;
 		private readonly IMapper _mapper;
-		private readonly AppDbContext _context;
+		private readonly IWebHostEnvironment _environment;
 
-		public CompanyService(ICompanyRepository repository, IMapper mapper, AppDbContext context)
+		public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment)
 		{
 			_repository = repository;
 			_mapper = mapper;
-			_context = context;
+			_environment = environment;
 		}
 
 		public List<CompanyDTO> GetAll()
@@ -36,6 +38,8 @@ namespace JobStream.Business.Services.Implementations
 
 		public async Task CreateAsync(CompanyPostDTO entity)
 		{
+		 await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
+		
 			var companies=_mapper.Map<Company>(entity);
 			await _repository.CreateAsync(companies);
 			await _repository.SaveAsync();
@@ -59,7 +63,7 @@ namespace JobStream.Business.Services.Implementations
 			return result;
 		}
 
-		public async Task<CompanyDTO> GetById(int id)
+		public async Task<CompanyDTO> GetByIdAsync(int id)
 		{
 			var company=await _repository.GetByIdAsync(id);
 			var result = _mapper.Map<CompanyDTO>(company);

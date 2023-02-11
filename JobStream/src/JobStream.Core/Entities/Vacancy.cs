@@ -30,7 +30,7 @@ namespace JobStream.Core.Entities
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 		//yazmamisam
-		
+		public DateTime ClosingDate { get; set; }
 		public string? OfferedBenfits { get; set; } //health insurance,paid time-off,flexible schedule
 	}
 }

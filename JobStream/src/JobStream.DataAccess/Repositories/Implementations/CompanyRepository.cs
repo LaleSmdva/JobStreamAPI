@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.DataAccess.Repositories.Implementations
 {
-	public class CompanyRepository:Repository<Company>,ICompanyRepository
+	public class CompanyRepository : Repository<Company>, ICompanyRepository
 	{
 		public CompanyRepository(AppDbContext context) : base(context)
 		{

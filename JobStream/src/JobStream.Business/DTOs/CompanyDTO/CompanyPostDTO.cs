@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace JobStream.Business.DTOs.CompanyDTO
 {
 	public class CompanyPostDTO
 	{
-		public int Id { get; set; }
+		//public int Id { get; set; }
 		public string? Name { get; set; }
 		public string? Location { get; set; }
 		public string? EmailForCv { get; set; }
@@ -18,7 +19,7 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		//public AppUser AppUser { get; set; }
 
 		public string? Email { get; set; }
-		public string? Logo { get; set; }
+		public IFormFile? Logo { get; set; }
 		public DateTime? IncorporationDate { get; set; }
 		public string? Telephone { get; set; }
 		//public bool? IsDeleted { get; set; }

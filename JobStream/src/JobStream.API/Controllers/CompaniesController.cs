@@ -1,6 +1,7 @@
 ﻿using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,6 @@ namespace JobStream.API.Controllers
 			}
 			catch (NotFoundException)
 			{
-
 				return NotFound("Not Found");
 			}
 			//catch (Exception)
@@ -47,27 +47,35 @@ namespace JobStream.API.Controllers
 		[HttpGet("[action]")]
 		public async Task<IActionResult> GetCompanyById(int id)
 		{
-			var companies = await _companyService.GetById(id);
+			var companies = await _companyService.GetByIdAsync(id);
 			return Ok(companies);
 		}
 		//admin
 
 		[HttpPost("create")]
-		public async Task<IActionResult> AddCompany(CompanyPostDTO company)
+		public async Task<IActionResult> AddCompany([FromForm]CompanyPostDTO company)
 		{
 
 			try
 			{
-				var existingCompany = await _companyService.GetById(company.Id);
+				//var existingCompany = await _companyService.GetByIdAsync(company.Id);
 				var companies = _companyService.GetAll();
-				if (existingCompany != null)
+				if (!company.Logo.CheckFileFormat("image/"))
 				{
-					throw new BadRequestException("A company with the same id already exists.");
+					throw new FormatException("File format is not supported, insert an image file");
 				}
-				if (company.Id != 0)
+				if (company.Logo.CheckFileSize(1))
 				{
-					throw new InvalidOperationException(" The requested resource could not be found.");
+					throw new FormatException("Max file size is 1MB");
 				}
+				//if (company.Id != 0 || company.Id)
+				//{
+				//	throw new InvalidOperationException("You can not insert id value.");
+				//}
+				//if (existingCompany.Id != null)
+				//{
+				//	throw new BadRequestException("A company with the same id already exists.");
+				//}
 				if (companies.Any(c => c.Name == company.Name && c.Email == company.Email))
 				{
 					throw new BadRequestException("A company with the same name and email already exists");
@@ -75,6 +83,10 @@ namespace JobStream.API.Controllers
 
 				await _companyService.CreateAsync(company);
 				return Ok("Successfully created");
+			}
+			catch (FormatException ex)
+			{
+				return BadRequest(ex.Message);
 			}
 			catch (BadRequestException ex)
 			{
