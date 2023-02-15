@@ -38,45 +38,55 @@ namespace JobStream.Business.Services.Implementations
 
 		public async Task CreateAsync(CompanyPostDTO entity)
 		{
-		 await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
-		
-			var companies=_mapper.Map<Company>(entity);
+			await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
+
+			var companies = _mapper.Map<Company>(entity);
 			await _repository.CreateAsync(companies);
 			await _repository.SaveAsync();
 		}
 
 		public async Task Delete(int id)
 		{
-			var company=await _repository.GetByIdAsync(id);
-			var result=_mapper.Map<Company>(company);
+			var companies = _repository.GetAll();
+			if (companies.All(x => x.Id != id))
+			{
+				throw new NotFoundException("Not Found");
+			}
+			var company = await _repository.GetByIdAsync(id);
+			var result = _mapper.Map<Company>(company);
 			_repository.Delete(result);
 			await _repository.SaveAsync();
 		}
 
-	
 
-		public  List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression)
+
+		public List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression)
 		{
-			
-			var company=_repository.GetByCondition(expression).ToList();
-			var result=_mapper.Map<List<CompanyDTO>>(company);
+
+			var company = _repository.GetByCondition(expression).ToList();
+			var result = _mapper.Map<List<CompanyDTO>>(company);
 			return result;
 		}
 
 		public async Task<CompanyDTO> GetByIdAsync(int id)
 		{
-			var company=await _repository.GetByIdAsync(id);
+			var companies = _repository.GetAll();
+			if (companies.All(x => x.Id != id))
+			{
+				throw new NotFoundException("Not Found");
+			}
+			var company = await _repository.GetByIdAsync(id);
 			var result = _mapper.Map<CompanyDTO>(company);
 			return result;
 		}
 
 
-		public async Task Update(int id,CompanyPutDTO company)
+		public async Task Update(int id, CompanyPutDTO company)
 		{
-			var Company =  _repository.GetByCondition(c => c.Id==company.Id, false);
+			var Company = _repository.GetByCondition(c => c.Id == company.Id, false);
 			if (Company == null) throw new NotFoundException("Not Found");
 			if (id != company.Id) throw new BadRequestException("Id is not valid");
-			var result=_mapper.Map<Company>(company);
+			var result = _mapper.Map<Company>(company);
 			_repository.Update(result);
 			await _repository.SaveAsync();
 		}

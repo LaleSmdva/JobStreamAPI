@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Exceptions
 {
-	public class NotFoundException:Exception
+	public sealed class NotFoundException:Exception
 	{
 		public NotFoundException(string message):base(message)
 		{

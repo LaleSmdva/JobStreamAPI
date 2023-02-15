@@ -1,9 +1,11 @@
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Core.Entities.Identity;
 using JobStream.DataAccess.Contexts;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,27 @@ builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
+{
+	opt.Password.RequireNonAlphanumeric = true;
+	opt.Password.RequireDigit = true;
+	opt.Password.RequiredLength = 6;
+	opt.Password.RequireUppercase = true;
+	opt.Password.RequireLowercase = true;
+	opt.User.RequireUniqueEmail = true;
+	opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+	//opt.SignIn.RequireConfirmedEmail = true;
+	opt.Lockout.MaxFailedAccessAttempts = 3;
+	opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+	opt.Lockout.AllowedForNewUsers = false;
+
+	//future use
+	
+	//opt.Tokens.EmailConfirmationTokenProvider= null;
+
+}).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
@@ -38,6 +61,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

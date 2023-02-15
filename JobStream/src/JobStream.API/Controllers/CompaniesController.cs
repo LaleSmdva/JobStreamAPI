@@ -47,8 +47,16 @@ namespace JobStream.API.Controllers
 		[HttpGet("[action]")]
 		public async Task<IActionResult> GetCompanyById(int id)
 		{
-			var companies = await _companyService.GetByIdAsync(id);
-			return Ok(companies);
+			try
+			{
+				var companies = await _companyService.GetByIdAsync(id);
+				return Ok(companies);
+			}
+			catch (NotFoundException ex)
+			{
+
+				return NotFound(ex.Message);
+			}
 		}
 		//admin
 
@@ -60,13 +68,14 @@ namespace JobStream.API.Controllers
 			{
 				//var existingCompany = await _companyService.GetByIdAsync(company.Id);
 				var companies = _companyService.GetAll();
+		
 				if (!company.Logo.CheckFileFormat("image/"))
 				{
 					throw new FormatException("File format is not supported, insert an image file");
 				}
-				if (company.Logo.CheckFileSize(1))
+				if (company.Logo.CheckFileSize(2))
 				{
-					throw new FormatException("Max file size is 1MB");
+					throw new FormatException("Max file size is 2 MB");
 				}
 				//if (company.Id != 0 || company.Id)
 				//{
@@ -104,17 +113,41 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpPut("update/{id}")]
-		public async Task<IActionResult> UpdateCompany(int id, CompanyPutDTO company)
+		public async Task<IActionResult> UpdateCompany(int id, [FromForm] CompanyPutDTO company)
 		{
-			await _companyService.Update(id, company);
-			return Ok("Successfully updated");
+			try
+			{
+				await _companyService.Update(id, company);
+				return Ok("Successfully updated");
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			catch (Exception)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError);
+
+			}
 		}
 
 		[HttpDelete("delete/{id}")]
 		public async Task<IActionResult> DeleteCompany(int id)
 		{
-			await _companyService.Delete(id);
-			return Ok("Successfully deleted");
+			try
+			{
+				await _companyService.Delete(id);
+				return Ok("Successfully deleted");
+			}
+			catch (NotFoundException ex)
+			{
+
+				return NotFound(ex.Message);
+			}
 		}
 	}
 }

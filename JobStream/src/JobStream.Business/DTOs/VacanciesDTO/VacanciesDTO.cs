@@ -20,7 +20,8 @@ namespace JobStream.Business.DTOs.VacanciesDTO
 		public string? HREmail { get; set; }
 		public DateTime? PostedOn { get; set; }  //  ???
 
-		//public int CompanyId { get; set; }
+		public int CompanyId { get; set; }
+		public string CompanyName { get; set; }
 		//public Company Company { get; set; }
 		//public int? JobTypeId { get; set; }
 		//public JobType? JobType { get; set; } //full-time,part-time,temporary,permanent,internship,contract,etc

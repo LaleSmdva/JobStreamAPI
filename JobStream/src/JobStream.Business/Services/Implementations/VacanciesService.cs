@@ -6,6 +6,7 @@ using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,9 +50,16 @@ namespace JobStream.Business.Services.Implementations
 		}
 		public async Task CreateAsync(VacanciesPostDTO entity)
 		{
-			var vacancies = _mapper.Map<Vacancy>(entity);
-			await _vacanciesRepository.CreateAsync(vacancies);
+			//var company=await _vacanciesRepository.GetByIdAsync(entity.CompanyId);
+			//if(company == null)
+			//{
+			//	throw new BadRequestException("Enter valid id");
+			//}
+			var vacancy = _mapper.Map<Vacancy>(entity);
+			//vacancy.Company = company;
+			await _vacanciesRepository.CreateAsync(vacancy);
 			await _vacanciesRepository.SaveAsync();
+			 _mapper.Map<VacanciesPostDTO>(entity);
 		}
 
 		public async Task Delete(int id)
