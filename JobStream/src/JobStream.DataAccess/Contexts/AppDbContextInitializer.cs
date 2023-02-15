@@ -1,6 +1,7 @@
 ﻿using JobStream.Core.Entities.Identity;
 using JobStream.Core.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,13 @@ namespace JobStream.DataAccess.Contexts
 			_roleManager = roleManager;
 			_configuration = configuration;
 		}
-		public async Task SeedAsync()
+		public async Task SeedRoleAsync()
 		{
 			foreach (var role in Enum.GetValues(typeof(UserRoles)))
 			{
-				if(!await _roleManager.RoleExistsAsync(role.ToString()))
+				if (!await _roleManager.RoleExistsAsync(role.ToString()))
 				{
-				    await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+					await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
 				}
 			}
 		}
@@ -41,9 +42,12 @@ namespace JobStream.DataAccess.Contexts
 				UserName = _configuration["AdminSettings:UserName"],
 				Email = _configuration["AdminSettings:Email"],
 			};
-			await _userManager.CreateAsync(admin, _configuration["AdminSettings:Password"]);
-			await _userManager.AddToRoleAsync(admin, UserRoles.Admin.ToString());
-			
+
+			if (await _userManager.Users.AnyAsync(u => u.UserName != admin.UserName))
+			{
+				await _userManager.CreateAsync(admin, _configuration["AdminSettings:Password"]);
+				await _userManager.AddToRoleAsync(admin, UserRoles.Admin.ToString());
+			}
 		}
 	}
 }

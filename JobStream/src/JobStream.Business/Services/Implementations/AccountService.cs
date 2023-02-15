@@ -5,15 +5,17 @@ using JobStream.Core.Entities.Identity;
 using JobStream.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
-	public class AccountService:IAccountService
+	public class AccountService : IAccountService
 	{
 		private readonly UserManager<AppUser> _userManager;
 
@@ -24,16 +26,27 @@ namespace JobStream.Business.Services.Implementations
 
 		public async Task RegisterCandidate(RegisterCandidateDTO registerCandidate)
 		{
+
 			AppUser candidate = new()
 			{
-				Fullname= registerCandidate.Fullname,
-				UserName=registerCandidate.Username,
-				Email= registerCandidate.Email,
+				Fullname = registerCandidate.Fullname,
+				UserName = registerCandidate.Username,
+				Email = registerCandidate.Email,
 			};
-			var identityResult=await _userManager.CreateAsync(candidate, registerCandidate.Password);
-			if(!identityResult.Succeeded)
+			if (await _userManager.Users.AnyAsync(u => u.UserName == candidate.UserName))
 			{
-				var errorMessages= new List<string>();
+				throw new DuplicateUserNameException("User with the same username already exists");
+			}
+			if (await _userManager.Users.AnyAsync(u => u.Email == candidate.Email))
+			{
+				throw new DuplicateEmailException("User with the same email address already exists");
+			}
+
+			var identityResult = await _userManager.CreateAsync(candidate, registerCandidate.Password);
+
+			if (!identityResult.Succeeded)
+			{
+				var errorMessages = new List<string>();
 				foreach (var error in identityResult.Errors)
 				{
 					errorMessages.Add(error.Description);
@@ -42,7 +55,7 @@ namespace JobStream.Business.Services.Implementations
 				//return BadRequest(errorMessages);
 			}
 
-			var result=await _userManager.AddToRoleAsync(candidate,UserRoles.Candidate.ToString());
+			var result = await _userManager.AddToRoleAsync(candidate, UserRoles.Candidate.ToString());
 			if (!result.Succeeded)
 			{
 				var errorMessages = new List<string>();
@@ -61,8 +74,8 @@ namespace JobStream.Business.Services.Implementations
 			{
 				Companyname = registerCompany.Companyname,
 				Email = registerCompany.Email,
-				InfoCompany=registerCompany.InfoCompany,
-				
+				InfoCompany = registerCompany.InfoCompany,
+
 			};
 			var identityResult = await _userManager.CreateAsync(company, registerCompany.Password);
 			if (!identityResult.Succeeded)

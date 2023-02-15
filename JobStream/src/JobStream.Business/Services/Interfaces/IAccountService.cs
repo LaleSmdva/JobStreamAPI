@@ -11,5 +11,6 @@ namespace JobStream.Business.Services.Interfaces
 	public interface IAccountService
 	{
 		Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
+		Task RegisterCompany(RegisterCompanyDTO registerCompany);
 	}
 }

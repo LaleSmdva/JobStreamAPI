@@ -10,7 +10,7 @@ namespace JobStream.Core.Entities.Identity
 	public class AppUser:IdentityUser
 	{
 		public string? Fullname { get; set; }
-		public string Companyname { get; set; }
+		public string? Companyname { get; set; }
 		public string? InfoCompany { get; set; }
 	}
 }

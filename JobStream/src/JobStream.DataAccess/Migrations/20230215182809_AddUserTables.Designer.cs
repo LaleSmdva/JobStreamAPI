@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobStream.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230215100321_AddAppUserTables")]
-    partial class AddAppUserTables
+    [Migration("20230215182809_AddUserTables")]
+    partial class AddUserTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,7 +280,6 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Companyname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -295,6 +294,9 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Fullname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InfoCompany")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")

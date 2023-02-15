@@ -1,6 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Validators.Account;
 using JobStream.Core.Entities.Identity;
 using JobStream.DataAccess.Contexts;
 using JobStream.DataAccess.Repositories.Implementations;
@@ -13,9 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddDbContext<AppDbContext>(opts =>
 {
@@ -29,6 +30,7 @@ builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 {
@@ -45,10 +47,20 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 	opt.Lockout.AllowedForNewUsers = false;
 
 	//future use
-	
+
 	//opt.Tokens.EmailConfirmationTokenProvider= null;
 
 }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssembly(typeof(RegisterCandidateDTOValidator).Assembly);
+
+builder.Services.AddScoped<AppDbContextInitializer>();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -63,7 +75,13 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+using (var scope = app.Services.CreateScope())
+{
+	//var initializer = app.Services.GetRequiredService<AppDbContextInitializer>(); //dependency injection
+	var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>(); //dependency injection
+	await initializer.SeedRoleAsync();
+	await initializer.SeedUserAsync();
+}
 app.MapControllers();
 
 app.Run();

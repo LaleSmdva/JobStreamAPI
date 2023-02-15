@@ -278,7 +278,6 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Companyname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -293,6 +292,9 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Fullname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InfoCompany")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")

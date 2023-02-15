@@ -21,7 +21,8 @@ namespace JobStream.Business.Validators.Account
 				.EmailAddress().WithMessage("Invalid email address");
 
 			RuleFor(c => c.Password).NotNull().WithMessage("Enter password").NotEmpty().WithMessage("Enter password")
-				.Length(6, 100).WithMessage("Password must be between 6 and 100 characters"); 
+				.Length(6, 100).WithMessage("Password must be between 6 and 100 characters")
+				.Matches("\\d").WithMessage("Password should contain at least 1 digit"); 
 
 			RuleFor(c => c.ConfirmPassword).NotNull().WithMessage("Enter password").NotEmpty().WithMessage("Enter password")
 				.Equal(c=>c.Password).WithMessage("Password and confirmation password do not match");
