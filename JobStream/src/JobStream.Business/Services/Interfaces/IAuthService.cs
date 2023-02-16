@@ -1,5 +1,5 @@
 ﻿using JobStream.Business.DTOs.Account;
-using Microsoft.AspNetCore.Mvc;
+using JobStream.Business.DTOs.LoginToken;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Interfaces
 {
-	public interface IAccountService
+	public interface IAuthService
 	{
-		Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
-		Task RegisterCompany(RegisterCompanyDTO registerCompany);
-
+		Task<LoginTokenResponseDTO> LoginCandidateAsync(LoginCandidateDTO loginCandidate);
+		//Task LoginCompanyAsync(LoginCompanyDTO loginCompany);
 	}
 }

@@ -6,10 +6,14 @@ using JobStream.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +22,14 @@ namespace JobStream.Business.Services.Implementations
 	public class AccountService : IAccountService
 	{
 		private readonly UserManager<AppUser> _userManager;
+		private readonly SignInManager<AppUser> _signInManager;
+		private readonly IConfiguration _configuration;
 
-		public AccountService(UserManager<AppUser> userManager)
+		public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
 		{
 			_userManager = userManager;
+			_signInManager = signInManager;
+			_configuration = configuration;
 		}
 
 		public async Task RegisterCandidate(RegisterCandidateDTO registerCandidate)
@@ -77,6 +85,14 @@ namespace JobStream.Business.Services.Implementations
 				InfoCompany = registerCompany.InfoCompany,
 
 			};
+			if (await _userManager.Users.AnyAsync(u => u.UserName == company.UserName))
+			{
+				throw new DuplicateUserNameException("User with the same username already exists");
+			}
+			if (await _userManager.Users.AnyAsync(u => u.Email == company.Email))
+			{
+				throw new DuplicateEmailException("User with the same email address already exists");
+			}
 			var identityResult = await _userManager.CreateAsync(company, registerCompany.Password);
 			if (!identityResult.Succeeded)
 			{
@@ -101,5 +117,7 @@ namespace JobStream.Business.Services.Implementations
 			}
 
 		}
+
+		
 	}
 }

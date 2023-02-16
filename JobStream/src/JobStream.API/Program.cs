@@ -1,5 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using JobStream.Business.HelperServices.Implementations;
+using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
@@ -8,8 +10,12 @@ using JobStream.Core.Entities.Identity;
 using JobStream.DataAccess.Contexts;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using TokenHandler = JobStream.Business.HelperServices.Implementations.TokenHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +29,17 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 	opts.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
+
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 //builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+//builder.Services.AddScoped<IVacanciesService, VacanciesService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
@@ -51,6 +61,27 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 	//opt.Tokens.EmailConfirmationTokenProvider= null;
 
 }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAuthentication(opts =>
+{
+	opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	//opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(opts =>
+{
+	opts.TokenValidationParameters = new()
+	{
+		ValidateAudience = true,
+		ValidateIssuer = true,
+		ValidateIssuerSigningKey = true,
+		ValidateLifetime = true,
+		ValidAudience = builder.Configuration["JWT:Audience"],
+		ValidIssuer = builder.Configuration["JWT:Issuer"],
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecurityKey"])),
+		LifetimeValidator = (_, expires, _, _) => expires != null ? DateTime.UtcNow < expires : false
+
+	};
+});
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();

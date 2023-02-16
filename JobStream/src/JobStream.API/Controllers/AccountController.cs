@@ -19,7 +19,7 @@ namespace JobStream.API.Controllers
 			_accountService = accountService;
 		}
 
-		[HttpPost("register/candidate")]
+		[HttpPost("[action]")]
 		public async Task<IActionResult> RegisterCandidate(RegisterCandidateDTO candidateDto)
 		{
 			try
@@ -37,7 +37,8 @@ namespace JobStream.API.Controllers
 			}
 			catch (CreateUserFailedException ex)
 			{
-				return StatusCode((int)HttpStatusCode.InternalServerError,ex.Message);
+				return BadRequest(ex.Message);
+				//return StatusCode((int)HttpStatusCode.InternalServerError,ex.Message);
 			}
 			catch (CreateRoleFailedException ex)
 			{
@@ -45,11 +46,33 @@ namespace JobStream.API.Controllers
 			}
 		}
 
-		[HttpPost("register/company")]
-		public async Task<IActionResult> RegisterCompanyy(RegisterCompanyDTO companyDto)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> RegisterCompany(RegisterCompanyDTO companyDto)
 		{
-			await _accountService.RegisterCompany(companyDto);
-			return Ok("Company registered");
+			try
+			{
+				await _accountService.RegisterCompany(companyDto);
+				return Ok("Company registered");
+			}
+			catch (DuplicateUserNameException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (DuplicateEmailException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (CreateUserFailedException ex)
+			{
+				return BadRequest(ex.Message);
+				//return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+			}
+			catch (CreateRoleFailedException ex)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+			}
 		}
+
+		
 	}
 }

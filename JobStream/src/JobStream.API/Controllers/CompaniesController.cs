@@ -2,6 +2,7 @@
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace JobStream.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class CompaniesController : ControllerBase
 	{
 		//Companies/GetAll
