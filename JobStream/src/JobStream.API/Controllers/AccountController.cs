@@ -12,6 +12,7 @@ namespace JobStream.API.Controllers
 	[ApiController]
 	public class AccountController : ControllerBase
 	{
+		//GetAccount//UpdateAccount//DeleteAccount
 		private readonly IAccountService _accountService;
 
 		public AccountController(IAccountService accountService)

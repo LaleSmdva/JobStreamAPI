@@ -11,5 +11,6 @@ namespace JobStream.Business.DTOs.LoginToken
 		public string? Token { get; set; }
 		public DateTime Expires { get; set; }
 		public string? Username { get; set; }
+		public string? RefreshToken { get; set; }
 	}
 }

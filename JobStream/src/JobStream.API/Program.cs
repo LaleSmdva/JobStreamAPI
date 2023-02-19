@@ -12,6 +12,9 @@ using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -34,12 +37,20 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 //builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
 
+
+//builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-//builder.Services.AddScoped<IVacanciesService, VacanciesService>();
+builder.Services.AddScoped<IVacanciesService, VacanciesService>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+
+
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>

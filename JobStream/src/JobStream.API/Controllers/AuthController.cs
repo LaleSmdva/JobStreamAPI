@@ -32,9 +32,65 @@ namespace JobStream.API.Controllers
 			}
 			catch (Exception)
 			{
-				return StatusCode((int) HttpStatusCode.InternalServerError);
+				return StatusCode((int)HttpStatusCode.InternalServerError);
 			}
 		}
+
+	
+		/// <summary>
+		/// //
+		/// </summary>
+		/// <returns></returns>
+		[HttpPost]
+		[Route("forgotpassword")]
+		public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
+		{
+			try
+			{
+				var token = await _authService.ForgotPassword(forgotPasswordDTO);
+				// Send the reset password link to the user's email using a mailing service
+				return Ok(token);
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError);
+			}
+		}
+
+		[HttpPost]
+		[Route("resetpassword")]
+		public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO, string userId, string token)
+		{
+			try
+			{
+				var result = await _authService.ResetPassword(resetPasswordDTO, userId, token);
+				return Ok(result);
+			}
+			catch (BadRequestException ex)
+			{
+				return BadRequest();
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError);
+			}
+		}
+
+		//[HttpPost("[action]")]
+
+		//public async Task<IActionResult> ConfirmEmail( string token,string userId)
+		//{
+		//	await _authService.ConfirmEmail(token,userId);
+		//	return Ok();
+		//}
 
 		//[HttpPost("[action]")]
 		//public async Task<IActionResult> LoginCompany(LoginCompanyDTO loginCompanyDTO)

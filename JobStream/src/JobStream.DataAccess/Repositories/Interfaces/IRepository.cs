@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.DataAccess.Repositories.Interfaces
 {
-	public interface IRepository<T> where T : class,IEntity,new()
+	public interface IRepository<T> where T : class,new()
 	{
 		IQueryable<T> GetAll();
 		Task<T> GetByIdAsync(int id);

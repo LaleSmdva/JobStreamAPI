@@ -11,6 +11,8 @@ namespace JobStream.Core.Entities.Identity
 	{
 		public string? Fullname { get; set; }
 		public string? Companyname { get; set; }
-		public string? InfoCompany { get; set; }
+		public string? InfoCompany { get; set; } 
+		public string? RefreshToken { get; set; }
+		public DateTime? RefreshTokenExpires { get; set; }
 	}
 }

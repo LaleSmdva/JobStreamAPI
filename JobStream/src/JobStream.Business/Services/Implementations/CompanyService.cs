@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
+using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
@@ -21,12 +22,14 @@ namespace JobStream.Business.Services.Implementations
 		private readonly ICompanyRepository _repository;
 		private readonly IMapper _mapper;
 		private readonly IWebHostEnvironment _environment;
+		private readonly IFileService _fileService;
 
-		public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment)
+		public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService)
 		{
 			_repository = repository;
 			_mapper = mapper;
 			_environment = environment;
+			_fileService = fileService;
 		}
 
 		public List<CompanyDTO> GetAll()
@@ -38,8 +41,8 @@ namespace JobStream.Business.Services.Implementations
 
 		public async Task CreateAsync(CompanyPostDTO entity)
 		{
-			await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
-
+			//await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
+			await _fileService.CopyFileAsync(entity.Logo, _environment.WebRootPath, "images", "companyLogos");
 			var companies = _mapper.Map<Company>(entity);
 			await _repository.CreateAsync(companies);
 			await _repository.SaveAsync();

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.DataAccess.Repositories.Implementations
 {
-	public class Repository<T> : IRepository<T> where T : class, IEntity, new()
+	public class Repository<T> : IRepository<T> where T : class, new()
 	{
 		private readonly AppDbContext _context;
 

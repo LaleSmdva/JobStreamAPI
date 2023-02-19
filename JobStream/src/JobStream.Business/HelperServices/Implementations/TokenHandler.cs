@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,8 +26,11 @@ namespace JobStream.Business.HelperServices.Implementations
 			_configuration = configuration;
 		}
 
-		public async Task<LoginTokenResponseDTO> GenerateTokenAsync(AppUser user,int hours)
+
+
+		public async Task<LoginTokenResponseDTO> GenerateTokenAsync(AppUser user, int hours)
 		{
+			LoginTokenResponseDTO tokenn = new();
 
 			List<Claim> claims = new List<Claim>()
 			{
@@ -60,13 +64,36 @@ namespace JobStream.Business.HelperServices.Implementations
 			JwtSecurityTokenHandler securityTokenHandler = new JwtSecurityTokenHandler();
 			string token = securityTokenHandler.WriteToken(jwtSecurityToken);
 
+			//tokenn.RefreshToken =await  GenerateRefreshToken();
+			string refreshToken = await GenerateRefreshToken();
+
 			return new()
 			{
 				Token = token,
 				Expires = jwtSecurityToken.ValidTo,
-				Username = user.UserName
+				Username = user.UserName,
+				RefreshToken = refreshToken
 			};
-		}
 
+		}
+		public async Task<string> GenerateRefreshToken()
+		{
+			byte[] number = new byte[32];
+			using RandomNumberGenerator random = RandomNumberGenerator.Create();
+			random.GetBytes(number);
+			return Convert.ToBase64String(number);
+		}
+		public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+		{
+		
+			if (user != null)
+			{
+				user.RefreshToken = refreshToken;
+				user.RefreshTokenExpires = accessTokenDate.AddMinutes(addOnAccessTokenDate);
+				await _userManager.UpdateAsync(user);
+			}
+			else throw new Exception();
+
+		}
 	}
 }
