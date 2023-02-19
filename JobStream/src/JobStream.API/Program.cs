@@ -5,6 +5,7 @@ using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Utilities;
 using JobStream.Business.Validators.Account;
 using JobStream.Core.Entities.Identity;
 using JobStream.DataAccess.Contexts;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TokenHandler = JobStream.Business.HelperServices.Implementations.TokenHandler;
@@ -33,22 +35,6 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 });
 
 
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
-//builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
-
-
-//builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IVacanciesService, VacanciesService>();
-builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 
 
 
@@ -97,8 +83,27 @@ builder.Services.AddAuthentication(opts =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterCandidateDTOValidator).Assembly);
-
 builder.Services.AddScoped<AppDbContextInitializer>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));//hem oxuyur hem map edir
+
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
+//builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
+
+
+//builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IVacanciesService, VacanciesService>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+builder.Services.AddTransient<IMailService, MailService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

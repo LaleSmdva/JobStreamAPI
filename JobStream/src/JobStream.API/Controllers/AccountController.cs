@@ -1,6 +1,8 @@
 ﻿using JobStream.Business.DTOs.Account;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Validators.Account;
+using JobStream.Core.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,36 @@ namespace JobStream.API.Controllers
 		public AccountController(IAccountService accountService)
 		{
 			_accountService = accountService;
+		}
+
+		[HttpGet("[action]")]
+		public  IActionResult GetAllCandidateAccounts()
+		{
+			try
+			{
+				var accounts = _accountService.GetAllCandidateAccounts();
+				return Ok(accounts);
+			}
+			catch (Exception ex)
+			{
+
+				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		//[HttpGet("[action]")]
+		[HttpGet("candidate/{userName}")]
+		public async Task<IActionResult> GetCandidateAccountByUsername(string userName)
+		{
+			try
+			{
+				var user = await _accountService.GetCandidateAccountByUsernameAsync(userName);
+				return Ok(user);
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound(ex.Message);
+			}
 		}
 
 		[HttpPost("[action]")]
@@ -47,6 +79,33 @@ namespace JobStream.API.Controllers
 			}
 		}
 
+
+
+		[HttpPost("[action]")]
+		[ValidateRolesModel]
+		public async Task<IActionResult> CreateRole(string userName,[FromQuery] List<string> roles)
+		{
+			try
+			{
+				bool isCreated = await _accountService.CreateRoleAsync(userName, roles);
+				return Ok(isCreated);
+			}
+			catch (Business.Exceptions.ArgumentNullException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			catch (CreateRoleFailedException ex)
+			{
+				return NotFound(ex.Message);
+			}
+			
+		}
+
+
 		[HttpPost("[action]")]
 		public async Task<IActionResult> RegisterCompany(RegisterCompanyDTO companyDto)
 		{
@@ -74,6 +133,14 @@ namespace JobStream.API.Controllers
 			}
 		}
 
-		
+		//[HttpPost("[action]")]
+		//public async Task<IActionResult> ConfirmEmail(MailRequestDTO mailRequestDTO,string link)
+		//{
+		//	var response=await _accountService.SendConfirmationEmailAsync(mailRequestDTO.ToEmail, link);
+		//	return Ok(response);
+		//}
+
+
+
 	}
 }

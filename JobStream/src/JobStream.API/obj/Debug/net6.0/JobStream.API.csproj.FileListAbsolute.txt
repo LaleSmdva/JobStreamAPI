@@ -152,3 +152,6 @@ C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\MailKit.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\MimeKit.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\BouncyCastle.Crypto.dll

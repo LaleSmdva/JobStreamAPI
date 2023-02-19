@@ -9,6 +9,7 @@ namespace JobStream.Core.Enums
 	public enum UserRoles
 	{
 		Admin,
+		Moderator,
 		Candidate,
 		Company
 	}

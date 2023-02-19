@@ -12,10 +12,12 @@ namespace JobStream.API.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthService _authService;
+		private readonly IMailService _mailService;
 
-		public AuthController(IAuthService authService)
+		public AuthController(IAuthService authService, IMailService mailService)
 		{
 			_authService = authService;
+			_mailService = mailService;
 		}
 
 		[HttpPost("[action]")]
@@ -83,7 +85,13 @@ namespace JobStream.API.Controllers
 				return StatusCode((int)HttpStatusCode.InternalServerError);
 			}
 		}
-
+		[HttpPost]
+		[Route("emailresetpassword")]
+		public async Task<IActionResult> EmailResetPassword( [FromForm]MailRequestDTO mailRequestDTO)
+		{
+			await _mailService.SendEmailAsync(mailRequestDTO);
+			return Ok();
+		}
 		//[HttpPost("[action]")]
 
 		//public async Task<IActionResult> ConfirmEmail( string token,string userId)

@@ -7,12 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JobStream.DataAccess.Repositories.Implementations
+namespace JobStream.DataAccess.Repositories.Implementations;
+
+public class AccountRepository : Repository<AppUser>, IAccountRepository
 {
-	public class AuthRepository : Repository<AppUser>, IAuthRepository
+	public AccountRepository(AppDbContext context) : base(context)
 	{
-		public AuthRepository(AppDbContext context) : base(context)
-		{
-		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using JobStream.Core.Entities.Identity;
+﻿using JobStream.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace JobStream.DataAccess.Repositories.Interfaces;
 
-public interface IAuthRepository : IRepository<AppUser>
+public interface IArticleRepository:IRepository<Article>
 {
 }
