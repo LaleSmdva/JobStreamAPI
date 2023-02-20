@@ -15,8 +15,10 @@ namespace JobStream.Business.Services.Interfaces
 		List<AppUserDTO> GetAllCandidateAccounts();
 		Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName);
 		Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
+
+		Task<List<object>> GetAllRolesAsync();
 		Task<bool> CreateRoleAsync(string userName, List<string> roles);
-		//Task<bool> UpdateRoleAsync(string userName, List<string> newRoles,List<string> deletedRoles);
+		Task<bool> UpdateRoleAsync(string userName, List<string> newRoles, List<string> deletedRoles);
 
 		Task RegisterCompany(RegisterCompanyDTO registerCompany);
 		//Task<string> SendConfirmationEmailAsync(string emailAddress, string confirmationLink);

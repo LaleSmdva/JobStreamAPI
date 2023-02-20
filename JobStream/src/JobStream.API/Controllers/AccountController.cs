@@ -23,7 +23,7 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public  IActionResult GetAllCandidateAccounts()
+		public IActionResult GetAllCandidateAccounts()
 		{
 			try
 			{
@@ -64,7 +64,7 @@ namespace JobStream.API.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-			catch(DuplicateEmailException ex)
+			catch (DuplicateEmailException ex)
 			{
 				return BadRequest(ex.Message);
 			}
@@ -75,15 +75,27 @@ namespace JobStream.API.Controllers
 			}
 			catch (CreateRoleFailedException ex)
 			{
-				return StatusCode((int)HttpStatusCode.InternalServerError,ex.Message);
+				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+		[HttpGet("[action]")]
+		public async Task<IActionResult> GetUserRoles()
+		{
+			try
+			{
+				var list = await _accountService.GetAllRolesAsync();
+				return Ok(list);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
 
 
-
 		[HttpPost("[action]")]
 		[ValidateRolesModel]
-		public async Task<IActionResult> CreateRole(string userName,[FromQuery] List<string> roles)
+		public async Task<IActionResult> CreateRole(string userName, [FromQuery] List<string> roles)
 		{
 			try
 			{
@@ -102,7 +114,22 @@ namespace JobStream.API.Controllers
 			{
 				return NotFound(ex.Message);
 			}
-			
+
+		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> UpdateRole(string userName,[FromQuery] List<string> newRoles, [FromQuery] List<string> deletedRoles)
+		{
+			try
+			{
+				bool isUpdated = await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
+				return Ok(isUpdated);
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
 		}
 
 

@@ -106,6 +106,19 @@ namespace JobStream.Business.Services.Implementations
 
 		}
 
+		public async Task<List<object>> GetAllRolesAsync()
+		{
+			var users = await _userManager.Users.ToListAsync();
+			var roles = new List<object>();
+
+			foreach (var user in users)
+			{
+				var userRoles = await _userManager.GetRolesAsync(user);
+				roles.Add(new { Identity = user.UserName, Roles = userRoles });
+			}
+
+			return roles;
+		}
 
 		public async Task<bool> CreateRoleAsync(string userName, List<string> roles)
 		{
@@ -132,27 +145,65 @@ namespace JobStream.Business.Services.Implementations
 					Name = role,
 				};
 				await _roleManager.CreateAsync(newRole);
-
 				var identityResult = await _userManager.AddToRoleAsync(User, role);
-
-				//var errorMessages = new List<string>();
-				//foreach (var error in identityResult.Errors)
-				//{
-				//	errorMessages.Add(error.Description);
-				//}
-				//throw new CreateRoleFailedException($"{role} role already exists");
-
-
 
 			}
 			return true;
 		}
 
 
-		//public Task<bool> UpdateRoleAsync(string userName, List<string> roles)
-		//{
-		//	throw new NotImplementedException();
-		//}
+		public async Task<bool> UpdateRoleAsync(string userName, List<string> newRoles, List<string> deletedRoles)
+		{
+			if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentNullException("Username is required");
+			var user = await _userManager.FindByNameAsync(userName);
+
+			List<string> allRoles = new();
+
+			foreach (var rolee in Enum.GetValues(typeof(UserRoles)))
+			{
+				allRoles.Add(rolee.ToString());
+			}
+
+			if (user != null)
+			{
+				foreach (var newRole in newRoles)
+				{
+					if (!allRoles.Contains(newRole))
+					{
+						throw new NotFoundException("There is no such a role");
+					}
+					//if newRole doesn't exist create new role
+					if (await _roleManager.RoleExistsAsync(newRole))
+					{
+						var newRolee = new IdentityRole()
+						{
+							Name = newRole,
+						};
+						await _roleManager.CreateAsync(newRolee);
+						await _userManager.AddToRoleAsync(user, newRole);
+					}//if newRole exists do nothing
+				}
+
+				foreach (var deletedRole in deletedRoles)
+				{
+					if (!allRoles.Contains(deletedRole))
+					{
+						throw new NotFoundException("There is no such a role");
+					}
+					//if deletedRole exists delete
+					//if deletedRole doesn't exists do nothing
+					if (await _roleManager.RoleExistsAsync(deletedRole))
+					{
+						var deletedRolee = new IdentityRole()
+						{
+							Name = deletedRole,
+						};
+						await _userManager.RemoveFromRoleAsync(user, deletedRole);
+					}
+				}
+			}
+			return true;
+		}
 
 		//[HttpGet("confirm-email")]
 		//public async Task<string> SendConfirmationEmailAsync(string emailAddress, string confirmationLink)
@@ -210,19 +261,21 @@ namespace JobStream.Business.Services.Implementations
 
 
 
-			var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
-			if (!result.Succeeded)
-			{
-				var errorMessages = new List<string>();
-				foreach (var error in result.Errors)
-				{
-					errorMessages.Add(error.Description);
-				}
-				throw new CreateRoleFailedException($"{errorMessages}");
-			}
+			//	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
+			//	if (!result.Succeeded)
+			//	{
+			//		var errorMessages = new List<string>();
+			//		foreach (var error in result.Errors)
+			//		{
+			//			errorMessages.Add(error.Description);
+			//		}
+			//		throw new CreateRoleFailedException($"{errorMessages}");
+			//	}
+
+			//}
+
 
 		}
-
-
 	}
 }
+
