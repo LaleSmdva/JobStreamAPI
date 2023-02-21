@@ -6,14 +6,18 @@ using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Contexts;
+using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -23,16 +27,18 @@ namespace JobStream.Business.Services.Implementations
 		private readonly IMapper _mapper;
 		private readonly IWebHostEnvironment _environment;
 		private readonly IFileService _fileService;
+		private readonly IVacanciesRepository _vacanciesRepository;
 
-		public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService)
-		{
-			_repository = repository;
-			_mapper = mapper;
-			_environment = environment;
-			_fileService = fileService;
-		}
+        public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository)
+        {
+            _repository = repository;
+            _mapper = mapper;
+            _environment = environment;
+            _fileService = fileService;
+            _vacanciesRepository = vacanciesRepository;
+        }
 
-		public List<CompanyDTO> GetAll()
+        public  List<CompanyDTO> GetAllAsync()
 		{
 			var companies = _repository.GetAll().ToList();
 			var result = _mapper.Map<List<CompanyDTO>>(companies);
@@ -44,7 +50,21 @@ namespace JobStream.Business.Services.Implementations
 			//await entity.Logo.CopyFileAsync(_environment.WebRootPath, "images", "companyLogos");
 			await _fileService.CopyFileAsync(entity.Logo, _environment.WebRootPath, "images", "companyLogos");
 			var companies = _mapper.Map<Company>(entity);
-			await _repository.CreateAsync(companies);
+			///////////////////////////////////
+            //List<Vacancy> vacancies = new();
+            //foreach (var topicId in entity.Vacancies)
+            //{
+            //    vacancies.Add(new()
+            //    {
+            //        CompanyId=companies.Id,
+            //        JobTypeId=companies.Id
+            //    });
+            //}
+            //companies.Vacancies = vacancies;
+
+			//////////////////////////////
+
+            await _repository.CreateAsync(companies);
 			await _repository.SaveAsync();
 		}
 

@@ -96,6 +96,10 @@ builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+//new
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IJobTypeRepository, JobTypeRepository>();
+builder.Services.AddScoped<IJobScheduleRepository, JobScheduleRepository>();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IVacanciesService, VacanciesService>();
@@ -104,6 +108,11 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddTransient<IMailService, MailService>();
+//new
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IJobTypeService, JobTypeService>();
+builder.Services.AddTransient<IJobScheduleService, JobScheduleService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

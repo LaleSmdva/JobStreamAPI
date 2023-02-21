@@ -12,7 +12,7 @@ namespace JobStream.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	public class CompaniesController : ControllerBase
 	{
 		//Companies/GetAll
@@ -28,11 +28,11 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpGet("")]
-		public IActionResult GetAllCompanies()
+		public  IActionResult GetAllCompanies()
 		{
 			try
 			{
-				var companies = _companyService.GetAll();
+				var companies = _companyService.GetAllAsync();
 				return Ok(companies);
 			}
 			catch (NotFoundException)
@@ -69,7 +69,7 @@ namespace JobStream.API.Controllers
 			try
 			{
 				//var existingCompany = await _companyService.GetByIdAsync(company.Id);
-				var companies = _companyService.GetAll();
+				var companies = _companyService.GetAllAsync();
 		
 				if (!company.Logo.CheckFileFormat("image/"))
 				{

@@ -6,9 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JobStream.DataAccess.Repositories.Interfaces
+namespace JobStream.DataAccess.Repositories.Interfaces;
+
+public interface ICompanyRepository:IRepository<Company>
 {
-	public interface ICompanyRepository:IRepository<Company>
-	{
-	}
 }

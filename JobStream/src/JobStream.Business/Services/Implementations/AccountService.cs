@@ -230,14 +230,15 @@ namespace JobStream.Business.Services.Implementations
 		{
 			AppUser company = new()
 			{
-				Companyname = registerCompany.Companyname,
+				UserName = registerCompany.Companyname,
 				Email = registerCompany.Email,
 				InfoCompany = registerCompany.InfoCompany,
+			
 
 			};
-			if (await _userManager.Users.AnyAsync(u => u.UserName == company.UserName))
+			if (await _userManager.Users.AnyAsync(u => u.UserName == company.Companyname))
 			{
-				throw new DuplicateUserNameException("User with the same username already exists");
+				throw new DuplicateUserNameException("User with the same company name already exists");
 			}
 			if (await _userManager.Users.AnyAsync(u => u.Email == company.Email))
 			{
@@ -251,31 +252,45 @@ namespace JobStream.Business.Services.Implementations
 				{
 					errorMessages.Add(error.Description);
 				}
-				throw new CreateUserFailedException($"{errorMessages}");
+				//throw new CreateUserFailedException($"{errorMessages}");
+				throw new CreateUserFailedException(string.Join(", ", errorMessages));
 				//return BadRequest(errorMessages);
 			}
-			///////    new ////
-			//var code = await _userManager.GenerateEmailConfirmationTokenAsync(company.Id);
-			//var callbackUrl = Url.Link("ConfirmEmailRoute", new { userId = company.Id, code = code });
-			//await _userManager.SendEmailAsync(company.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
 
-
-			//	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
-			//	if (!result.Succeeded)
-			//	{
-			//		var errorMessages = new List<string>();
-			//		foreach (var error in result.Errors)
-			//		{
-			//			errorMessages.Add(error.Description);
-			//		}
-			//		throw new CreateRoleFailedException($"{errorMessages}");
-			//	}
-
-			//}
-
-
+			var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
+			if (!result.Succeeded)
+			{
+				var errorMessages = new List<string>();
+				foreach (var error in result.Errors)
+				{
+					errorMessages.Add(error.Description);
+				}
+				throw new CreateRoleFailedException($"{errorMessages}");
+			}
 		}
+		///////    new ////
+		//var code = await _userManager.GenerateEmailConfirmationTokenAsync(company.Id);
+		//var callbackUrl = Url.Link("ConfirmEmailRoute", new { userId = company.Id, code = code });
+		//await _userManager.SendEmailAsync(company.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+
+
+		//	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
+		//	if (!result.Succeeded)
+		//	{
+		//		var errorMessages = new List<string>();
+		//		foreach (var error in result.Errors)
+		//		{
+		//			errorMessages.Add(error.Description);
+		//		}
+		//		throw new CreateRoleFailedException($"{errorMessages}");
+		//	}
+
+		//}
+
+
+
 	}
 }
 
