@@ -6,6 +6,7 @@ using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ public class CategoryService : ICategoryService
     }
     public List<CategoriesDTO> GetAll()
     {
-        var categories = _repository.GetAll().ToList();
+        var categories = _repository.GetAll().Include(x=>x.CategoryField).ToList();
         var result = _mapper.Map<List<CategoriesDTO>>(categories);
         return result;
     }

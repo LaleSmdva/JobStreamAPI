@@ -24,7 +24,10 @@ namespace JobStream.Core.Entities
 		public Company Company { get; set; }
 		public int? JobTypeId { get; set; }
 		public JobType? JobType { get; set; } //full-time,part-time,temporary,permanent,internship,contract,etc
-		public string? JobScheduleId { get; set; } //8 hour shift ,day shift,evening shift, self-determined schedule,etc
+
+
+		//modified
+		public int? JobScheduleId { get; set; } //8 hour shift ,day shift,evening shift, self-determined schedule,etc
 		public JobSchedule? JobSchedule { get; set; }
 	
 		public int CategoryId { get; set; }

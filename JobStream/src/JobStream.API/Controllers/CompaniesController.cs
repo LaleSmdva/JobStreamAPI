@@ -2,10 +2,7 @@
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace JobStream.API.Controllers
@@ -28,11 +25,11 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpGet("")]
-		public  IActionResult GetAllCompanies()
+		public async Task<IActionResult> GetAllCompanies()
 		{
 			try
 			{
-				var companies = _companyService.GetAllAsync();
+				var companies = await _companyService.GetAllAsync();
 				return Ok(companies);
 			}
 			catch (NotFoundException)
@@ -69,7 +66,7 @@ namespace JobStream.API.Controllers
 			try
 			{
 				//var existingCompany = await _companyService.GetByIdAsync(company.Id);
-				var companies = _companyService.GetAllAsync();
+				var companies = await _companyService.GetAllAsync();
 		
 				if (!company.Logo.CheckFileFormat("image/"))
 				{

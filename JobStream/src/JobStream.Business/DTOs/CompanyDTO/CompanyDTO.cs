@@ -1,10 +1,13 @@
-﻿using JobStream.Core.Entities;
+﻿using JobStream.Business.DTOs.VacanciesDTO;
+using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using V = JobStream.Business.DTOs.VacanciesDTO;
+using C = JobStream.Business.DTOs.CompanyAndCategoryDTO;
 
 namespace JobStream.Business.DTOs.CompanyDTO
 {
@@ -24,7 +27,7 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		public DateTime? IncorporationDate { get; set; }
 		public string? Telephone { get; set; }
 		//public bool? IsDeleted { get; set; }
-		public ICollection<Vacancy>? Vacancies { get; set; }
-		public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }
+		public ICollection<V.VacanciesDTO>? Vacancies { get; set; }
+		public ICollection<C.CompanyAndCategoryDTO>? CompanyAndCategories { get; set; }
 	}
 }

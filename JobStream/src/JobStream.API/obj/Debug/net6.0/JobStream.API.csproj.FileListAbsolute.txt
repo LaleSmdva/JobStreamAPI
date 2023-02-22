@@ -155,3 +155,7 @@ C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\MailKit.dll
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\MimeKit.dll
 C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\User\Desktop\FinalProject\JobStream\src\JobStream.API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

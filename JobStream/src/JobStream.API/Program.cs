@@ -28,7 +28,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
 builder.Services.AddDbContext<AppDbContext>(opts =>
 {
 	opts.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -100,6 +99,13 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IJobTypeRepository, JobTypeRepository>();
 builder.Services.AddScoped<IJobScheduleRepository, JobScheduleRepository>();
+builder.Services.AddScoped<IRubricForNewsRepository, RubricForNewsRepository>();
+builder.Services.AddScoped<IRubricForArticlesRepository, RubricForArticlesRepository>();
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ICandidateResumeRepository, CandidateResumeRepository>();
+builder.Services.AddScoped<ICompanyAndCategoryRepository, CompanyAndCategoryRepository>();
+
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IVacanciesService, VacanciesService>();
@@ -109,9 +115,14 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddTransient<IMailService, MailService>();
 //new
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IJobTypeService, JobTypeService>();
-builder.Services.AddTransient<IJobScheduleService, JobScheduleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IJobTypeService, JobTypeService>();
+builder.Services.AddScoped<IJobScheduleService, JobScheduleService>();
+builder.Services.AddScoped<IRubricForArticlesService, RubricForArticlesService>();
+builder.Services.AddScoped<IRubricForNewsService, RubricForNewsService>();
+builder.Services.AddScoped<INewsService, NewsService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<ICandidateResumeService, CandidateResumeService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

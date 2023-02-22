@@ -120,6 +120,9 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CV")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DesiredPosition")
                         .HasColumnType("nvarchar(max)");
 
@@ -476,10 +479,7 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("JobLocation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JobScheduleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("JobScheduleId1")
+                    b.Property<int?>("JobScheduleId")
                         .HasColumnType("int");
 
                     b.Property<int?>("JobTypeId")
@@ -512,7 +512,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("JobScheduleId1");
+                    b.HasIndex("JobScheduleId");
 
                     b.HasIndex("JobTypeId");
 
@@ -734,7 +734,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasOne("JobStream.Core.Entities.JobSchedule", "JobSchedule")
                         .WithMany("Vacancies")
-                        .HasForeignKey("JobScheduleId1");
+                        .HasForeignKey("JobScheduleId");
 
                     b.HasOne("JobStream.Core.Entities.JobType", "JobType")
                         .WithMany("Vacancies")

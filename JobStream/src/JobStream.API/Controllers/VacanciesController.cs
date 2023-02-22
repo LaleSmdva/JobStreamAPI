@@ -3,6 +3,7 @@ using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -11,6 +12,8 @@ namespace JobStream.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	////  ApplyVacancy-int vacancyId,[frombody]CandidateResume(AppUser user var) elave et
+	///then create new application
 	public class VacanciesController : ControllerBase
 	{
 		private readonly IVacanciesService _vacanciesService;
@@ -19,6 +22,15 @@ namespace JobStream.API.Controllers
 		{
 			_vacanciesService = vacanciesService;
 		}
+
+		//[HttpPost("ApplyVacancy")]
+
+  //      public async Task<IActionResult> ApplyVacancy(VacanciesDTO vacancyId, [FromForm] CandidateResume candidateResume)
+		//{
+		//	await _vacanciesService.ApplyVacancy(vacancyId, candidateResume);
+		//	return Ok();
+		//}
+
 
         [HttpGet("")]
         public IActionResult GetAllVacancies()

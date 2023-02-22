@@ -16,6 +16,7 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		public string? EmailForCv { get; set; }
 		public string? AboutCompany { get; set; }
 		public int? NumberOfEmployees { get; set; }
+		public List<int>? CatagoriesId { get; set; }
 		//public int AppUserId { get; set; }
 		//public AppUser AppUser { get; set; }
 
@@ -25,6 +26,6 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		public string? Telephone { get; set; }
 		//public bool? IsDeleted { get; set; }
 		//public ICollection<Vacancy>? Vacancies { get; set; }
-		//public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }	
+		//public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }
 	}
 }
