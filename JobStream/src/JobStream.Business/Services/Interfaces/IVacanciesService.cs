@@ -21,5 +21,8 @@ namespace JobStream.Business.Services.Interfaces
 		Task CreateVacancyAsync(VacanciesPostDTO entity);
 		Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
 		Task DeleteVacancyAsync(int id);
-	}
+		 IEnumerable<Vacancy> GetExpiredVacancies();
+		Task VacancyCleanUp();
+
+    }
 }

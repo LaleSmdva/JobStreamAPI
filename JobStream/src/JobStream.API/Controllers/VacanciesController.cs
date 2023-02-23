@@ -89,5 +89,12 @@ namespace JobStream.API.Controllers
             }
         }
 
+        [HttpPost("vuy")]
+        public async Task<IActionResult> Cleanup()
+        {
+           await _vacanciesService.VacancyCleanUp();
+            return Ok("Hangfire successed");
+        }
+
     }
 }

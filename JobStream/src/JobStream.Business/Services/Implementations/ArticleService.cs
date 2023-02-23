@@ -40,9 +40,10 @@ public class ArticleService : IArticleService
         return list;
     }
 
-    public List<ArticleDTO> GetByArticleTitle(string title,Expression<Func<Article, bool>> expression)
+    public List<ArticleDTO> GetByArticleTitle(string title/*Expression<Func<Article, bool>> expression*/)
     {
-        var article = _articleRepository.GetByCondition(expression).Where(a=>a.Title==title).ToList();
+        var article = _articleRepository.GetAll().Where(a=>a.Title.Contains(title)).ToList();
+        if (article is null) throw new NotFoundException($"No title with name {title} found");
         var list = _mapper.Map<List<ArticleDTO>>(article);
         return list;
     }

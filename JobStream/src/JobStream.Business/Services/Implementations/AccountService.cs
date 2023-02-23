@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using JobStream.DataAccess.Repositories.Interfaces;
 using AutoMapper;
 using ArgumentNullException = JobStream.Business.Exceptions.ArgumentNullException;
+using JobStream.Business.DTOs.CompanyDTO;
+using C=JobStream.Business.DTOs.Account;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -43,15 +45,24 @@ namespace JobStream.Business.Services.Implementations
 			_roleManager = roleManager;
 		}
 
-		public List<AppUserDTO> GetAllCandidateAccounts()
+		public List<CandidateDTO> GetAllCandidateAccounts()
 		{
 
-			var accounts = _accountRepository.GetAll().ToList();
-			var result = _mapper.Map<List<AppUserDTO>>(accounts);
+			var accounts = _accountRepository.GetAll().Where(a=>a.Companyname==null).ToList();
+			if (accounts is null) throw new NotFoundException("No candidate account exists");
+			var result = _mapper.Map<List<CandidateDTO>>(accounts);
 			return result;
 		}
 
-		public async Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName)
+        public List<C.CompanyDTO> GetAllCompanyAccounts()
+        {
+            var accounts = _accountRepository.GetAll().Where(a=>a.Companyname!=null).ToList();
+            if (accounts is null) throw new NotFoundException("No company account exists");
+			var result=_mapper.Map<List<C.CompanyDTO>>(accounts);
+            return result;
+        }
+
+        public async Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName)
 		{
 			var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 			if (user == null) throw new NotFoundException("User not found");
@@ -231,10 +242,9 @@ namespace JobStream.Business.Services.Implementations
 			AppUser company = new()
 			{
 				UserName = registerCompany.Companyname,
+				Companyname=registerCompany.Companyname,
 				Email = registerCompany.Email,
 				InfoCompany = registerCompany.InfoCompany,
-			
-
 			};
 			if (await _userManager.Users.AnyAsync(u => u.UserName == company.Companyname))
 			{
@@ -269,28 +279,30 @@ namespace JobStream.Business.Services.Implementations
 				throw new CreateRoleFailedException($"{errorMessages}");
 			}
 		}
-		///////    new ////
-		//var code = await _userManager.GenerateEmailConfirmationTokenAsync(company.Id);
-		//var callbackUrl = Url.Link("ConfirmEmailRoute", new { userId = company.Id, code = code });
-		//await _userManager.SendEmailAsync(company.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+     
+        ///////    new ////
+        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(company.Id);
+        //var callbackUrl = Url.Link("ConfirmEmailRoute", new { userId = company.Id, code = code });
+        //await _userManager.SendEmailAsync(company.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
 
 
-		//	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
-		//	if (!result.Succeeded)
-		//	{
-		//		var errorMessages = new List<string>();
-		//		foreach (var error in result.Errors)
-		//		{
-		//			errorMessages.Add(error.Description);
-		//		}
-		//		throw new CreateRoleFailedException($"{errorMessages}");
-		//	}
+        //	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
+        //	if (!result.Succeeded)
+        //	{
+        //		var errorMessages = new List<string>();
+        //		foreach (var error in result.Errors)
+        //		{
+        //			errorMessages.Add(error.Description);
+        //		}
+        //		throw new CreateRoleFailedException($"{errorMessages}");
+        //	}
 
-		//}
+        //}
 
 
 
-	}
+    }
 }
 

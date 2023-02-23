@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
@@ -7,6 +8,7 @@ using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -95,8 +97,8 @@ namespace JobStream.Business.Services.Implementations
             vacancy.Category = category;
             vacancy.JobType = jobType;
             vacancy.JobSchedule = jobSchedule;
-            vacancy.PostedOn = DateTime.UtcNow;
-            vacancy.ClosingDate = DateTime.UtcNow.AddDays(30);
+            vacancy.PostedOn = DateTime.Now;
+            vacancy.ClosingDate = DateTime.Now.AddDays(30);
 
 
             await _vacanciesRepository.CreateAsync(vacancy);
@@ -151,9 +153,28 @@ namespace JobStream.Business.Services.Implementations
             await _vacanciesRepository.SaveAsync();
         }
 
+        public IEnumerable<Vacancy> GetExpiredVacancies()
+        {
+            var currentDateUtc = DateTime.Now;
+            return _vacanciesRepository.GetAll().Where(v => v.ClosingDate <= currentDateUtc);
+        }
 
 
-     
+        //[AutomaticRetry(Attempts = 0)]
+        public async Task VacancyCleanUp()
+        {
+            var expiredVacancies = GetExpiredVacancies();
+            foreach (var vacancy in expiredVacancies)
+            {
+                 _vacanciesRepository.Delete(vacancy);
+            }
+            await _vacanciesRepository.SaveAsync();
+        }
+
+
+
+
+
 
 
 

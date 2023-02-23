@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using C = JobStream.Business.DTOs.Account;
 
 namespace JobStream.Business.Services.Interfaces
 {
 	public interface IAccountService
 	{
-		List<AppUserDTO> GetAllCandidateAccounts();
+		List<CandidateDTO> GetAllCandidateAccounts();
+		List<C.CompanyDTO> GetAllCompanyAccounts();
 		Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName);
 		Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
 

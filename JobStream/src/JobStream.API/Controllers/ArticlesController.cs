@@ -1,4 +1,5 @@
 ﻿using JobStream.Business.DTOs.ArticleDTO;
+using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -35,18 +36,17 @@ namespace JobStream.API.Controllers
             }
         }
 
-        [HttpGet("{title}")]
-        public IActionResult GetArticleByTitle(string title, Expression<Func<Article, bool>> expression)
+        [HttpGet("GetArticleByTitle/{title}")]
+        public IActionResult GetArticleByTitle(string title)
         {
             try
             {
-                var articles = _articleService.GetByArticleTitle(title, expression);
+                var articles = _articleService.GetByArticleTitle(title);
                 return Ok(articles);
             }
-            catch (Exception)
+            catch (NotFoundException ex)
             {
-
-                throw;
+                return NotFound(ex.Message);  
             }
         }
         [HttpGet("{id}")]
@@ -72,10 +72,10 @@ namespace JobStream.API.Controllers
                 await _articleService.CreateArticleAsync(entity);
                 return Ok("Article created");
             }
-            catch (Exception)
+            catch (NullReferenceException ex)
             {
 
-                throw;
+                return StatusCode(500,ex.Message);
             }
         }
         [HttpPut("{id}")]
