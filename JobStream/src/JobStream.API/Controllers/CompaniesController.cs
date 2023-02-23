@@ -2,6 +2,7 @@
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
+using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -112,12 +113,12 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpPut("update/{id}")]
-		public async Task<IActionResult> UpdateCompany(int id, [FromForm] CompanyPutDTO company)
+		public async Task<IActionResult> UpdateCompany([FromRoute]int id, int? vacancyId, CompanyPutDTO companyPutDTO)
 		{
 			try
 			{
-				await _companyService.Update(id, company);
-				return Ok("Successfully updated");
+				await _companyService.Update(id, vacancyId, companyPutDTO);
+                return Ok("Successfully updated");
 			}
 			catch (BadRequestException ex)
 			{
@@ -148,5 +149,20 @@ namespace JobStream.API.Controllers
 				return NotFound(ex.Message);
 			}
 		}
-	}
+
+        [HttpDelete("delete/{id}/{vacancyId}")]
+        public async Task<IActionResult> DeleteVacancy(int id, int vacancyId)
+        {
+            try
+            {
+                await _companyService.DeleteVacancy(id,vacancyId);
+                return Ok("Successfully deleted");
+            }
+            catch (NotFoundException ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+        }
+    }
 }

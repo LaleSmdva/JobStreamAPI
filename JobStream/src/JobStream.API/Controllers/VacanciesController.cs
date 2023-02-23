@@ -57,7 +57,7 @@ namespace JobStream.API.Controllers
 
 			try
 			{
-				await _vacanciesService.CreateAsync(vacancy);
+				await _vacanciesService.CreateVacancyAsync(vacancy);
 				return Ok("Successfully created");
 			}
 			catch (Exception)
@@ -66,5 +66,28 @@ namespace JobStream.API.Controllers
 			}
 		}
 
-	}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVacancy(int id,[FromQuery] VacanciesPutDTO vacancy)
+        {
+
+            try
+            {
+                await _vacanciesService.UpdateVacancyAsync(id,vacancy);
+                return Ok("Successfully updated");
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+    }
 }

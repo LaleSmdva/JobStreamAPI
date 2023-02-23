@@ -18,20 +18,20 @@ namespace JobStream.Business.DTOs.VacanciesDTO
         public string Description { get; set; }
         public int ExperienceLevel { get; set; }
         public string? HREmail { get; set; }
-        public DateTime? PostedOn { get; set; }  //  ???
+        //public DateTime? PostedOn { get; set; }  //  ???
 
         public int CompanyId { get; set; }
-        public string CompanyName { get; set; }
-        public Company Company { get; set; }
+        //public string CompanyName { get; set; }
+        //public Company Company { get; set; }
         public int JobTypeId { get; set; }
-        public JobType JobType { get; set; } //full-time,part-time,temporary,permanent,internship,contract,etc
+        //public JobType JobType { get; set; } //full-time,part-time,temporary,permanent,internship,contract,etc
         public int JobScheduleId { get; set; } //8 hour shift ,day shift,evening shift, self-determined schedule,etc
-        public JobSchedule? JobSchedule { get; set; }
+        //public JobSchedule? JobSchedule { get; set; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        //public Category Category { get; set; }
         //yazmamisam
-        public DateTime ClosingDate { get; set; }
+        //public DateTime ClosingDate { get; set; }
         public string? OfferedBenfits { get; set; } //health insurance,paid time-off,flexible schedule
     }
 }

@@ -21,11 +21,11 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAllCompanies()
+        public async Task<IActionResult> GetAllCompanies()
         {
             try
             {
-                var companies = _categoryService.GetAll();
+                var companies =await _categoryService.GetAll();
                 return Ok(companies);
             }
             catch (NotFoundException)
@@ -46,7 +46,8 @@ namespace JobStream.API.Controllers
             try
             {
                 //var existingCompany = await _companyService.GetByIdAsync(company.Id);
-                var categories = _categoryService.GetAll();
+               
+                var categories = await _categoryService.GetAll();
                 if (categories.Any(c => c.Name == category.Name))
                 {
                     throw new BadRequestException("A company with the same name and email already exists");

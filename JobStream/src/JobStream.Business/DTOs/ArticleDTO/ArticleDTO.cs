@@ -14,5 +14,5 @@ public class ArticleDTO
 	public string? Description { get; set; }
 	public DateTime? PostedOn { get; set; }
 	public int RubricForArticlesId { get; set; }
-	public RubricForArticles RubricForArticles { get; }
+	//public RubricForArticles RubricForArticles { get; }
 }

@@ -1,4 +1,5 @@
-﻿using JobStream.Business.DTOs.CompanyDTO;
+﻿using JobStream.Business.DTOs.ArticleDTO;
+using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,11 @@ namespace JobStream.Business.Services.Interfaces;
 
 public interface IArticleService
 {
-	List<CompanyDTO> GetAll();
-	Task<CompanyDTO> GetByIdAsync(int id);
-	List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression);
-	Task CreateAsync(CompanyPostDTO entity);
-	Task Update(int id, CompanyPutDTO company);
-	Task Delete(int id);
+	Task<List<ArticleDTO>> GetAllAsync();
+
+    Task<ArticleDTO> GetArticleByIdAsync(int id);
+	List<ArticleDTO> GetByArticleTitle(string title,Expression<Func<Article, bool>> expression);
+	Task CreateArticleAsync(ArticlePostDTO entity);
+	Task UpdateArticleAsync(int id, ArticlePutDTO company);
+	Task DeleteArticleAsync(int id);
 }

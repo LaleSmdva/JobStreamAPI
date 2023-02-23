@@ -21,17 +21,25 @@ public class CategoryService : ICategoryService
     private readonly IMapper _mapper;
     private readonly IWebHostEnvironment _environment;
     private readonly IFileService _fileService;
+    private readonly ICompanyRepository _companyRepository;
 
-    public CategoryService(IMapper mapper, IWebHostEnvironment environment, IFileService fileService, ICategoryRepository repository)
+
+    public CategoryService(IMapper mapper, IWebHostEnvironment environment, IFileService fileService, ICategoryRepository repository, ICompanyRepository companyRepository)
     {
         _mapper = mapper;
         _environment = environment;
         _fileService = fileService;
         _repository = repository;
+        _companyRepository = companyRepository;
     }
-    public List<CategoriesDTO> GetAll()
+    public async Task<List<CategoriesDTO>> GetAll()
     {
-        var categories = _repository.GetAll().Include(x=>x.CategoryField).ToList();
+        var categories = await _repository.GetAll()
+            .Include(x => x.CategoryField)
+            .Include(x => x.Vacancies)
+            .Include(c => c.CompanyAndCategories)
+            //.ThenInclude(cc => cc.Company) 
+             .ToListAsync();
         var result = _mapper.Map<List<CategoriesDTO>>(categories);
         return result;
     }
