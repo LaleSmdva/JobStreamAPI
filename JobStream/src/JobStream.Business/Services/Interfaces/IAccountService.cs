@@ -13,6 +13,7 @@ namespace JobStream.Business.Services.Interfaces
 {
 	public interface IAccountService
 	{
+		List<object> GetAllUserAccounts();
 		List<CandidateDTO> GetAllCandidateAccounts();
 		List<C.CompanyDTO> GetAllCompanyAccounts();
 		Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName);

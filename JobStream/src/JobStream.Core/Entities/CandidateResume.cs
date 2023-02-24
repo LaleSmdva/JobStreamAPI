@@ -1,4 +1,5 @@
-﻿using JobStream.Core.Interfaces;
+﻿using JobStream.Core.Entities.Identity;
+using JobStream.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,17 @@ public class CandidateResume : IEntity
     public string? DesiredPosition { get; set; }
     public string? AboutMe { get; set; }
     // ONE TO ONE 
+    //public int? CandidateEducationId { get; set; }
     public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
                                                                 //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
                                                                 //institution-Baku State University
     public string? LanguageSkills { get; set; }
     //[NotMapped]
-    public int? JobTypeId { get; set; }
-    public JobType? JobType { get; set; }
+    //public int? JobTypeId { get; set; }
+    //public JobType? JobType { get; set; }
 
-    //public int AppUserId { get; set; }
-    //public AppUser AppUser { get; set; }
+    //public Guid? AppUserId { get; set; }
+    //public AppUser? AppUser { get; set; }
     public bool? IsDeleted { get; set; }
 
     public int? DesiredSalary { get; set; }

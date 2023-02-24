@@ -25,13 +25,15 @@ public class ArticleService : IArticleService
     private readonly IMapper _mapper;
     private readonly IWebHostEnvironment _environment;
     private readonly IFileService _fileService;
+    private readonly IRubricForArticlesRepository _rubricForArticlesRepository;
 
-    public ArticleService(IArticleRepository articleRepository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService)
+    public ArticleService(IArticleRepository articleRepository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IRubricForArticlesRepository rubricForArticlesRepository)
     {
         _articleRepository = articleRepository;
         _mapper = mapper;
         _environment = environment;
         _fileService = fileService;
+        _rubricForArticlesRepository = rubricForArticlesRepository;
     }
     public async Task<List<ArticleDTO>> GetAllAsync()
     {
@@ -40,9 +42,9 @@ public class ArticleService : IArticleService
         return list;
     }
 
-    public List<ArticleDTO> GetByArticleTitle(string title/*Expression<Func<Article, bool>> expression*/)
+    public List<ArticleDTO> GetArticleByTitle(string title/*Expression<Func<Article, bool>> expression*/)
     {
-        var article = _articleRepository.GetAll().Where(a=>a.Title.Contains(title)).ToList();
+        var article = _articleRepository.GetAll().Where(a => a.Title.Contains(title)).ToList();
         if (article is null) throw new NotFoundException($"No title with name {title} found");
         var list = _mapper.Map<List<ArticleDTO>>(article);
         return list;
@@ -56,11 +58,23 @@ public class ArticleService : IArticleService
         return result;
     }
 
+
+    public async Task<List<ArticleDTO>> GetArticlesByRubricId(int id)
+    {
+        var rubricForArticle = await _rubricForArticlesRepository.GetByIdAsync(id);
+        if (rubricForArticle == null) throw new NotFoundException("Not found");
+        var articles =await _articleRepository.GetAll()
+            .Where(x=>x.RubricForArticlesId==id).ToListAsync();
+        if (articles == null || articles.Count() == 0) throw new NotFoundException("Article not found");
+        var result=_mapper.Map<List<ArticleDTO>>(articles);
+        return result;
+    }
+
     public async Task CreateArticleAsync(ArticlePostDTO entity)
     {
         if (entity == null) throw new NullReferenceException("Article can't ne null");
         var article = _mapper.Map<Article>(entity);
-        article.PostedOn= DateTime.Now; 
+        article.PostedOn = DateTime.Now;
         await _articleRepository.CreateAsync(article);
         await _articleRepository.SaveAsync();
     }
@@ -68,9 +82,9 @@ public class ArticleService : IArticleService
 
     public async Task UpdateArticleAsync(int id, ArticlePutDTO article)
     {
-        var articles=_articleRepository.GetByCondition(a => a.Id == article.Id,false);
+        var articles = _articleRepository.GetByCondition(a => a.Id == article.Id, false);
         if (articles == null) throw new NotFoundException($"There is no article with id: {id}");
-        if(id!=article.Id) throw new BadRequestException($"{article.Id} was not found");  
+        if (id != article.Id) throw new BadRequestException($"{article.Id} was not found");
 
         var result = _mapper.Map<Article>(article);
         _articleRepository.Update(result);
@@ -78,16 +92,17 @@ public class ArticleService : IArticleService
     }
     public async Task DeleteArticleAsync(int id)
     {
-        var articles=_articleRepository.GetAll().ToList();
-      
+        var articles = _articleRepository.GetAll().ToList();
+
         if (articles.All(x => x.Id != id))
         {
             throw new NotFoundException("Not Found");
         }
-        var article=await _articleRepository.GetByIdAsync(id);
+        var article = await _articleRepository.GetByIdAsync(id);
         _articleRepository.Delete(article);
         await _articleRepository.SaveAsync();
 
-      
+
     }
+
 }

@@ -16,9 +16,9 @@ namespace JobStream.DataAccess.Configurations
 			builder.HasOne(b => b.CandidateEducation).WithOne(c => c.CandidateResume)
 				.HasForeignKey<CandidateEducation>(s => s.CandidateResumeId);
 
-			builder.HasOne(b => b.JobType).WithMany(j => j.CandidateResumes).HasForeignKey(c => c.JobTypeId);
+            //builder.HasOne(b => b.JobType).WithMany(j => j.CandidateResumes).HasForeignKey(c => c.JobTypeId);
 
-			builder.Property(b => b.Fullname).IsRequired(true);
+            builder.Property(b => b.Fullname).IsRequired(true);
 			builder.HasIndex(b => b.Telephone).IsUnique();
 			builder.Property(b => b.Email).IsRequired(true);
 			builder.Property(b => b.AboutMe).IsRequired(true);

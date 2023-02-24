@@ -20,6 +20,15 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet("[action]")]
+        public IActionResult GetAllUserAccounts()
+        {
+            var accounts=_accountService.GetAllUserAccounts();
+            return Ok(accounts);
+        }
+
+        
+
+        [HttpGet("[action]")]
         public IActionResult GetAllCandidateAccounts()
         {
             try

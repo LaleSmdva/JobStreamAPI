@@ -15,7 +15,8 @@ public interface IArticleService
 	Task<List<ArticleDTO>> GetAllAsync();
 
     Task<ArticleDTO> GetArticleByIdAsync(int id);
-	List<ArticleDTO> GetByArticleTitle(string title);
+	List<ArticleDTO> GetArticleByTitle(string title);
+	Task<List<ArticleDTO>> GetArticlesByRubricId(int id);
 	Task CreateArticleAsync(ArticlePostDTO entity);
 	Task UpdateArticleAsync(int id, ArticlePutDTO company);
 	Task DeleteArticleAsync(int id);

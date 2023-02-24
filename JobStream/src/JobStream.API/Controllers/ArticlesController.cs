@@ -41,7 +41,7 @@ namespace JobStream.API.Controllers
         {
             try
             {
-                var articles = _articleService.GetByArticleTitle(title);
+                var articles = _articleService.GetArticleByTitle(title);
                 return Ok(articles);
             }
             catch (NotFoundException ex)
@@ -52,15 +52,19 @@ namespace JobStream.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArticleById(int id)
         {
-            //try
-            //{
+          
                 var article = await _articleService.GetArticleByIdAsync(id);
                 return Ok(article);
-            //}
-            //catch (NotFoundException ex)
-            //{
-            //    return NotFound(ex.Message);
-            //}
+       
+        }
+
+        [HttpGet("articlesByRubricId{id}")]
+        public async Task<IActionResult> GetArticlesByRubricId(int id)
+        {
+
+            var article = await _articleService.GetArticlesByRubricId(id);
+            return Ok(article);
+
         }
 
         [HttpPost]

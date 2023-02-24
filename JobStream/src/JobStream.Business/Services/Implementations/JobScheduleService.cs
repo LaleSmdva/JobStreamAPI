@@ -47,8 +47,7 @@ public class JobScheduleService : IJobScheduleService
 
     public async Task<List<VacanciesDTO>> GetAllVacanciesByJobScheduleIdAsync(int id)
     {
-        var jobSchedules = _repository.GetAll();
-        var jobSchedule = await _repository.GetByIdAsync(id); //vacancies var(id)
+        var jobSchedule = await _repository.GetByIdAsync(id); 
         if (jobSchedule == null) throw new NotFoundException("Not found");
 
         var vacancies = _vacanciesRepository.GetAll().Where(x => x.JobScheduleId == id);

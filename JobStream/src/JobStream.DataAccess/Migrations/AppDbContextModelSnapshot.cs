@@ -147,9 +147,6 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("JobTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LanguageSkills")
                         .HasColumnType("nvarchar(max)");
 
@@ -169,8 +166,6 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobTypeId");
 
                     b.ToTable("CandidateResume");
                 });
@@ -679,15 +674,6 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("CandidateResume");
                 });
 
-            modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
-                {
-                    b.HasOne("JobStream.Core.Entities.JobType", "JobType")
-                        .WithMany("CandidateResumes")
-                        .HasForeignKey("JobTypeId");
-
-                    b.Navigation("JobType");
-                });
-
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
                 {
                     b.HasOne("JobStream.Core.Entities.Category", "Category")
@@ -837,8 +823,6 @@ namespace JobStream.DataAccess.Migrations
 
             modelBuilder.Entity("JobStream.Core.Entities.JobType", b =>
                 {
-                    b.Navigation("CandidateResumes");
-
                     b.Navigation("Vacancies");
                 });
 
