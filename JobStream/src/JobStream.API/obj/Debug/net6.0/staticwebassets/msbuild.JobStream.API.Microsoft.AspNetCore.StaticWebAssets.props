@@ -1,5 +1,21 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\AboutUs\c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/AboutUs/c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\AboutUs\c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>

@@ -52,16 +52,15 @@ namespace JobStream.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArticleById(int id)
         {
-            try
-            {
+            //try
+            //{
                 var article = await _articleService.GetArticleByIdAsync(id);
                 return Ok(article);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            //}
+            //catch (NotFoundException ex)
+            //{
+            //    return NotFound(ex.Message);
+            //}
         }
 
         [HttpPost]

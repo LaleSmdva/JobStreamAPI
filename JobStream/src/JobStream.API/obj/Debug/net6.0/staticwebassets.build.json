@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zjFcWVSYzaszOxgCR6pn663KO6WGVcJiz6dNMYUG2aQ=",
+  "Hash": "ZjotTTLygscsd2XIUkwCCVrUARn0OVn/DGYLRBlW7tU=",
   "Source": "JobStream.API",
   "BasePath": "_content/JobStream.API",
   "Mode": "Default",
@@ -16,6 +16,23 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\AboutUs\\c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/AboutUs/c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\AboutUs\\c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg"
+    },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png",
       "SourceId": "JobStream.API",

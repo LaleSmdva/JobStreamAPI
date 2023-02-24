@@ -23,7 +23,7 @@ namespace JobStream.Business.Validators.Account
 					bool isValid = new EmailAddressAttribute().IsValid(name);
 					if (!isValid)
 					{
-						context.AddFailure("Please enter valid email address");
+						context.AddFailure("Enter valid email address");
 					}
 				}
 			});

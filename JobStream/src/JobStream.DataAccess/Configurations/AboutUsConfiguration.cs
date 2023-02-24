@@ -13,7 +13,6 @@ namespace JobStream.DataAccess.Configurations
 	{
 		public void Configure(EntityTypeBuilder<AboutUs> builder)
 		{
-			builder.Property(b => b.Location).IsRequired(true).HasMaxLength(150);
 			builder.Property(b => b.Email).IsRequired(true);
 			builder.Property(b => b.Telephone).IsRequired(true);
 			builder.Property(b => b.FacebookLink).HasColumnName("Facebook");

@@ -12,7 +12,9 @@ namespace JobStream.Core.Entities
 		public int Id { get; set; }
 		public string? Location { get; set; }
 		public string? Email { get; set; }
-		public int? Telephone { get; set; }
+		public string? Telephone { get; set; }
+		public string? Image { get; set; }
+		public string? Info { get; set; }
 		public string? FacebookLink { get; set; }
 		public string? InstagramLink { get; set; }
 		public string? LinkedinLink { get; set; }

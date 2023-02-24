@@ -51,7 +51,7 @@ public class ArticleService : IArticleService
     public async Task<ArticleDTO> GetArticleByIdAsync(int id)
     {
         var article = await _articleRepository.GetByIdAsync(id);
-        if (article == null) throw new NotFoundException("No article was found");
+        if (article == null) throw new NotFoundException("No article found");
         var result = _mapper.Map<ArticleDTO>(article);
         return result;
     }
@@ -87,5 +87,7 @@ public class ArticleService : IArticleService
         var article=await _articleRepository.GetByIdAsync(id);
         _articleRepository.Delete(article);
         await _articleRepository.SaveAsync();
+
+      
     }
 }

@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
+using JobStream.API.Middlewares;
 using JobStream.Business.HelperServices.Implementations;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Mappers;
@@ -102,6 +103,7 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<ICandidateResumeRepository, CandidateResumeRepository>();
 builder.Services.AddScoped<ICompanyAndCategoryRepository, CompanyAndCategoryRepository>();
+builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
@@ -120,6 +122,7 @@ builder.Services.AddScoped<IRubricForNewsService, RubricForNewsService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICandidateResumeService, CandidateResumeService>();
+builder.Services.AddScoped<IAboutUsService, AboutUsService>();
 
 
 
@@ -136,6 +139,9 @@ builder.Services.AddHangfireServer();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+////Global Exception handling
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -149,6 +155,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+////Global Exception handling
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
 using (var scope = app.Services.CreateScope())
 {
     //var initializer = app.Services.GetRequiredService<AppDbContextInitializer>(); //dependency injection
