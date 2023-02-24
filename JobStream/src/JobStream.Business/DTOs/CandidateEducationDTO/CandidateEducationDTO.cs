@@ -14,6 +14,6 @@ namespace JobStream.Business.DTOs.CandidateEducationDTO
         public string? Degree { get; set; }
         public string? Institution { get; set; }
         public int? CandidateResumeId { get; set; }
-        public CandidateResume? CandidateResume { get; set; }
+        //public CandidateResume? CandidateResume { get; set; }
     }
 }

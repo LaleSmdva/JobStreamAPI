@@ -39,24 +39,49 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<CandidateEducationDTO> GetCandidateEducationByResumeIdAsync(int id)
         {
+          
             CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
             if (resume == null) throw new NotFoundException("No data found");
+          
             CandidateEducation education = await _candidateEducationRepository.GetAll().FirstOrDefaultAsync(c => c.CandidateResumeId == id);
+            if (education == null) throw new NotFoundException("Not found");
             var result = _mapper.Map<CandidateEducationDTO>(education);
             return result;
         }
         public async Task CreateCandidateEducationeAsync(CandidateEducationPostDTO entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new NullReferenceException("Candidate education can't ne null");
+            var candEds = _candidateEducationRepository.GetAll();
+            if (!await candEds.AllAsync(x => x.CandidateResumeId == entity.CandidateResumeId))
+            {
+                throw new BadRequestException("You already created education for resume");
+            }
+            var article = _mapper.Map<CandidateEducation>(entity);
+            await _candidateEducationRepository.CreateAsync(article);
+            await _candidateEducationRepository.SaveAsync();
         }
 
         public async Task UpdateCandidateEducationAsync(int id, CandidateEducationPutDTO education)
         {
-            throw new NotImplementedException();
+            var articles = _candidateEducationRepository.GetByCondition(a => a.Id == education.Id, false);
+            if (articles == null) throw new NotFoundException($"There is no candidate education with id: {id}");
+            if (id != education.Id) throw new BadRequestException($"{education.Id} was not found");
+
+            var result = _mapper.Map<CandidateEducation>(education);
+            _candidateEducationRepository.Update(result);
+            await _candidateEducationRepository.SaveAsync();
         }
-        public async Task DeleteJobTypeAsync(int id)
+        public async Task DeleteCandidateEducation(int id)
         {
-            throw new NotImplementedException();
+            var candidateEducations = _candidateEducationRepository.GetAll().ToList();
+
+            if (candidateEducations.All(x => x.Id != id))
+            {
+                throw new NotFoundException("Not Found");
+            }
+            var education = await _candidateEducationRepository.GetByIdAsync(id);
+            _candidateEducationRepository.Delete(education);
+            await _candidateEducationRepository.SaveAsync();
         }
 
    

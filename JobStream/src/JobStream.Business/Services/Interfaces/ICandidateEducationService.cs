@@ -16,6 +16,6 @@ namespace JobStream.Business.Services.Interfaces
         Task<CandidateEducationDTO> GetCandidateEducationByResumeIdAsync(int id);
         Task CreateCandidateEducationeAsync(CandidateEducationPostDTO entity);
         Task UpdateCandidateEducationAsync(int id, CandidateEducationPutDTO education);
-        Task DeleteJobTypeAsync(int id);
+        Task DeleteCandidateEducation(int id);
     }
 }

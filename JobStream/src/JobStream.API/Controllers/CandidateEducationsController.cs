@@ -1,4 +1,5 @@
-﻿using JobStream.Business.DTOs.JobTypeDTO;
+﻿using JobStream.Business.DTOs.CandidateEducationDTO;
+using JobStream.Business.DTOs.JobTypeDTO;
 using JobStream.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,50 +16,43 @@ namespace JobStream.API.Controllers
         {
             _candidateEducation = candidateEducation;
         }
-        
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllJobTypes()
-        //{
-        //    var jobTypes = await _candidateEducation.();
-        //    return Ok(jobTypes);
-        //}
 
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetJobTypeById(int id)
-        //{
+        [HttpGet]
+        public async Task<IActionResult> GetAllCandidatesEducations()
+        {
+            var list = await _candidateEducation.GetAllCandidatesEducationAsync();
+            return Ok(list);
+        }
 
-        //    var jobType = await _candidateEducation.GetJobTypeByIdAsync(id);
-        //    return Ok(jobType);
-        //}
+
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCandidateEducationByResumeIdAsync(int id)
+        public async Task<IActionResult> GetCandidateEducationByResumeId(int id)
         {
             var candidateEducation = await _candidateEducation.GetCandidateEducationByResumeIdAsync(id);
             return Ok(candidateEducation);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateAsync(JobTypePostDTO entity)
-        //{
-        //    await _candidateEducation.CreateJobTypeAsync(entity);
-        //    return Ok("Candidate education created");
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CandidateEducationPostDTO entity)
+        {
+            await _candidateEducation.CreateCandidateEducationeAsync(entity);
+            return Ok("Candidate education created");
 
-        //}
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Update(int id, JobTypePutDTO jobType)
-        //{
-        //    await _candidateEducation.UpdateJobTypeAsync(id, jobType);
-        //    return Ok("Successfully updated");
-        //}
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CandidateEducationPutDTO education)
+        {
+            await _candidateEducation.UpdateCandidateEducationAsync(id, education);
+            return Ok("Successfully updated");
+        }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    await _candidateEducation.DeleteJobTypeAsync(id);
-        //    return Ok("Candidate education deleted");
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _candidateEducation.DeleteCandidateEducation(id);
+            return Ok("Candidate education deleted");
+        }
     }
 }

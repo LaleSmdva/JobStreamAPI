@@ -56,7 +56,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AboutUs");
+                    b.ToTable("AboutUs", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
@@ -83,7 +83,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForArticlesId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
@@ -112,7 +112,7 @@ namespace JobStream.DataAccess.Migrations
                         .IsUnique()
                         .HasFilter("[CandidateResumeId] IS NOT NULL");
 
-                    b.ToTable("CandidateEducation");
+                    b.ToTable("CandidateEducation", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
@@ -167,7 +167,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CandidateResume");
+                    b.ToTable("CandidateResume", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Category", b =>
@@ -183,7 +183,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
@@ -204,7 +204,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryFields");
+                    b.ToTable("CategoryFields", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Company", b =>
@@ -247,7 +247,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CompanyAndCategory", b =>
@@ -270,7 +270,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("CompaniesAndCategories");
+                    b.ToTable("CompaniesAndCategories", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Identity.AppUser", b =>
@@ -367,7 +367,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobSchedule");
+                    b.ToTable("JobSchedule", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.JobType", b =>
@@ -384,7 +384,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTypes");
+                    b.ToTable("JobTypes", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.News", b =>
@@ -413,7 +413,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForNewsId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForArticles", b =>
@@ -430,7 +430,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForArticles");
+                    b.ToTable("RubricForArticles", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForNews", b =>
@@ -447,7 +447,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForNews");
+                    b.ToTable("RubricForNews", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
@@ -520,7 +520,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("JobTypeId");
 
-                    b.ToTable("Vacancies");
+                    b.ToTable("Vacancies", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
