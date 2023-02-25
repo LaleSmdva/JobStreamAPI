@@ -1,10 +1,12 @@
-﻿using JobStream.Core.Entities;
+﻿using JobStream.Business.DTOs.Account;
+using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E=JobStream.Business.DTOs.CandidateEducationDTO;
 
 namespace JobStream.Business.DTOs.CandidateResumeDTO
 {
@@ -19,18 +21,19 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? Location { get; set; }
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
+        //public int CandidateEducationId { get; set; }
         // ONE TO ONE 
-        public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
-                                                                    //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
-                                                                    //institution-Baku State University
+        public E.CandidateEducationDTO? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
+        //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
+        //institution-Baku State University
         public string? LanguageSkills { get; set; }
         //[NotMapped]
         public int? JobTypeId { get; set; }
-        public JobType? JobType { get; set; }
+        //public JobType? JobType { get; set; }
 
         //public int AppUserId { get; set; }
-        //public AppUser AppUser { get; set; }
-        public bool? IsDeleted { get; set; }
+        public AppUserDTO? AppUser { get; set; }
+        //public bool? IsDeleted { get; set; }
 
         public int? DesiredSalary { get; set; }
         public string? WorkExperience { get; set; }

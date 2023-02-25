@@ -14,7 +14,8 @@ namespace JobStream.Core.Entities.Identity
 		public string? InfoCompany { get; set; } 
 		public string? RefreshToken { get; set; }
 		public DateTime? RefreshTokenExpires { get; set; }
-		//new
-		//public CandidateResume? CandidateResume { get; set; }
+		//new 25
+		public CandidateResume? CandidateResume { get; set; }
+		//public int? CandidateResumeId { get; set; }
 	}
 }

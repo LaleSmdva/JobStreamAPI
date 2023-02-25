@@ -113,11 +113,11 @@ namespace JobStream.API.Controllers
 		}
 
 		[HttpPut("update/{id}")]
-		public async Task<IActionResult> UpdateCompany([FromRoute]int id, int? vacancyId, CompanyPutDTO companyPutDTO)
+		public async Task<IActionResult> UpdateCompany(int id, [FromQuery ]List<int> addedCategoryId,[FromQuery] List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
 		{
 			try
 			{
-				await _companyService.Update(id, vacancyId, companyPutDTO);
+				await _companyService.Update(id,addedCategoryId,deletedCategoryId,companyPutDTO);
                 return Ok("Successfully updated");
 			}
 			catch (BadRequestException ex)

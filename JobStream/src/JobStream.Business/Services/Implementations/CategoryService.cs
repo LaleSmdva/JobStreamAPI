@@ -55,11 +55,14 @@ public class CategoryService : ICategoryService
         {
             vacancies.Add(new Vacancy()
             {
-                CategoryId= vacancy.CategoryId,
+                //CategoryId= vacancy.CategoryId,
                 JobTypeId= vacancy.JobTypeId,
                 JobScheduleId= vacancy.JobScheduleId,
+
             });
         }
+     
+
         await _repository.CreateAsync(categories);
         await _repository.SaveAsync();
 

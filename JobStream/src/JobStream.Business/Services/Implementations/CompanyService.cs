@@ -6,6 +6,7 @@ using JobStream.Business.Mappers;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
+using JobStream.Core.Interfaces;
 using JobStream.DataAccess.Contexts;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
@@ -52,8 +53,6 @@ namespace JobStream.Business.Services.Implementations
         ///categoryname,
         ///AddVacancy
         ///ContactApplicant
-
-
 
         public async Task<List<CompanyDTO>> GetAllAsync()
         {
@@ -123,15 +122,32 @@ namespace JobStream.Business.Services.Implementations
             await _repository.CreateAsync(company);
             await _repository.SaveAsync();
 
-            CompanyAndCategory companyAndCategory = new();
+            List<CompanyAndCategory> companyAndCategoryList = new();
             foreach (var catID in entity.CatagoriesId)
             {
+                CompanyAndCategory companyAndCategory = new();
                 companyAndCategory.CategoryId = catID;
                 companyAndCategory.CompanyId = company.Id;
-                await _companyAndCategoryRepository.CreateAsync(companyAndCategory);
+                companyAndCategoryList.Add(companyAndCategory);
 
             }
+            foreach (var item in companyAndCategoryList)
+            {
+                await _companyAndCategoryRepository.CreateAsync(item);
+            }
             await _companyAndCategoryRepository.SaveAsync();
+
+            //List<Vacancy> vacancies = new();
+            //foreach (var topicId in entity.Vacancies)
+            //{
+            //    vacancies.Add(new()
+            //    {
+            //        CompanyId = companies.Id,
+            //        JobTypeId = companies.Id
+            //    });
+            //}
+            //companies.Vacancies = vacancies;
+
 
 
             //_companyAndCategoryRepository.CreateAsync(companyAndCatagories.)
@@ -141,11 +157,11 @@ namespace JobStream.Business.Services.Implementations
             //List<Vacancy> vacancies = new();
             //foreach (var topicId in entity.Vacancies)
             //{
-            //	vacancies.Add(new()
-            //	{
-            //		CompanyId = companies.Id,
-            //		JobTypeId = companies.Id
-            //	});
+            //    vacancies.Add(new()
+            //    {
+            //        CompanyId = companies.Id,
+            //        JobTypeId = companies.Id
+            //    });
             //}
             //companies.Vacancies = vacancies;
 
@@ -166,7 +182,7 @@ namespace JobStream.Business.Services.Implementations
         }
 
 
-        public async Task Update(int id, int? vacancyId, CompanyPutDTO companyPutDTO)
+        public async Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
         {
             //var Company = _repository.GetByCondition(c => c.Id == company.Id, false);
             //if (Company == null) throw new NotFoundException("Not Found");
@@ -190,28 +206,84 @@ namespace JobStream.Business.Services.Implementations
             _repository.Update(result);
             await _repository.SaveAsync();
 
+            //add
+            //List<CompanyAndCategory> companyAndCategoryList = new();
+            //foreach (var catID in addedCategoryId)
+            //{
+            //    CompanyAndCategory companyAndCategory = new();
+            //    companyAndCategory.CategoryId = catID;
+            //    companyAndCategory.CompanyId = result.Id;
+            //    companyAndCategoryList.Add(companyAndCategory);
+
+            //}
+            //foreach (var item in companyAndCategoryList)
+            //{
+            //    await _companyAndCategoryRepository.CreateAsync(item);
+            //}
+            await _companyAndCategoryRepository.SaveAsync();
+
+
+            //delete
+            List<CompanyAndCategory> companyAndCategoryList2 = new List<CompanyAndCategory>();
+            foreach (var categoryId in deletedCategoryId)
+            {
+                var companyAndCategory = new CompanyAndCategory
+                {
+                    CategoryId = categoryId,
+                    CompanyId = result.Id
+                };
+                companyAndCategoryList2.Add(companyAndCategory);
+            }
+
+            foreach (var item in companyAndCategoryList2)
+            {
+                _companyAndCategoryRepository.Delete(item);
+            }
+            await _companyAndCategoryRepository.SaveAsync();
+            //var result2 = _mapper.Map<CompanyPostDTO>(companyPutDTO);
+            //foreach (var categoryId in deletedCategoryId)
+            //{
+            //    // Remove the category ID from the updated company object's list of category IDs
+            //    result2.CatagoriesId.Remove(categoryId);
+
+
+            //    // Find and delete the associated CompanyAndCategory object
+            //    var companyAndCategory = _companyAndCategoryRepository.GetByCondition(c => c.CategoryId == categoryId && c.CompanyId == result.Id);
+            //    if (companyAndCategory != null)
+            //    {
+            //        foreach (var item in companyAndCategory)
+            //        {
+
+            //            _companyAndCategoryRepository.Delete(item);
+            //        }
+            //    }
+            //}
+
+            //await _companyAndCategoryRepository.SaveAsync();
+           
+
 
 
             ///Updating Vacancy for that Company
-            var company = _repository.GetAll().Include(c => c.Vacancies)
-        .FirstOrDefault(c => c.Id == id);
+            //    var company = _repository.GetAll().Include(c => c.Vacancies)
+            //.FirstOrDefault(c => c.Id == id);
 
-            //    if (company == null)
+            //    //    if (company == null)
+            //    //    {
+            //    //        throw new NotFoundException("");
+            //    //    }
+
+            //    var vacancy = company.Vacancies.FirstOrDefault(v => v.Id == companyPutDTO.vacancyId);
+
+            //    if (vacancy == null)
             //    {
             //        throw new NotFoundException("");
             //    }
 
-            var vacancy = company.Vacancies.FirstOrDefault(v => v.Id == companyPutDTO.vacancyId);
-
-            if (vacancy == null)
-            {
-                throw new NotFoundException("");
-            }
-
-            //vacancy.CompanyId = id;
-           var ress= _mapper.Map<CompanyPutDTO>(company);
-            ress.vacancyId= vacancyId;
-            await _context.SaveChangesAsync();
+            //    //vacancy.CompanyId = id;
+            //    var ress = _mapper.Map<CompanyPutDTO>(company);
+            //    ress.vacancyId = vacancyId;
+            //    await _context.SaveChangesAsync();
 
 
             //company.vacancyId = vacancyId;
@@ -258,7 +330,7 @@ namespace JobStream.Business.Services.Implementations
             await _repository.SaveAsync();
         }
 
-        public async Task DeleteVacancy(int id,int vacancyId)
+        public async Task DeleteVacancy(int id, int vacancyId)
         {
             //var companies = _repository.GetAll();
             //if (companies.All(x => x.Id != id))

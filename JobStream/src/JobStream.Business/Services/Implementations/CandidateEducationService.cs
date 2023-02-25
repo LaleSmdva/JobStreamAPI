@@ -22,7 +22,9 @@ namespace JobStream.Business.Services.Implementations
         private readonly ICandidateResumeRepository _candidateResumeRepository;
         private readonly IMapper _mapper;
 
-        public CandidateEducationService(IMapper mapper, ICandidateEducationRepository candidateEducationRepository, ICandidateResumeRepository candidateResumeRepository)
+        public CandidateEducationService(IMapper mapper,
+            ICandidateEducationRepository candidateEducationRepository,
+            ICandidateResumeRepository candidateResumeRepository)
         {
 
             _mapper = mapper;
@@ -43,7 +45,8 @@ namespace JobStream.Business.Services.Implementations
             CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
             if (resume == null) throw new NotFoundException("No data found");
           
-            CandidateEducation education = await _candidateEducationRepository.GetAll().FirstOrDefaultAsync(c => c.CandidateResumeId == id);
+            CandidateEducation education = await _candidateEducationRepository.GetAll()
+                .FirstOrDefaultAsync(c => c.CandidateResumeId == id);
             if (education == null) throw new NotFoundException("Not found");
             var result = _mapper.Map<CandidateEducationDTO>(education);
             return result;
@@ -52,7 +55,7 @@ namespace JobStream.Business.Services.Implementations
         {
             if (entity == null) throw new NullReferenceException("Candidate education can't ne null");
             var candEds = _candidateEducationRepository.GetAll();
-            if (!await candEds.AllAsync(x => x.CandidateResumeId == entity.CandidateResumeId))
+            if (await candEds.AllAsync(x => x.CandidateResumeId == entity.CandidateResumeId))
             {
                 throw new BadRequestException("You already created education for resume");
             }
@@ -63,8 +66,8 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateCandidateEducationAsync(int id, CandidateEducationPutDTO education)
         {
-            var articles = _candidateEducationRepository.GetByCondition(a => a.Id == education.Id, false);
-            if (articles == null) throw new NotFoundException($"There is no candidate education with id: {id}");
+            var candidateEducation = _candidateEducationRepository.GetByCondition(a => a.Id == education.Id, false);
+            if (candidateEducation== null) throw new NotFoundException($"There is no candidate education with id: {id}");
             if (id != education.Id) throw new BadRequestException($"{education.Id} was not found");
 
             var result = _mapper.Map<CandidateEducation>(education);

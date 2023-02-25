@@ -20,7 +20,7 @@ public class CandidateResume : IEntity
     public string? Location { get; set; }
     public string? DesiredPosition { get; set; }
     public string? AboutMe { get; set; }
-    // ONE TO ONE 
+    // ONE TO ONE  YAZMA
     //public int? CandidateEducationId { get; set; }
     public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
                                                                 //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
@@ -30,8 +30,9 @@ public class CandidateResume : IEntity
     //public int? JobTypeId { get; set; }
     //public JobType? JobType { get; set; }
 
-    //public Guid? AppUserId { get; set; }
-    //public AppUser? AppUser { get; set; }
+    //new 25
+    public string? AppUserId { get; set; }
+    public AppUser? AppUser { get; set; }
     public bool? IsDeleted { get; set; }
 
     public int? DesiredSalary { get; set; }

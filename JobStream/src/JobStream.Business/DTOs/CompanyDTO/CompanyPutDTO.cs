@@ -24,9 +24,9 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		public DateTime? IncorporationDate { get; set; }
 		public string? Telephone { get; set; }
 
-		public int? vacancyId { get; set; }
-		//public bool? IsDeleted { get; set; }
-		//public ICollection<V.VacanciesDTO>? Vacancies { get; set; }
-		//public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }	
-	}
+        //public int? vacancyId { get; set; }
+        //public bool? IsDeleted { get; set; }
+        //public ICollection<V.VacanciesDTO>? Vacancies { get; set; }
+        //public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }	
+    }
 }

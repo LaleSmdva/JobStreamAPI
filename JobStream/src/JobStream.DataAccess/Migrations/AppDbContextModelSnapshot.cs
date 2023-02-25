@@ -56,7 +56,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AboutUs", (string)null);
+                    b.ToTable("AboutUs");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
@@ -83,7 +83,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForArticlesId");
 
-                    b.ToTable("Articles", (string)null);
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
@@ -112,7 +112,7 @@ namespace JobStream.DataAccess.Migrations
                         .IsUnique()
                         .HasFilter("[CandidateResumeId] IS NOT NULL");
 
-                    b.ToTable("CandidateEducation", (string)null);
+                    b.ToTable("CandidateEducation");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
@@ -125,6 +125,9 @@ namespace JobStream.DataAccess.Migrations
 
                     b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CV")
                         .HasColumnType("nvarchar(max)");
@@ -167,7 +170,11 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CandidateResume", (string)null);
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("CandidateResume");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Category", b =>
@@ -183,7 +190,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
@@ -204,7 +211,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryFields", (string)null);
+                    b.ToTable("CategoryFields");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Company", b =>
@@ -247,7 +254,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CompanyAndCategory", b =>
@@ -270,7 +277,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("CompaniesAndCategories", (string)null);
+                    b.ToTable("CompaniesAndCategories");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Identity.AppUser", b =>
@@ -367,7 +374,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobSchedule", (string)null);
+                    b.ToTable("JobSchedule");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.JobType", b =>
@@ -384,7 +391,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTypes", (string)null);
+                    b.ToTable("JobTypes");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.News", b =>
@@ -413,7 +420,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForNewsId");
 
-                    b.ToTable("News", (string)null);
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForArticles", b =>
@@ -430,7 +437,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForArticles", (string)null);
+                    b.ToTable("RubricForArticles");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForNews", b =>
@@ -447,7 +454,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForNews", (string)null);
+                    b.ToTable("RubricForNews");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
@@ -520,7 +527,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("JobTypeId");
 
-                    b.ToTable("Vacancies", (string)null);
+                    b.ToTable("Vacancies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -674,6 +681,15 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("CandidateResume");
                 });
 
+            modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
+                {
+                    b.HasOne("JobStream.Core.Entities.Identity.AppUser", "AppUser")
+                        .WithOne("CandidateResume")
+                        .HasForeignKey("JobStream.Core.Entities.CandidateResume", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
                 {
                     b.HasOne("JobStream.Core.Entities.Category", "Category")
@@ -814,6 +830,11 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("CompanyAndCategories");
 
                     b.Navigation("Vacancies");
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.Identity.AppUser", b =>
+                {
+                    b.Navigation("CandidateResume");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.JobSchedule", b =>

@@ -16,10 +16,13 @@ namespace JobStream.Business.Services.Interfaces
 		List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression);
 		Task CreateAsync(CompanyPostDTO entity);
 		//Task Update(int id, CompanyPutDTO company);
-		Task Update(int id, int? vacancyId, CompanyPutDTO companyPutDTO);
+		Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
 
         Task Delete(int id);
         Task DeleteVacancy(int id,int vacancyId);
 		//Task SaveAsync();
+
+
+		//Task AddCategoryToCompany(int categoryId);
 	}
 }

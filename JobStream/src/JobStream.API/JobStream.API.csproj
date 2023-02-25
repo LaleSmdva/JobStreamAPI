@@ -27,6 +27,7 @@
 	<ItemGroup>
 	  <Folder Include="wwwroot\images\AboutUs\" />
 	  <Folder Include="wwwroot\images\companyLogos\" />
+	  <Folder Include="wwwroot\images\Resumes\" />
 	</ItemGroup>
 
 
