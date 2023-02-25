@@ -37,28 +37,29 @@ namespace JobStream.DataAccess.Contexts
 		public DbSet<CategoryField> CategoryFields { get; set; } = null!;
 		public DbSet<CandidateResume> CandidateResumes { get; set; } = null!;
 		public DbSet<CandidateEducation> CandidateEducation { get; set; } = null!;
-		//public DbSet<SendMessage> SendMessage { get; set; } = null!;
-		//public DbSet<RulesForVacancy> RulesForVacancies { get; set; } = null!;
+        //public DbSet<SendMessage> SendMessage { get; set; } = null!;
+        //public DbSet<RulesForVacancy> RulesForVacancies { get; set; } = null!;
 
-		//protected override void OnModelCreating(ModelBuilder modelBuilder)
-		//{
-		//	modelBuilder.ApplyConfiguration(new AppUserConfiguration());
-		//	modelBuilder.ApplyConfiguration(new AboutUsConfiguration());
-		//	modelBuilder.ApplyConfiguration(new ArticleConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CandidateEducationConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CandidateResumeConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CategoryFieldConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CompanyAndCategoryConfiguration());
-		//	modelBuilder.ApplyConfiguration(new CompanyConfiguration());
-		//	modelBuilder.ApplyConfiguration(new JobScheduleConfiguration());
-		//	modelBuilder.ApplyConfiguration(new JobTypeConfiguration());
-		//	modelBuilder.ApplyConfiguration(new NewsConfiguration());
-		//	modelBuilder.ApplyConfiguration(new RubricForArticlesConfiguration());
-		//	modelBuilder.ApplyConfiguration(new RubricForNewsConfiguration());
-		//	modelBuilder.ApplyConfiguration(new SendMessageConfiguration());
-		//	modelBuilder.ApplyConfiguration(new VacancyConfiguration());
-		//	base.OnModelCreating(modelBuilder);
-		//}
-	}
+       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            modelBuilder.ApplyConfiguration(new AboutUsConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticleConfiguration());
+            modelBuilder.ApplyConfiguration(new CandidateEducationConfiguration());
+            modelBuilder.ApplyConfiguration(new CandidateResumeConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryFieldConfiguration());
+            modelBuilder.ApplyConfiguration(new CompanyAndCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new JobScheduleConfiguration());
+            modelBuilder.ApplyConfiguration(new JobTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
+            modelBuilder.ApplyConfiguration(new RubricForArticlesConfiguration());
+            modelBuilder.ApplyConfiguration(new RubricForNewsConfiguration());
+            modelBuilder.ApplyConfiguration(new SendMessageConfiguration());
+            modelBuilder.ApplyConfiguration(new VacancyConfiguration());
+            base.OnModelCreating(modelBuilder);
+        }
+    }
 }

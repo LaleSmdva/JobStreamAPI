@@ -1,4 +1,5 @@
 ﻿using JobStream.Business.DTOs.CompanyDTO;
+using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,11 @@ namespace JobStream.Business.Services.Interfaces
 	{
 		Task<List<CompanyDTO>> GetAllAsync();
 		Task<CompanyDTO> GetByIdAsync(int id);
-		List<CompanyDTO> GetByCondition(Expression<Func<Company, bool>> expression);
+		List<CompanyDTO> GetCompaniesByName(string companyName);
 		Task CreateAsync(CompanyPostDTO entity);
-		//Task Update(int id, CompanyPutDTO company);
 		Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
-
         Task Delete(int id);
+		Task AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO);
         Task DeleteVacancy(int id,int vacancyId);
-		//Task SaveAsync();
-
-
-		//Task AddCategoryToCompany(int categoryId);
 	}
 }

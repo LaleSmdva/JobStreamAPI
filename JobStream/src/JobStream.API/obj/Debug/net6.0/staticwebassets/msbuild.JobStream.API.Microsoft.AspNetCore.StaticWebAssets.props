@@ -32,6 +32,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/companyLogos/13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\2bee74af-eaad-4d76-99d2-d1341f3acc54Image_created_with_a_mobile_phone.png))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>
@@ -63,6 +79,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\320ed675-9369-4cd8-9cfa-a721986d09b4Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/companyLogos/32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\36930b04-b572-42b6-b3be-839d7218b9f7Image_created_with_a_mobile_phone.png))">
       <SourceType>Package</SourceType>
@@ -176,6 +208,38 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\8ba4ef4f-9765-4caf-9d1b-2c95348253e4Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/companyLogos/a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/companyLogos/adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\b443691f-20f9-4219-9f2a-40be95c99e0bScreenshot (11).png))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>
@@ -191,6 +255,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\b443691f-20f9-4219-9f2a-40be95c99e0bScreenshot (11).png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/companyLogos/b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\bca8ae77-bb2c-454f-8308-7ca1ba34e3bfImage_created_with_a_mobile_phone.png))">
       <SourceType>Package</SourceType>

@@ -13,6 +13,13 @@ public class CompanyPutDTOValidator : AbstractValidator<CompanyPutDTO>
 {
 	public CompanyPutDTOValidator()
 	{
-
-	}
+        RuleFor(c => c.Name).NotNull().WithMessage("Enter name").NotEmpty().WithMessage("Enter name")
+            .Length(3, 100).WithMessage("Comoany  name can have at least 3 and max of 100 characters.");
+        RuleFor(c => c.AboutCompany).NotNull().WithMessage("Enter about your company.")
+            .NotEmpty().WithMessage("Enter about your company.")
+            .MaximumLength(500).WithMessage("Max characters:500");
+        RuleFor(c => c.Email).NotNull().WithMessage("Enter email.")
+         .NotEmpty().WithMessage("Enter email.")
+         .EmailAddress().WithMessage("Enter valid email address");
+    }
 }

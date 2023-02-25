@@ -14,8 +14,12 @@ namespace JobStream.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-            //builder.HasOne(b => b.CandidateResume).WithOne(c => c.AppUser)
-            //    .HasForeignKey<CandidateResume>(s => s.AppUserId);
+            builder.HasOne(b => b.CandidateResume).WithOne(c => c.AppUser)
+                .HasForeignKey<CandidateResume>(s => s.AppUserId);
+
+            builder.HasOne(b => b.Company).WithOne(c => c.AppUser)
+                .HasForeignKey<Company>(s => s.AppUserId);
+
         }
     }
 }

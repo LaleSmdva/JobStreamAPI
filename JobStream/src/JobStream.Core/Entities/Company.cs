@@ -1,4 +1,5 @@
-﻿using JobStream.Core.Interfaces;
+﻿using JobStream.Core.Entities.Identity;
+using JobStream.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,9 @@ namespace JobStream.Core.Entities
 		public string? EmailForCv { get; set; }
 		public string? AboutCompany { get; set; }
 		public int? NumberOfEmployees { get; set; }
-		//public int AppUserId { get; set; }
-		//public AppUser AppUser { get; set; }
+		//new 26
+		public string? AppUserId { get; set; }
+		public AppUser? AppUser { get; set; }
 
 		public string? Email { get; set; }
 		public string? Logo { get; set; }

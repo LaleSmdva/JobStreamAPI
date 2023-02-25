@@ -20,7 +20,7 @@ namespace JobStream.Business.DTOs.CompanyDTO
 		//public AppUser AppUser { get; set; }
 
 		public string? Email { get; set; }
-		//public IFormFile? Logo { get; set; }
+		public IFormFile? Logo { get; set; }
 		public DateTime? IncorporationDate { get; set; }
 		public string? Telephone { get; set; }
 

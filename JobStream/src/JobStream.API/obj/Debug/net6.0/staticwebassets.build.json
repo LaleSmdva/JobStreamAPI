@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zwaP7YtRSonQ519ZFsp7Zgp0I/OEpQhqJ0y3by3gKbk=",
+  "Hash": "NxdT0pakt7PflL1jeCLieF3sbSZUbLmgsRd9WCxh/3c=",
   "Source": "JobStream.API",
   "BasePath": "_content/JobStream.API",
   "Mode": "Default",
@@ -51,6 +51,23 @@
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png"
     },
     {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf"
+    },
+    {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\2bee74af-eaad-4d76-99d2-d1341f3acc54Image_created_with_a_mobile_phone.png",
       "SourceId": "JobStream.API",
       "SourceType": "Discovered",
@@ -83,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\320ed675-9369-4cd8-9cfa-a721986d09b4Image_created_with_a_mobile_phone.png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\32b1e7db-5c03-4227-bab6-ec43e9778b34Semedzade Lale CV.pdf"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\36930b04-b572-42b6-b3be-839d7218b9f7Image_created_with_a_mobile_phone.png",
@@ -204,6 +238,40 @@
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\8ba4ef4f-9765-4caf-9d1b-2c95348253e4Image_created_with_a_mobile_phone.png"
     },
     {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\adcf9419-4503-4784-8e30-e1a99854e3c3Semedzade Lale CV.pdf"
+    },
+    {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\b443691f-20f9-4219-9f2a-40be95c99e0bScreenshot (11).png",
       "SourceId": "JobStream.API",
       "SourceType": "Discovered",
@@ -219,6 +287,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\b443691f-20f9-4219-9f2a-40be95c99e0bScreenshot (11).png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\b697364e-160c-436d-8005-0405a6dbf622Semedzade Lale CV.pdf"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\bca8ae77-bb2c-454f-8308-7ca1ba34e3bfImage_created_with_a_mobile_phone.png",

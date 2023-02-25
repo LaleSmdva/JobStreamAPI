@@ -31,10 +31,12 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FacebookLink")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Facebook");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -43,15 +45,18 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InstagramLink")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Instagram");
 
                     b.Property<string>("LinkedinLink")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Linkedin");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telephone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -68,16 +73,20 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("PostedOn")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("RubricForArticlesId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -98,13 +107,19 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Degree")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Institution")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Major")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -124,6 +139,7 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AboutMe")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AppUserId")
@@ -139,16 +155,20 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Fullname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GithubLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LanguageSkills")
                         .HasColumnType("nvarchar(max)");
@@ -166,6 +186,7 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WorkExperience")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -173,6 +194,10 @@ namespace JobStream.DataAccess.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique()
                         .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.HasIndex("Telephone")
+                        .IsUnique()
+                        .HasFilter("[Telephone] IS NOT NULL");
 
                     b.ToTable("CandidateResume");
                 });
@@ -186,7 +211,9 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -205,6 +232,7 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -223,9 +251,14 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AboutCompany")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailForCv")
@@ -238,13 +271,17 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("NumberOfEmployees")
                         .HasColumnType("int");
@@ -254,28 +291,27 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
                     b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CompanyAndCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CompanyId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CompanyId", "CategoryId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("CompaniesAndCategories");
                 });
@@ -387,7 +423,8 @@ namespace JobStream.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -457,6 +494,37 @@ namespace JobStream.DataAccess.Migrations
                     b.ToTable("RubricForNews");
                 });
 
+            modelBuilder.Entity("JobStream.Core.Entities.SendMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SendMessage");
+                });
+
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
                 {
                     b.Property<int>("Id")
@@ -499,7 +567,8 @@ namespace JobStream.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("OfferedBenfits")
                         .HasColumnType("nvarchar(max)");
@@ -665,11 +734,13 @@ namespace JobStream.DataAccess.Migrations
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
                 {
-                    b.HasOne("JobStream.Core.Entities.RubricForArticles", null)
+                    b.HasOne("JobStream.Core.Entities.RubricForArticles", "RubricForArticles")
                         .WithMany("Articles")
                         .HasForeignKey("RubricForArticlesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("RubricForArticles");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
@@ -701,6 +772,15 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("JobStream.Core.Entities.Company", b =>
+                {
+                    b.HasOne("JobStream.Core.Entities.Identity.AppUser", "AppUser")
+                        .WithOne("Company")
+                        .HasForeignKey("JobStream.Core.Entities.Company", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("JobStream.Core.Entities.CompanyAndCategory", b =>
                 {
                     b.HasOne("JobStream.Core.Entities.Category", "Category")
@@ -722,11 +802,13 @@ namespace JobStream.DataAccess.Migrations
 
             modelBuilder.Entity("JobStream.Core.Entities.News", b =>
                 {
-                    b.HasOne("JobStream.Core.Entities.RubricForNews", null)
+                    b.HasOne("JobStream.Core.Entities.RubricForNews", "RubricForNews")
                         .WithMany("News")
                         .HasForeignKey("RubricForNewsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("RubricForNews");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
@@ -835,6 +917,8 @@ namespace JobStream.DataAccess.Migrations
             modelBuilder.Entity("JobStream.Core.Entities.Identity.AppUser", b =>
                 {
                     b.Navigation("CandidateResume");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.JobSchedule", b =>
