@@ -207,61 +207,51 @@ namespace JobStream.Business.Services.Implementations
             await _repository.SaveAsync();
 
             //add
-            //List<CompanyAndCategory> companyAndCategoryList = new();
-            //foreach (var catID in addedCategoryId)
-            //{
-            //    CompanyAndCategory companyAndCategory = new();
-            //    companyAndCategory.CategoryId = catID;
-            //    companyAndCategory.CompanyId = result.Id;
-            //    companyAndCategoryList.Add(companyAndCategory);
+            List<CompanyAndCategory> companyAndCategoryList = new();
+            foreach (var catID in addedCategoryId)
+            {
+                CompanyAndCategory companyAndCategory = new();
+                companyAndCategory.CategoryId = catID;
+                companyAndCategory.CompanyId = result.Id;
+                companyAndCategoryList.Add(companyAndCategory);
 
-            //}
-            //foreach (var item in companyAndCategoryList)
-            //{
-            //    await _companyAndCategoryRepository.CreateAsync(item);
-            //}
+            }
+            foreach (var item in companyAndCategoryList)
+            {
+                await _companyAndCategoryRepository.CreateAsync(item);
+            }
             await _companyAndCategoryRepository.SaveAsync();
 
 
             //delete
-            List<CompanyAndCategory> companyAndCategoryList2 = new List<CompanyAndCategory>();
             foreach (var categoryId in deletedCategoryId)
             {
-                var companyAndCategory = new CompanyAndCategory
-                {
-                    CategoryId = categoryId,
-                    CompanyId = result.Id
-                };
-                companyAndCategoryList2.Add(companyAndCategory);
-            }
+                var companyAndCategory = await _companyAndCategoryRepository
+                    .GetByCondition(cac => cac.CategoryId == categoryId && cac.CompanyId == result.Id, true)
+                    .FirstOrDefaultAsync();
 
-            foreach (var item in companyAndCategoryList2)
-            {
-                _companyAndCategoryRepository.Delete(item);
+                if (companyAndCategory != null)
+                {
+                    _companyAndCategoryRepository.Delete(companyAndCategory);
+                }
             }
             await _companyAndCategoryRepository.SaveAsync();
-            //var result2 = _mapper.Map<CompanyPostDTO>(companyPutDTO);
+            //List<CompanyAndCategory> companyAndCategoryList2 = new List<CompanyAndCategory>();
             //foreach (var categoryId in deletedCategoryId)
             //{
-            //    // Remove the category ID from the updated company object's list of category IDs
-            //    result2.CatagoriesId.Remove(categoryId);
-
-
-            //    // Find and delete the associated CompanyAndCategory object
-            //    var companyAndCategory = _companyAndCategoryRepository.GetByCondition(c => c.CategoryId == categoryId && c.CompanyId == result.Id);
-            //    if (companyAndCategory != null)
+            //    var companyAndCategory = new CompanyAndCategory
             //    {
-            //        foreach (var item in companyAndCategory)
-            //        {
-
-            //            _companyAndCategoryRepository.Delete(item);
-            //        }
-            //    }
+            //        CategoryId = categoryId,
+            //        CompanyId = result.Id,
+            //    };
+            //    companyAndCategoryList2.Add(companyAndCategory);
             //}
 
+            //foreach (var item in companyAndCategoryList2)
+            //{
+            //    _companyAndCategoryRepository.Delete(item);
+            //}
             //await _companyAndCategoryRepository.SaveAsync();
-           
-
 
 
             ///Updating Vacancy for that Company

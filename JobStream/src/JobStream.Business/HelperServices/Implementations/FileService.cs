@@ -22,11 +22,11 @@ namespace JobStream.Business.HelperServices.Implementations
 				throw new NotFoundException("File not found");
 			}
 
-            if (!file.CheckFileFormat("image/"))
-            {
-                throw new FileFormatException("Choose an image");
-            }
-            if (file.CheckFileSize(1))
+            //if (!file.CheckFileFormat("image/"))
+            //{
+            //    throw new FileFormatException("Choose an image");
+            //}
+            if (file.CheckFileSize(2))
             {
                 throw new FileSizeException("File size has exceeded its max limit of 1 MB ");
             }

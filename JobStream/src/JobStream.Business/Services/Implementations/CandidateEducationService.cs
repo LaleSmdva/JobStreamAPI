@@ -53,15 +53,15 @@ namespace JobStream.Business.Services.Implementations
         }
         public async Task CreateCandidateEducationeAsync(CandidateEducationPostDTO entity)
         {
-            if (entity == null) throw new NullReferenceException("Candidate education can't ne null");
-            var candEds = _candidateEducationRepository.GetAll();
-            if (await candEds.AllAsync(x => x.CandidateResumeId == entity.CandidateResumeId))
-            {
-                throw new BadRequestException("You already created education for resume");
-            }
-            var article = _mapper.Map<CandidateEducation>(entity);
-            await _candidateEducationRepository.CreateAsync(article);
-            await _candidateEducationRepository.SaveAsync();
+            //if (entity == null) throw new NullReferenceException("Candidate education can't ne null");
+            //var candEds = _candidateEducationRepository.GetAll();
+            //if (await candEds.AllAsync(x => x.CandidateResumeId == entity.CandidateResumeId))
+            //{
+            //    throw new BadRequestException("You already created education for resume");
+            //}
+            //var article = _mapper.Map<CandidateEducation>(entity);
+            //await _candidateEducationRepository.CreateAsync(article);
+            //await _candidateEducationRepository.SaveAsync();
         }
 
         public async Task UpdateCandidateEducationAsync(int id, CandidateEducationPutDTO education)

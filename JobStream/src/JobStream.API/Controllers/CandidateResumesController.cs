@@ -1,5 +1,6 @@
 ﻿using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
+using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Http;
@@ -42,8 +43,21 @@ namespace JobStream.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm]CandidateResumePostDTO entity)
         {
-            await _candidateResumeService.CreateCandidateResumeAsync(entity);
-            return Ok("Candidate resume created");
+            try
+            {
+                await _candidateResumeService.CreateCandidateResumeAsync(entity);
+                return Ok("Candidate resume created");
+            }
+            catch (NotFoundException ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
 
         }
         [HttpPut("update/{id}")]

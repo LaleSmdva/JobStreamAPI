@@ -29,8 +29,9 @@ namespace JobStream.Business.Services.Implementations
         private readonly UserManager<AppUser> _userManager;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _env;
+        private readonly ICandidateEducationRepository _candidateEducationRepository;
 
-        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env)
+        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env, ICandidateEducationRepository candidateEducationRepository)
         {
             _candidateResumeRepository = candidateResumeRepository;
             _mapper = mapper;
@@ -38,6 +39,7 @@ namespace JobStream.Business.Services.Implementations
             _userManager = userManager;
             _fileService = fileService;
             _env = env;
+            _candidateEducationRepository = candidateEducationRepository;
         }
 
 
@@ -109,20 +111,35 @@ namespace JobStream.Business.Services.Implementations
         public async Task CreateCandidateResumeAsync(CandidateResumePostDTO entity)
         {
             if (entity == null) throw new NullReferenceException("Candidate resume can't ne null");
-            var candidateResumes = _candidateResumeRepository.GetAll()
-                .Include(e=>e.CandidateEducation);
-            if (await candidateResumes.AllAsync(x => x.CandidateEducation.Id == entity.CandidateEducationId))
-            {
-                throw new BadRequestException("You already created education for resume");
-            }
-            
+            var user=await _userManager.FindByEmailAsync(entity.Email);
+            if (user is null) throw new NotFoundException("User not found");
+
+            var candidateResumes = _candidateResumeRepository
+                .GetAll()
+                .Include(e => e.CandidateEducation);
+            //if (entity.Email == user.Email)
+            //{
+            //    throw new BadRequestException("Resume is already created");
+            //}
+
             if (entity.CV != null)
             {
                 var fileName = await _fileService.CopyFileAsync(entity.CV, _env.WebRootPath, "images", "Resumes");
 
                 CandidateResume resume = _mapper.Map<CandidateResume>(entity);
                 resume.CV = fileName;
-                //article.CandidateEducation
+                resume.AppUserId = user.Id;
+
+                //if (_candidateEducationRepository.GetAll().All(x => x.CandidateResumeId == resume.Id))
+                //    throw new BadRequestException("Education is already created");
+
+                CandidateEducation candidateEducation = new()
+                {
+                    Major = entity.CandidateEducation.Major,
+                    Degree= entity.CandidateEducation.Degree,
+                    Institution= entity.CandidateEducation.Institution,
+                };
+
                 await _candidateResumeRepository.CreateAsync(resume);
             }
             await _candidateResumeRepository.SaveAsync();

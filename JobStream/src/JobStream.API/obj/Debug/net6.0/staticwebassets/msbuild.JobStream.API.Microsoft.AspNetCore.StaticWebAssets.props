@@ -240,6 +240,118 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\companyLogos\edfd5fbb-930f-47b5-a095-03636ee6393aScreenshot (15).png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\20f33d61-e1a4-4792-b364-f759d0168be0Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/20f33d61-e1a4-4792-b364-f759d0168be0Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\20f33d61-e1a4-4792-b364-f759d0168be0Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2183f3cf-6db7-475b-99ad-b77a72969cadImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/2183f3cf-6db7-475b-99ad-b77a72969cadImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2183f3cf-6db7-475b-99ad-b77a72969cadImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2e16f916-8983-475b-98bf-7375c117e7c7Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/2e16f916-8983-475b-98bf-7375c117e7c7Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2e16f916-8983-475b-98bf-7375c117e7c7Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2e2ffceb-fc01-4480-8a54-29d213758049Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/2e2ffceb-fc01-4480-8a54-29d213758049Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\2e2ffceb-fc01-4480-8a54-29d213758049Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\32b901f6-1fda-408d-80af-cf3c3764e62cImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/32b901f6-1fda-408d-80af-cf3c3764e62cImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\32b901f6-1fda-408d-80af-cf3c3764e62cImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\402d79f7-2370-4985-8735-5e1406cfd41fImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/402d79f7-2370-4985-8735-5e1406cfd41fImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\402d79f7-2370-4985-8735-5e1406cfd41fImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\4ca90beb-5bf3-429e-86fa-9216706ea5efImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/4ca90beb-5bf3-429e-86fa-9216706ea5efImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\4ca90beb-5bf3-429e-86fa-9216706ea5efImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\53b5e653-422a-4728-b941-7afdecfe6c7bScreenshot (13).png))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>
@@ -255,6 +367,38 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\53b5e653-422a-4728-b941-7afdecfe6c7bScreenshot (13).png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\64ee29a6-4e36-4fce-86a4-4b7154040621Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/64ee29a6-4e36-4fce-86a4-4b7154040621Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\64ee29a6-4e36-4fce-86a4-4b7154040621Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\7a61fd38-b171-4b65-a733-44c4815c1990Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/7a61fd38-b171-4b65-a733-44c4815c1990Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\7a61fd38-b171-4b65-a733-44c4815c1990Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\85f67f25-8d43-4c41-972c-b61957fdd126Screenshot (16).png))">
       <SourceType>Package</SourceType>
@@ -272,6 +416,54 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\85f67f25-8d43-4c41-972c-b61957fdd126Screenshot (16).png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\aa842d3f-132e-44f3-9408-fe1df413001aImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/aa842d3f-132e-44f3-9408-fe1df413001aImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\aa842d3f-132e-44f3-9408-fe1df413001aImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\ccdf424f-0b72-469c-ac28-cd5b274b9e75Image_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/ccdf424f-0b72-469c-ac28-cd5b274b9e75Image_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\ccdf424f-0b72-469c-ac28-cd5b274b9e75Image_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\e4ba1310-c292-4a86-a40e-a51068448e5dImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/e4ba1310-c292-4a86-a40e-a51068448e5dImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\e4ba1310-c292-4a86-a40e-a51068448e5dImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\e4bb5ae3-70e5-4e38-be36-73f56387f35fScreenshot (16).png))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>
@@ -287,6 +479,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\e4bb5ae3-70e5-4e38-be36-73f56387f35fScreenshot (16).png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\f200232b-3946-4169-86ce-d729e98efcbdImage_created_with_a_mobile_phone.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/f200232b-3946-4169-86ce-d729e98efcbdImage_created_with_a_mobile_phone.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\f200232b-3946-4169-86ce-d729e98efcbdImage_created_with_a_mobile_phone.png))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

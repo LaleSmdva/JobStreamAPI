@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using E=JobStream.Business.DTOs.CandidateEducationDTO;
+using E = JobStream.Business.DTOs.CandidateEducationDTO;
 
 namespace JobStream.Business.DTOs.CandidateResumeDTO
 {
@@ -20,9 +20,10 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? Location { get; set; }
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
-        public int? CandidateEducationId { get; set; }
+        public E.CandidateEducationPostDTO? CandidateEducation { get; set; }
+        //public int? CandidateEducationId { get; set; }
         // ONE TO ONE 
-        public E.CandidateEducationDTO? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
+        //public E.CandEdDTO? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
         //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
         //institution-Baku State University
         public string? LanguageSkills { get; set; }
