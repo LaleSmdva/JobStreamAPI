@@ -27,7 +27,7 @@ namespace JobStream.Business.DTOs.VacanciesDTO
         public int JobScheduleId { get; set; } //8 hour shift ,day shift,evening shift, self-determined schedule,etc
         //public JobSchedule? JobSchedule { get; set; }
 
-        public int CategoryId { get; set; }
+        //public int CategoryId { get; set; }
         //public Category Category { get; set; }
         //yazmamisam
         //public DateTime ClosingDate { get; set; }

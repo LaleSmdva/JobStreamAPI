@@ -85,7 +85,9 @@ builder.Services.AddScoped<AppDbContextInitializer>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));//hem oxuyur hem map edir
 
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//AutoMApper
 builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
+
 //builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
 
 
@@ -105,6 +107,7 @@ builder.Services.AddScoped<ICandidateResumeRepository, CandidateResumeRepository
 builder.Services.AddScoped<ICompanyAndCategoryRepository, CompanyAndCategoryRepository>();
 builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<ICandidateEducationRepository, CandidateEducationRepository>();
+builder.Services.AddScoped<ICandidateResumeAndVacancyRepository, CandidateResumeAndVacancyRepository>();
 
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();

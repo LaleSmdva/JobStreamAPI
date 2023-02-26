@@ -40,4 +40,6 @@ public class CandidateResume : IEntity
     public string? Sertifications { get; set; }
     public string? LinkedinLink { get; set; }
     public string? GithubLink { get; set; }
+    //new 26
+    ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
 }

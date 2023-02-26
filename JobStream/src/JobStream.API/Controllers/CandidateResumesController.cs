@@ -41,7 +41,7 @@ namespace JobStream.API.Controllers
             return Ok(resume);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm]CandidateResumePostDTO entity)
+        public async Task<IActionResult> CreateAsync([FromForm] CandidateResumePostDTO entity)
         {
             try
             {
@@ -71,6 +71,13 @@ namespace JobStream.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _candidateResumeService.DeleteCandidateResume(id);
+            return Ok("Candidate resume deleted");
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ApplyVacancy(int companyId, int vacancyId, CandidateResumeDTO candidateResumeDTO)
+        {
+            await _candidateResumeService.ApplyVacancy(companyId, vacancyId, candidateResumeDTO);
             return Ok("Candidate resume deleted");
         }
     }

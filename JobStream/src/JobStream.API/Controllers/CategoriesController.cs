@@ -1,4 +1,5 @@
-﻿using JobStream.Business.DTOs.CategoryDTO;
+﻿using JobStream.Business.DTOs.ArticleDTO;
+using JobStream.Business.DTOs.CategoryDTO;
 using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Implementations;
@@ -20,56 +21,33 @@ namespace JobStream.API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCompanies()
         {
-            try
-            {
-                var companies =await _categoryService.GetAll();
-                return Ok(companies);
-            }
-            catch (NotFoundException)
-            {
-                return NotFound("Not Found");
-            }
-            //catch (Exception)
-            //{
-            //	throw new InvalidOperationException("The requested resource could not be found.");	
-
-            //}
+            var companies = await _categoryService.GetAllCategories();
+            return Ok(companies);
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> AddCompany([FromForm] CategoriesPostDTO category)
+        public async Task<IActionResult> AddCompany(CategoriesPostDTO category)
         {
+            await _categoryService.CreateCategoryAsync(category);
+            return Ok("Successfully created");
+        }
 
-            try
-            {
-                //var existingCompany = await _companyService.GetByIdAsync(company.Id);
-               
-                var categories = await _categoryService.GetAll();
-                if (categories.Any(c => c.Name == category.Name))
-                {
-                    throw new BadRequestException("A company with the same name and email already exists");
-                }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CategoriesPutDTO category)
+        {
+            await _categoryService.UpdateCategoryNameAsync(id, category);
+            return Ok("Successfully updated");
+        }
 
-                await _categoryService.CreateAsync(category);
-                return Ok("Successfully created");
-            }
-        
-            catch (BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
 
-            }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            await _categoryService.DeleteCategoryAsync(id);
+            return Ok("Category deleted");
         }
     }
 }

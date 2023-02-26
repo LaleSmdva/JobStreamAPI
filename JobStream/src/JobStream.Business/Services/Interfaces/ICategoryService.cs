@@ -10,6 +10,8 @@ namespace JobStream.Business.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<List<CategoriesDTO>> GetAll();
-    Task CreateAsync(CategoriesPostDTO entity);
+    Task<List<CategoriesDTO>> GetAllCategories();
+    Task CreateCategoryAsync(CategoriesPostDTO entity);
+    Task UpdateCategoryNameAsync(int id,CategoriesPutDTO entity);
+    Task DeleteCategoryAsync(int id);
 }

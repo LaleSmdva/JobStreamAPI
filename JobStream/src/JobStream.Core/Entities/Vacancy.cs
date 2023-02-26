@@ -36,5 +36,7 @@ namespace JobStream.Core.Entities
         public DateTime ClosingDate { get; set; }
         public string? OfferedBenfits { get; set; } //health insurance,paid time-off,flexible schedule
         public bool? isDeleted { get; set; }
+        //new 26
+        public ICollection<CandidateResumeAndVacancy> CandidateResumesAndVacancies { get; set; }
     }
 }

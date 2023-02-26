@@ -21,6 +21,9 @@ namespace JobStream.Business.Services.Interfaces
         Task CreateCandidateResumeAsync(CandidateResumePostDTO entity);
         Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume);
         Task DeleteCandidateResume(int id);
+        Task ApplyVacancy(int companyId, int vacancyId, CandidateResumeDTO candidateResumeDTO);
+        //new 26
+
     }
 
 }

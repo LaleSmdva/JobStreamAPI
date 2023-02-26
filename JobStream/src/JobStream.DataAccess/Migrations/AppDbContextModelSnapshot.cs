@@ -61,7 +61,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AboutUs");
+                    b.ToTable("AboutUs", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
@@ -92,7 +92,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForArticlesId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
@@ -127,7 +127,7 @@ namespace JobStream.DataAccess.Migrations
                         .IsUnique()
                         .HasFilter("[CandidateResumeId] IS NOT NULL");
 
-                    b.ToTable("CandidateEducation");
+                    b.ToTable("CandidateEducation", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
@@ -199,7 +199,30 @@ namespace JobStream.DataAccess.Migrations
                         .IsUnique()
                         .HasFilter("[Telephone] IS NOT NULL");
 
-                    b.ToTable("CandidateResume");
+                    b.ToTable("CandidateResume", (string)null);
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.CandidateResumeAndVacancy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CandidateResumeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VacancyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateResumeId");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("CandidateResumeAndVacancy", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Category", b =>
@@ -217,7 +240,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
@@ -239,7 +262,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryFields");
+                    b.ToTable("CategoryFields", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Company", b =>
@@ -253,9 +276,6 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("AboutCompany")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -289,13 +309,16 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("Telephone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
+                    b.HasIndex("UserId")
                         .IsUnique()
-                        .HasFilter("[AppUserId] IS NOT NULL");
+                        .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CompanyAndCategory", b =>
@@ -313,7 +336,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CompaniesAndCategories");
+                    b.ToTable("CompaniesAndCategories", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Identity.AppUser", b =>
@@ -396,6 +419,30 @@ namespace JobStream.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("JobStream.Core.Entities.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("InterviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterviewLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invitation", (string)null);
+                });
+
             modelBuilder.Entity("JobStream.Core.Entities.JobSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -410,7 +457,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobSchedule");
+                    b.ToTable("JobSchedule", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.JobType", b =>
@@ -428,7 +475,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTypes");
+                    b.ToTable("JobTypes", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.News", b =>
@@ -443,8 +490,8 @@ namespace JobStream.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreationTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("PostedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RubricForNewsId")
                         .HasColumnType("int");
@@ -457,7 +504,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("RubricForNewsId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForArticles", b =>
@@ -474,7 +521,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForArticles");
+                    b.ToTable("RubricForArticles", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.RubricForNews", b =>
@@ -491,7 +538,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RubricForNews");
+                    b.ToTable("RubricForNews", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.SendMessage", b =>
@@ -522,7 +569,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SendMessage");
+                    b.ToTable("SendMessage", (string)null);
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
@@ -596,7 +643,7 @@ namespace JobStream.DataAccess.Migrations
 
                     b.HasIndex("JobTypeId");
 
-                    b.ToTable("Vacancies");
+                    b.ToTable("Vacancies", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -761,6 +808,25 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("JobStream.Core.Entities.CandidateResumeAndVacancy", b =>
+                {
+                    b.HasOne("JobStream.Core.Entities.CandidateResume", "CandidateResume")
+                        .WithMany()
+                        .HasForeignKey("CandidateResumeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobStream.Core.Entities.Vacancy", "Vacancy")
+                        .WithMany("CandidateResumesAndVacancies")
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CandidateResume");
+
+                    b.Navigation("Vacancy");
+                });
+
             modelBuilder.Entity("JobStream.Core.Entities.CategoryField", b =>
                 {
                     b.HasOne("JobStream.Core.Entities.Category", "Category")
@@ -776,7 +842,7 @@ namespace JobStream.DataAccess.Migrations
                 {
                     b.HasOne("JobStream.Core.Entities.Identity.AppUser", "AppUser")
                         .WithOne("Company")
-                        .HasForeignKey("JobStream.Core.Entities.Company", "AppUserId");
+                        .HasForeignKey("JobStream.Core.Entities.Company", "UserId");
 
                     b.Navigation("AppUser");
                 });
@@ -939,6 +1005,11 @@ namespace JobStream.DataAccess.Migrations
             modelBuilder.Entity("JobStream.Core.Entities.RubricForNews", b =>
                 {
                     b.Navigation("News");
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
+                {
+                    b.Navigation("CandidateResumesAndVacancies");
                 });
 #pragma warning restore 612, 618
         }

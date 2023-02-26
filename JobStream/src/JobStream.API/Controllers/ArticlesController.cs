@@ -24,91 +24,56 @@ namespace JobStream.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllArticles()
         {
-            try
-            {
-                var articles = await _articleService.GetAllAsync();
-                return Ok(articles);
-            }
-            catch (Exception)
-            {
-
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            var articles = await _articleService.GetAllAsync();
+            return Ok(articles);
         }
+
 
         [HttpGet("GetArticleByTitle/{title}")]
         public IActionResult GetArticleByTitle(string title)
         {
-            try
-            {
-                var articles = _articleService.GetArticleByTitle(title);
-                return Ok(articles);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);  
-            }
+            var articles = _articleService.GetArticleByTitle(title);
+            return Ok(articles);
         }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArticleById(int id)
         {
-          
-                var article = await _articleService.GetArticleByIdAsync(id);
-                return Ok(article);
-       
+            var article = await _articleService.GetArticleByIdAsync(id);
+            return Ok(article);
         }
+
 
         [HttpGet("articlesByRubricId{id}")]
         public async Task<IActionResult> GetArticlesByRubricId(int id)
         {
-
             var article = await _articleService.GetArticlesByRubricId(id);
             return Ok(article);
-
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(ArticlePostDTO entity)
         {
-            try
-            {
-                await _articleService.CreateArticleAsync(entity);
-                return Ok("Article created");
-            }
-            catch (NullReferenceException ex)
-            {
-
-                return StatusCode(500,ex.Message);
-            }
+            await _articleService.CreateArticleAsync(entity);
+            return Ok("Article created");
         }
+
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, ArticlePutDTO article)
         {
-            try
-            {
-                await _articleService.UpdateArticleAsync(id, article);
-                return Ok("Successfully updated");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            await _articleService.UpdateArticleAsync(id, article);
+            return Ok("Successfully updated");
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
-            try
-            {
-                await _articleService.DeleteArticleAsync(id);
-                return Ok("Article deleted");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            await _articleService.DeleteArticleAsync(id);
+            return Ok("Article deleted");
         }
 
     }

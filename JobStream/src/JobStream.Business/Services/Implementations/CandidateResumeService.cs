@@ -6,6 +6,7 @@ using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
+using JobStream.Core.Interfaces;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +31,12 @@ namespace JobStream.Business.Services.Implementations
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _env;
         private readonly ICandidateEducationRepository _candidateEducationRepository;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IVacanciesRepository _vacanciesRepository;
+        private readonly ICandidateResumeAndVacancyRepository _candidateResumeAndVacancy;
 
-        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env, ICandidateEducationRepository candidateEducationRepository)
+
+        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env, ICandidateEducationRepository candidateEducationRepository, ICompanyRepository companyRepository, IVacanciesRepository vacanciesRepository, ICandidateResumeAndVacancyRepository candidateResumeAndVacancy)
         {
             _candidateResumeRepository = candidateResumeRepository;
             _mapper = mapper;
@@ -40,6 +45,9 @@ namespace JobStream.Business.Services.Implementations
             _fileService = fileService;
             _env = env;
             _candidateEducationRepository = candidateEducationRepository;
+            _companyRepository = companyRepository;
+            _vacanciesRepository = vacanciesRepository;
+            _candidateResumeAndVacancy = candidateResumeAndVacancy;
         }
 
 
@@ -111,7 +119,7 @@ namespace JobStream.Business.Services.Implementations
         public async Task CreateCandidateResumeAsync(CandidateResumePostDTO entity)
         {
             if (entity == null) throw new NullReferenceException("Candidate resume can't ne null");
-            var user=await _userManager.FindByEmailAsync(entity.Email);
+            var user = await _userManager.FindByEmailAsync(entity.Email);
             if (user is null) throw new NotFoundException("User not found");
 
             var candidateResumes = _candidateResumeRepository
@@ -136,8 +144,8 @@ namespace JobStream.Business.Services.Implementations
                 CandidateEducation candidateEducation = new()
                 {
                     Major = entity.CandidateEducation.Major,
-                    Degree= entity.CandidateEducation.Degree,
-                    Institution= entity.CandidateEducation.Institution,
+                    Degree = entity.CandidateEducation.Degree,
+                    Institution = entity.CandidateEducation.Institution,
                 };
 
                 await _candidateResumeRepository.CreateAsync(resume);
@@ -184,6 +192,21 @@ namespace JobStream.Business.Services.Implementations
             await _candidateResumeRepository.SaveAsync();
         }
 
+        public async Task ApplyVacancy(int companyId, int vacancyId, CandidateResumeDTO candidateResumeDTO)
+        {
+            //var candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
+            var company = await _companyRepository.GetByIdAsync(companyId);
+            var vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+
+            var result = _mapper.Map<CandidateResume>(candidateResumeDTO);
+
+            CandidateResumeAndVacancy candidateResumeAndVacancy = new();
+            candidateResumeAndVacancy.CandidateResumeId = result.Id;
+            candidateResumeAndVacancy.VacancyId = vacancyId;
+
+            await _candidateResumeAndVacancy.CreateAsync(candidateResumeAndVacancy);
+            await _candidateResumeRepository.SaveAsync();
+        }
     }
 }
 

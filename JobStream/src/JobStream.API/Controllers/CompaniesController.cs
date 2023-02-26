@@ -3,6 +3,7 @@ using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
+using JobStream.Business.Validators.InvitationDTO;
 using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -75,5 +76,19 @@ namespace JobStream.API.Controllers
             await _companyService.DeleteVacancy(id, vacancyId);
             return Ok("Successfully deleted vacancy");
         }
+        [HttpPost("{companyId}/{vacancyId}/{candidateId}/[action]")]
+        public async Task<IActionResult> InviteCandidateToInterview (int companyId, int vacancyId, int candidateId, InvitationDTO invitation)
+        {
+            await _companyService.InviteCandidateToInterview(companyId, vacancyId, candidateId, invitation);
+            return Ok("Invitation sent successfully");
+        }
+      
+        [HttpPost("{companyId}/{vacancyId}/{candidateId}/[action]")]
+        public async Task<IActionResult> RejectCandidate(int companyId, int vacancyId, int candidateId)
+        {
+            await _companyService.RejectCandidate(companyId, vacancyId, candidateId);
+            return Ok("Candidate rejected");
+        }
     }
 }
+

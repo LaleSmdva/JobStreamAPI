@@ -6,6 +6,7 @@ using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
+using JobStream.Business.Validators.InvitationDTO;
 using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
 using JobStream.Core.Interfaces;
@@ -15,6 +16,7 @@ using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -41,8 +43,11 @@ namespace JobStream.Business.Services.Implementations
         private readonly UserManager<AppUser> _userManager;
         private readonly IJobTypeRepository _jobTypeRepository;
         private readonly IJobScheduleRepository _jobScheduleRepository;
+        private readonly ICandidateResumeRepository _candidateResumeRepository;
+        private readonly IMailService _mailService;
 
-        public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository, ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, AppDbContext context, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository)
+
+        public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository, ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, AppDbContext context, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository, ICandidateResumeRepository candidateResumeRepository, IMailService mailService)
         {
             _repository = repository;
             _mapper = mapper;
@@ -55,6 +60,8 @@ namespace JobStream.Business.Services.Implementations
             _userManager = userManager;
             _jobTypeRepository = jobTypeRepository;
             _jobScheduleRepository = jobScheduleRepository;
+            _candidateResumeRepository = candidateResumeRepository;
+            _mailService = mailService;
         }
 
 
@@ -97,7 +104,7 @@ namespace JobStream.Business.Services.Implementations
         public List<CompanyDTO> GetCompaniesByName(string companyName)
         {
 
-            var company = _repository.GetAll().Where(n=>n.Name.Contains(companyName)).ToList();
+            var company = _repository.GetAll().Where(n => n.Name.Contains(companyName)).ToList();
             var result = _mapper.Map<List<CompanyDTO>>(company);
             return result;
         }
@@ -325,7 +332,7 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO)
         {
-            
+
             var company = await _repository.GetAll().FirstOrDefaultAsync(c => c.Id == id);
             if (company == null)
             {
@@ -337,14 +344,14 @@ namespace JobStream.Business.Services.Implementations
             var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPostDTO.JobScheduleId);
 
             var vacancy = _mapper.Map<Vacancy>(vacanciesPostDTO);
-            vacancy.Company= company;
+            vacancy.Company = company;
             vacancy.JobSchedule = jobSchedule;
-            vacancy.JobType= jobType;
-            vacancy.Category= category;
+            vacancy.JobType = jobType;
+            vacancy.Category = category;
 
             await _vacanciesRepository.CreateAsync(vacancy);
             await _vacanciesRepository.SaveAsync();
-         
+
 
 
 
@@ -410,6 +417,46 @@ namespace JobStream.Business.Services.Implementations
             _context.SaveChanges();
         }
 
+        public async Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationDTO invitation)
+        {
+            Company company = await _repository.GetByIdAsync(companyId);
+            Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+            CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
 
+            var result = _mapper.Map<Invitation>(invitation);
+            result.InterviewDate = invitation.InterviewDate;
+            result.InterviewLocation = invitation.InterviewLocation;
+            result.Message = invitation.Message;
+            //result.Company = company;
+            //result.Vacancy = vacancy;
+
+            await _repository.SaveAsync();
+
+            await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
+            {
+                ToEmail = candidate.Email,
+                Subject = $"Interview invitation for {vacancy.Name}",
+                Body = $"{result.Message}Time:{result.InterviewDate} Location:{result.InterviewLocation}"
+            });
+
+        }
+
+        public async Task RejectCandidate(int companyId, int vacancyId, int candidateId)
+        {
+            Company company = await _repository.GetByIdAsync(companyId);
+            Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+            CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
+
+
+            await _repository.SaveAsync();
+
+            await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
+            {
+                ToEmail = candidate.Email,
+                Subject = $"Update on your {vacancy.Name} application ",
+                Body = $"Dear {candidate.Fullname}.Thank you for your interest in the {vacancy.Name} position at {company.Name}" +
+                $". After careful consideration, we have decided not to move forward with your application."
+            });
+        }
     }
 }

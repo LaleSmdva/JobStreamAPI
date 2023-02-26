@@ -18,6 +18,6 @@ public interface IArticleService
 	List<ArticleDTO> GetArticleByTitle(string title);
 	Task<List<ArticleDTO>> GetArticlesByRubricId(int id);
 	Task CreateArticleAsync(ArticlePostDTO entity);
-	Task UpdateArticleAsync(int id, ArticlePutDTO company);
+	Task UpdateArticleAsync(int id, ArticlePutDTO article);
 	Task DeleteArticleAsync(int id);
 }

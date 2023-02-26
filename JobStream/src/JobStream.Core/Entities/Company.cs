@@ -17,7 +17,7 @@ namespace JobStream.Core.Entities
 		public string? AboutCompany { get; set; }
 		public int? NumberOfEmployees { get; set; }
 		//new 26
-		public string? AppUserId { get; set; }
+		public string? UserId { get; set; }
 		public AppUser? AppUser { get; set; }
 
 		public string? Email { get; set; }
@@ -27,5 +27,6 @@ namespace JobStream.Core.Entities
 		public bool? IsDeleted { get; set; }
 		public ICollection<Vacancy>? Vacancies { get; set; }
 		public ICollection<CompanyAndCategory>? CompanyAndCategories { get; set; }
+	
 	}
 }
