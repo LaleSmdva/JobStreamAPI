@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Yh3sMln6+iT2pWUgJKdziAnKD54jo3G5glJRs+gP/OQ=",
+  "Hash": "moNv1uHsE+J/5mqPGFfoXx3sZfY4vKS4v/i4aGmGNfk=",
   "Source": "JobStream.API",
   "BasePath": "_content/JobStream.API",
   "Mode": "Default",
@@ -1377,6 +1377,23 @@
       "OriginalItemSpec": "wwwroot\\images\\Resumes\\CV\\7c0a37a0-bec8-4f40-b596-ed98dc6266c2Semedzade Lale CV.pdf"
     },
     {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/Resumes/CV/7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Resumes\\CV\\7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf"
+    },
+    {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\99aeb219-1542-41b3-867a-95cb1d0cc693Semedzade Lale CV.pdf",
       "SourceId": "JobStream.API",
       "SourceType": "Discovered",
@@ -1545,6 +1562,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\Resumes\\CV\\f4225a97-1342-4f42-a0de-21cbacf05c7cLalə_Səmədzadə.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/Resumes/CV/f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Resumes\\CV\\f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\e4ba1310-c292-4a86-a40e-a51068448e5dImage_created_with_a_mobile_phone.png",

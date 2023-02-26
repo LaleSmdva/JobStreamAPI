@@ -1280,6 +1280,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\7c0a37a0-bec8-4f40-b596-ed98dc6266c2Semedzade Lale CV.pdf))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/CV/7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\7e9ef88b-ae72-4c33-9213-86f0ca241f19Semedzade Lale CV.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\99aeb219-1542-41b3-867a-95cb1d0cc693Semedzade Lale CV.pdf))">
       <SourceType>Package</SourceType>
       <SourceId>JobStream.API</SourceId>
@@ -1439,6 +1455,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\f4225a97-1342-4f42-a0de-21cbacf05c7cLalə_Səmədzadə.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>JobStream.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/JobStream.API</BasePath>
+      <RelativePath>images/Resumes/CV/f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\CV\f8ba1af3-71df-46d7-b0a7-08772cfe1fa6Semedzade Lale CV.pdf))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Resumes\e4ba1310-c292-4a86-a40e-a51068448e5dImage_created_with_a_mobile_phone.png))">
       <SourceType>Package</SourceType>
