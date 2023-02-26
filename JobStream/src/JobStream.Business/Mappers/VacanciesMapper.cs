@@ -14,7 +14,7 @@ namespace JobStream.Business.Mappers
 	{
 		public VacanciesMapper()
 		{
-			CreateMap<Vacancy, VacanciesDTO>().ForMember(d=>d.CompanyName,opt=>opt.MapFrom(src=>src.Company.Name)).ReverseMap();
+			CreateMap<Vacancy, VacanciesDTO>()/*.ForMember(d=>d.CompanyName,opt=>opt.MapFrom(src=>src.Company.Name)).ReverseMap()*/;
 			CreateMap<Vacancy, VacanciesPostDTO>().ReverseMap();
 			CreateMap<Vacancy, VacanciesPutDTO>().ReverseMap();
 		}

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JobStream.DataAccess.Migrations
 {
-    public partial class AllTables : Migration
+    public partial class AllTablesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -287,15 +287,16 @@ namespace JobStream.DataAccess.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DesiredPosition = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LanguageSkills = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
                     DesiredSalary = table.Column<int>(type: "int", nullable: true),
-                    WorkExperience = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WorkExperience = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sertifications = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LinkedinLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GithubLink = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GithubLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePhoto = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -466,7 +467,8 @@ namespace JobStream.DataAccess.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OfferedBenfits = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: true)
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    isApplied = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -496,6 +498,31 @@ namespace JobStream.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Applications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CV = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VacancyId = table.Column<int>(type: "int", nullable: true),
+                    CandidateResumeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applications_CandidateResume_CandidateResumeId",
+                        column: x => x.CandidateResumeId,
+                        principalTable: "CandidateResume",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Applications_Vacancies_VacancyId",
+                        column: x => x.VacancyId,
+                        principalTable: "Vacancies",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CandidateResumeAndVacancy",
                 columns: table => new
                 {
@@ -520,6 +547,16 @@ namespace JobStream.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_CandidateResumeId",
+                table: "Applications",
+                column: "CandidateResumeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_VacancyId",
+                table: "Applications",
+                column: "VacancyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_RubricForArticlesId",
@@ -643,6 +680,9 @@ namespace JobStream.DataAccess.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AboutUs");
+
+            migrationBuilder.DropTable(
+                name: "Applications");
 
             migrationBuilder.DropTable(
                 name: "Articles");

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.CompanyDTO;
+using JobStream.Business.DTOs.InvitationDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Mappers;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
-using JobStream.Business.Validators.InvitationDTO;
 using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
 using JobStream.Core.Interfaces;
@@ -73,7 +73,8 @@ namespace JobStream.Business.Services.Implementations
         public async Task<List<CompanyDTO>> GetAllAsync()
         {
             var companies = await _repository.GetAll().Include(v => v.Vacancies)
-                .Include(x => x.CompanyAndCategories).ThenInclude(cc => cc.Category).ToListAsync();
+                .Include(x => x.CompanyAndCategories).ThenInclude(cc => cc.Category).Where(x=>x.IsDeleted!=true)
+                 .ToListAsync();
             var result = _mapper.Map<List<CompanyDTO>>(companies);
             return result;
         }
@@ -104,7 +105,8 @@ namespace JobStream.Business.Services.Implementations
         public List<CompanyDTO> GetCompaniesByName(string companyName)
         {
 
-            var company = _repository.GetAll().Where(n => n.Name.Contains(companyName)).ToList();
+            var company = _repository.GetAll().Where(n => n.Name.Contains(companyName))
+                .Where(b=>b.IsDeleted!=true).ToList();
             var result = _mapper.Map<List<CompanyDTO>>(company);
             return result;
         }
@@ -113,7 +115,8 @@ namespace JobStream.Business.Services.Implementations
         {
             var companies = await _repository.GetAll()
                 .Include(v => v.Vacancies)
-                .Include(x => x.CompanyAndCategories).ThenInclude(cc => cc.Category).ToListAsync();
+                .Include(x => x.CompanyAndCategories).ThenInclude(cc => cc.Category)
+                .Where(b=>b.IsDeleted!=true).ToListAsync();
             if (companies.All(x => x.Id != id))
             {
                 throw new NotFoundException("Not Found");
@@ -186,8 +189,6 @@ namespace JobStream.Business.Services.Implementations
             //}
             //companies.Vacancies = vacancies;
 
-
-
             //_companyAndCategoryRepository.CreateAsync(companyAndCatagories.)
 
 
@@ -208,7 +209,8 @@ namespace JobStream.Business.Services.Implementations
         public async Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
         {
             /// Updating Company
-            Company company=await _repository.GetByIdAsync(id);
+            Company company = await _repository.GetByIdAsync(id);
+            if (company is null || company.IsDeleted == true) throw new NotFoundException("Company not found");
             if (!companyPutDTO.Logo.CheckFileFormat("image/"))
             {
                 throw new FileFormatException("Choose an image type");
@@ -219,13 +221,11 @@ namespace JobStream.Business.Services.Implementations
 
 
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == company.UserId);
-            if (user.Email != companyPutDTO.Email) throw new BadRequestException("Can not change your email address");
+            if (user.Email != companyPutDTO.Email) 
+                throw new BadRequestException("Can not change your email address");
 
-            ///  Add to  Resume
-            //if ((!companyPutDTO.Logo.CheckFileFormat("application/vnd.ms-word/") ) || (!companyPutDTO.Logo.CheckFileFormat("application/pdf/")) )
-            //    throw new FileFormatException("Choose one of these file formats(PDF,Microsoft Word).");
+         
             var fileName = await _fileService.CopyFileAsync(companyPutDTO.Logo, _environment.WebRootPath, "images", "companyLogos");
-
 
             //var result = _mapper.Map<Company>(companyPutDTO);
             //result.Logo = fileName;
@@ -338,7 +338,8 @@ namespace JobStream.Business.Services.Implementations
             }
             var company = await _repository.GetByIdAsync(id);
             var result = _mapper.Map<Company>(company);
-            _repository.Delete(result);
+            result.IsDeleted=true;
+            //_repository.Delete(result);
             await _repository.SaveAsync();
         }
 
@@ -354,12 +355,15 @@ namespace JobStream.Business.Services.Implementations
             var category = await _categoryRepository.GetByIdAsync(vacanciesPostDTO.CategoryId);
             var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPostDTO.JobTypeId);
             var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPostDTO.JobScheduleId);
+          
 
             var vacancy = _mapper.Map<Vacancy>(vacanciesPostDTO);
             vacancy.Company = company;
             vacancy.JobSchedule = jobSchedule;
             vacancy.JobType = jobType;
             vacancy.Category = category;
+            vacancy.PostedOn=DateTime.Now;
+            vacancy.ClosingDate=DateTime.Now.AddDays(40);
 
             await _vacanciesRepository.CreateAsync(vacancy);
             await _vacanciesRepository.SaveAsync();
@@ -429,26 +433,33 @@ namespace JobStream.Business.Services.Implementations
             _context.SaveChanges();
         }
 
-        public async Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationDTO invitation)
+        public async Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation)
         {
             Company company = await _repository.GetByIdAsync(companyId);
+            if (company == null) throw new NotFoundException($"There is no company with id: {companyId}");
             Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+            if (vacancy == null) throw new NotFoundException($"There is no vacancy with id: {vacancyId}");
             CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
+            if (candidate == null) throw new NotFoundException($"There is no candidate with id: {candidateId}");
 
             var result = _mapper.Map<Invitation>(invitation);
             result.InterviewDate = invitation.InterviewDate;
             result.InterviewLocation = invitation.InterviewLocation;
             result.Message = invitation.Message;
+         
+           
             //result.Company = company;
             //result.Vacancy = vacancy;
-
             await _repository.SaveAsync();
 
             await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
             {
                 ToEmail = candidate.Email,
                 Subject = $"Interview invitation for {vacancy.Name}",
-                Body = $"{result.Message}Time:{result.InterviewDate} Location:{result.InterviewLocation}"
+                //Body = $"Interview date:{result.InterviewDate}\n{result.Message}\nTime:{result.InterviewDate}\nLocation:{result.InterviewLocation}"
+                Body = $"<html><body><h2>Interview invitation for {vacancy.Name}</h2><p><strong>Interview date:</strong> {result.InterviewDate}</p>" +
+                $"<p><strong>Message:</strong> {result.Message}</p><p><strong>Time:</strong> {result.InterviewDate}</p><p><strong>Location:</strong> {result.InterviewLocation}</p></body></html>"
+
             });
 
         }
@@ -458,7 +469,7 @@ namespace JobStream.Business.Services.Implementations
             Company company = await _repository.GetByIdAsync(companyId);
             Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
             CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
-
+         
 
             await _repository.SaveAsync();
 
@@ -467,7 +478,8 @@ namespace JobStream.Business.Services.Implementations
                 ToEmail = candidate.Email,
                 Subject = $"Update on your {vacancy.Name} application ",
                 Body = $"Dear {candidate.Fullname}.Thank you for your interest in the {vacancy.Name} position at {company.Name}" +
-                $". After careful consideration, we have decided not to move forward with your application."
+                $". After careful consideration, we have decided not to move forward with your application.Regards{company.Name}"
+
             });
         }
     }

@@ -1,15 +1,19 @@
 ﻿using AutoMapper;
+using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
+using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
 using JobStream.Core.Interfaces;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -192,22 +196,68 @@ namespace JobStream.Business.Services.Implementations
             await _candidateResumeRepository.SaveAsync();
         }
 
-        public async Task ApplyVacancy(int companyId, int vacancyId, CandidateResumeDTO candidateResumeDTO)
+        public async Task ApplyVacancy(int candidateId, int companyId, int vacancyId, ApplyVacancyDTO applyVacancyDTO)
         {
-            //var candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
-            var company = await _companyRepository.GetByIdAsync(companyId);
-            var vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+            if ((!applyVacancyDTO.CV.CheckFileFormat("application/vnd.ms-word/")) && (!applyVacancyDTO.CV.CheckFileFormat("application/pdf"))
+              && (!applyVacancyDTO.CV.CheckFileFormat("application/msword")) && (!applyVacancyDTO.CV.CheckFileFormat("text/plain")))
+                throw new FileFormatException("Choose one of these file formats (doc, docx, pdf, text)");
 
-            var result = _mapper.Map<CandidateResume>(candidateResumeDTO);
+            var fileName = await _fileService.CopyFileAsync(applyVacancyDTO.CV, _env.WebRootPath, "images", "Resumes", "CV");
+
+            var candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
+            if (candidate == null)
+            {
+                throw new NotFoundException("Candidate not found");
+            }
+            var company = await _companyRepository.GetByIdAsync(companyId);
+            if (company == null)
+            {
+                throw new NotFoundException("Company not found");
+            }
+
+            Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
+
+            if (vacancy == null)
+            {
+                throw new NotFoundException("Vacancy not found");
+            }
+            if (vacancy.Applications == null)
+            {
+                vacancy.Applications = new List<Applications>();
+            }
+            //var result = _mapper.Map<Applications>(applyVacancyDTO);
+            var application = new Applications
+            {
+                CandidateResumeId = candidateId,
+                VacancyId = vacancyId,
+                CandidateResume = candidate,
+                Vacancy = vacancy,
+                CV = fileName,
+            };
+
+            vacancy.Applications.Add(application);
+            vacancy.Company = company;
+
+            await _vacanciesRepository.SaveAsync();
 
             CandidateResumeAndVacancy candidateResumeAndVacancy = new();
-            candidateResumeAndVacancy.CandidateResumeId = result.Id;
+            candidateResumeAndVacancy.CandidateResumeId = application.Id;
             candidateResumeAndVacancy.VacancyId = vacancyId;
 
             await _candidateResumeAndVacancy.CreateAsync(candidateResumeAndVacancy);
             await _candidateResumeRepository.SaveAsync();
+
+            vacancy.isApplied = true;
+        }
+
+        public async Task<List<VacanciesDTO>> ViewAppliedJobs()
+        {
+            List<Vacancy> vacancies=await _vacanciesRepository.GetAll().Where(v => v.isApplied == true).ToListAsync();
+            var list=_mapper.Map<List<VacanciesDTO>>(vacancies);
+            return list;
         }
     }
 }
+
 
 

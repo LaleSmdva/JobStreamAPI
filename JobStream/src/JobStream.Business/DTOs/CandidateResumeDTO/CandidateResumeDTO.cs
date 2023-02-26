@@ -14,7 +14,7 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
     {
         public int Id { get; set; }
 
-        //public IFormFile? CV { get; set; }
+        public IFormFile? CV { get; set; }
         public string? Fullname { get; set; }
         public int? Telephone { get; set; }
         public string? Email { get; set; }

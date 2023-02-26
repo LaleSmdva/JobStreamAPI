@@ -178,7 +178,8 @@ using (var scope = app.Services.CreateScope())
 app.UseHangfireDashboard();
 app.UseHangfireServer();
 
-RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 * * ? * *");
+//RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 * * ? * *");
+RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 0 1 1 *");
 
 
 app.MapControllers();

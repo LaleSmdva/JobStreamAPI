@@ -25,6 +25,7 @@ using JobStream.Business.DTOs.CompanyDTO;
 using C = JobStream.Business.DTOs.Account;
 using Hangfire.Annotations;
 using AutoMapper.Configuration.Annotations;
+using JobStream.Core.Entities;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -36,8 +37,9 @@ namespace JobStream.Business.Services.Implementations
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ICandidateResumeRepository _candidateResumeRepository;
 
-        public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IAccountRepository accountRepository, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IAccountRepository accountRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, ICandidateResumeRepository candidateResumeRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,13 +47,14 @@ namespace JobStream.Business.Services.Implementations
             _accountRepository = accountRepository;
             _mapper = mapper;
             _roleManager = roleManager;
+            _candidateResumeRepository = candidateResumeRepository;
         }
 
         public List<object> GetAllUserAccounts()
         {
             var accounts = _accountRepository.GetAll().ToList();
             if (accounts is null) throw new NotFoundException("No user account exists");
-         
+
             List<CandidateDTO> candidates = GetAllCandidateAccounts();
             List<C.CompanyDTO> companies = GetAllCompanyAccounts();
             var allAccounts = new List<object>();
@@ -95,6 +98,8 @@ namespace JobStream.Business.Services.Implementations
                 UserName = registerCandidate.Username,
                 Email = registerCandidate.Email,
             };
+
+           
             if (await _userManager.Users.AnyAsync(u => u.UserName == candidate.UserName))
             {
                 throw new DuplicateUserNameException("User with the same username already exists");
@@ -105,6 +110,7 @@ namespace JobStream.Business.Services.Implementations
             }
 
             var identityResult = await _userManager.CreateAsync(candidate, registerCandidate.Password);
+          
 
             if (!identityResult.Succeeded)
             {
@@ -116,6 +122,7 @@ namespace JobStream.Business.Services.Implementations
                 throw new CreateUserFailedException($"{errorMessages}");
                 //return BadRequest(errorMessages);
             }
+      
 
             var result = await _userManager.AddToRoleAsync(candidate, UserRoles.Candidate.ToString());
             if (!result.Succeeded)
@@ -126,7 +133,17 @@ namespace JobStream.Business.Services.Implementations
                     errorMessages.Add(error.Description);
                 }
                 throw new CreateRoleFailedException($"{errorMessages}");
+
+
             }
+
+            ////new 27
+
+            //candidate.CandidateResume.AppUser = candidate;
+            //await _candidateResumeRepository.CreateAsync(candidate.CandidateResume);
+            //await _candidateResumeRepository.SaveAsync();
+            await _candidateResumeRepository.CreateAsync(candidate.CandidateResume);
+            await _candidateResumeRepository.SaveAsync();
             //////// NEW  ///////
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(candidate);
             //var confirmationLink = Url
@@ -262,6 +279,12 @@ namespace JobStream.Business.Services.Implementations
                 Email = registerCompany.Email,
                 InfoCompany = registerCompany.InfoCompany,
             };
+            //new 27
+            //var Company = new Company
+            //{
+            //    UserId = company.Id,
+            //    AppUser = company,
+            //};
             if (await _userManager.Users.AnyAsync(u => u.UserName == company.Companyname))
             {
                 throw new DuplicateUserNameException("User with the same company name already exists");

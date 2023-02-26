@@ -1,6 +1,6 @@
 ﻿using JobStream.Business.DTOs.CompanyDTO;
+using JobStream.Business.DTOs.InvitationDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
-using JobStream.Business.Validators.InvitationDTO;
 using JobStream.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace JobStream.Business.Services.Interfaces
         Task AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO);
         Task DeleteVacancy(int id, int vacancyId);
         //Update vacancy qaldi
-        Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationDTO invitation);
+        Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation);
         Task RejectCandidate(int companyId, int vacancyId, int candidateId);
     }
 }

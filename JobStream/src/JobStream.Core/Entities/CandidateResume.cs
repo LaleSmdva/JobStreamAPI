@@ -41,5 +41,7 @@ public class CandidateResume : IEntity
     public string? LinkedinLink { get; set; }
     public string? GithubLink { get; set; }
     //new 26
+    public string? ProfilePhoto { get; set; }
     ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
+    ICollection<Applications>? Applications { get; set; }
 }

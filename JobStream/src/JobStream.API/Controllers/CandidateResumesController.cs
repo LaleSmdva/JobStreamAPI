@@ -1,5 +1,7 @@
-﻿using JobStream.Business.DTOs.CandidateEducationDTO;
+﻿using JobStream.Business.DTOs.ApplyVacancyDTO;
+using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
+using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
@@ -40,26 +42,13 @@ namespace JobStream.API.Controllers
             var resume = await _candidateResumeService.GetCandidateResumeByUserId(resumeId);
             return Ok(resume);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] CandidateResumePostDTO entity)
-        {
-            try
-            {
-                await _candidateResumeService.CreateCandidateResumeAsync(entity);
-                return Ok("Candidate resume created");
-            }
-            catch (NotFoundException ex)
-            {
+        //[HttpPost]
+        //public async Task<IActionResult> CreateAsync([FromForm] CandidateResumePostDTO entity)
+        //{
+        //    await _candidateResumeService.CreateCandidateResumeAsync(entity);
+        //    return Ok("Candidate resume created");
 
-                return NotFound(ex.Message);
-            }
-            catch (BadRequestException ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-
-        }
+        //}
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, CandidateResumePutDTO resume)
         {
@@ -75,10 +64,16 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ApplyVacancy(int companyId, int vacancyId, CandidateResumeDTO candidateResumeDTO)
+        public async Task<IActionResult> ApplyVacancy(int candidateId, int companyId, int vacancyId, [FromForm] ApplyVacancyDTO applyVacancyDTO)
         {
-            await _candidateResumeService.ApplyVacancy(companyId, vacancyId, candidateResumeDTO);
-            return Ok("Candidate resume deleted");
+            await _candidateResumeService.ApplyVacancy(candidateId, companyId, vacancyId, applyVacancyDTO);
+            return Ok("Your application has been received");
+        }
+        [HttpGet("AppliedVacancies")]
+        public async Task<IActionResult> ViewAppliedJobs()
+        {
+           var appliedJobs=await _candidateResumeService.ViewAppliedJobs();
+            return Ok(appliedJobs);
         }
     }
 }

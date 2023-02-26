@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobStream.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230226114529_AllTables")]
-    partial class AllTables
+    [Migration("20230226214414_AllTablesAdded")]
+    partial class AllTablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,32 @@ namespace JobStream.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AboutUs");
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.Applications", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CandidateResumeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VacancyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateResumeId");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
@@ -141,7 +167,6 @@ namespace JobStream.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AboutMe")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AppUserId")
@@ -181,6 +206,9 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePhoto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Sertifications")
                         .HasColumnType("nvarchar(max)");
 
@@ -188,7 +216,6 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WorkExperience")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -632,6 +659,9 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<int>("Salary")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("isApplied")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
@@ -779,6 +809,21 @@ namespace JobStream.DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.Applications", b =>
+                {
+                    b.HasOne("JobStream.Core.Entities.CandidateResume", "CandidateResume")
+                        .WithMany()
+                        .HasForeignKey("CandidateResumeId");
+
+                    b.HasOne("JobStream.Core.Entities.Vacancy", "Vacancy")
+                        .WithMany("Applications")
+                        .HasForeignKey("VacancyId");
+
+                    b.Navigation("CandidateResume");
+
+                    b.Navigation("Vacancy");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Article", b =>
@@ -1011,6 +1056,8 @@ namespace JobStream.DataAccess.Migrations
 
             modelBuilder.Entity("JobStream.Core.Entities.Vacancy", b =>
                 {
+                    b.Navigation("Applications");
+
                     b.Navigation("CandidateResumesAndVacancies");
                 });
 #pragma warning restore 612, 618

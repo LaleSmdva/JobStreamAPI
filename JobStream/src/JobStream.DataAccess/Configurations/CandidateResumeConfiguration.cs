@@ -21,9 +21,9 @@ namespace JobStream.DataAccess.Configurations
             builder.Property(b => b.Fullname).IsRequired(true);
 			builder.HasIndex(b => b.Telephone).IsUnique();
 			builder.Property(b => b.Email).IsRequired(true);
-			builder.Property(b => b.AboutMe).IsRequired(true);
+			//builder.Property(b => b.AboutMe).IsRequired(true);
 			builder.Property(b => b.IsDeleted).HasDefaultValue(false);
-			builder.Property(b => b.WorkExperience).IsRequired(true);
+			//builder.Property(b => b.WorkExperience).IsRequired(true);
 		}
 	}
 }
