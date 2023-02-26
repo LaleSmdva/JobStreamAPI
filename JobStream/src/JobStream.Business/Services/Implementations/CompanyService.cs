@@ -129,26 +129,31 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new FileFormatException("Choose an image type");
             }
-            //var user= await _userManager.FindByEmailAsync(entity.Email);
-            // if(user.Email==entity.Email)
-            // {
-            //     throw new AlreadyExistsException("Company with that email already exists");
-            // }
+            var alreadyExists = _repository.GetAll().Any(n => n.Name == entity.Name);
+            if (alreadyExists) throw new AlreadyExistsException("Company with that name already exists");
 
-            var fileName = await _fileService.CopyFileAsync(entity.Logo, _environment.WebRootPath, "images", "companyLogos");
-            var company = _mapper.Map<Company>(entity);
-            company.Logo = fileName;
-
-            if (entity.Name == company.Name)
-            {
-                throw new AlreadyExistsException("Company with that name already exists");
-            }
             if (entity.CatagoriesId == null) throw new NullReferenceException("Category can not be null");
             foreach (var catId in entity.CatagoriesId)
             {
                 var category = await _categoryRepository.GetByIdAsync(catId);
-                if (category == null) throw new NotFoundException("Not found");
+                if (category == null) throw new NotFoundException("No category found with that id");
             }
+            if (await _userManager.Users.AllAsync(e => e.Email == entity.Email))
+                throw new AlreadyExistsException("There exists user with that email");
+
+            var User = await _userManager.Users.SingleOrDefaultAsync(u => u.Email == entity.Email);
+            if (User is null) throw new NotFoundException($"User with email:{entity.Email} not found");
+
+
+
+            var fileName = await _fileService.CopyFileAsync(entity.Logo, _environment.WebRootPath, "images", "companyLogos");
+
+
+            var company = _mapper.Map<Company>(entity);
+            company.Logo = fileName;
+            company.UserId = User.Id;
+
+
             await _repository.CreateAsync(company);
             await _repository.SaveAsync();
 
@@ -156,6 +161,8 @@ namespace JobStream.Business.Services.Implementations
             List<CompanyAndCategory> companyAndCategoryList = new();
             foreach (var catID in entity.CatagoriesId)
             {
+                if (companyAndCategoryList.Any(i => i.CategoryId == catID))
+                    throw new AlreadyExistsException($"Category id {catID}  already exists in the company");
                 CompanyAndCategory companyAndCategory = new();
                 companyAndCategory.CategoryId = catID;
                 companyAndCategory.CompanyId = company.Id;
@@ -195,27 +202,13 @@ namespace JobStream.Business.Services.Implementations
             //    });
             //}
             //companies.Vacancies = vacancies;
-
-            //////////////////////////////
-            ///
-            //List<CompanyAndCategory> companyAndCategories= new();
-            //foreach (var item in entity.CompanyAndCategories)
-            //{
-            //	companyAndCategories.Add(new()
-            //	{
-            //		CompanyId = companies.Id,
-            //		CategoryId=companies.Id
-            //	});
-            //}
-
-            //companies.CompanyAndCategories= companyAndCategories;
-
         }
 
 
         public async Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
         {
             /// Updating Company
+            Company company=await _repository.GetByIdAsync(id);
             if (!companyPutDTO.Logo.CheckFileFormat("image/"))
             {
                 throw new FileFormatException("Choose an image type");
@@ -224,13 +217,32 @@ namespace JobStream.Business.Services.Implementations
             if (companies == null) throw new NotFoundException($"There is no company with id: {id}");
             if (id != companyPutDTO.Id) throw new BadRequestException($"{companyPutDTO.Id} was not found");
 
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == company.UserId);
+            if (user.Email != companyPutDTO.Email) throw new BadRequestException("Can not change your email address");
+
             ///  Add to  Resume
             //if ((!companyPutDTO.Logo.CheckFileFormat("application/vnd.ms-word/") ) || (!companyPutDTO.Logo.CheckFileFormat("application/pdf/")) )
             //    throw new FileFormatException("Choose one of these file formats(PDF,Microsoft Word).");
             var fileName = await _fileService.CopyFileAsync(companyPutDTO.Logo, _environment.WebRootPath, "images", "companyLogos");
-            var result = _mapper.Map<Company>(companyPutDTO);
-            result.Logo = fileName;
-            _repository.Update(result);
+
+
+            //var result = _mapper.Map<Company>(companyPutDTO);
+            //result.Logo = fileName;
+            company.Name = companyPutDTO.Name;
+            company.AboutCompany = companyPutDTO.AboutCompany;
+            company.Email = companyPutDTO.Email;
+            company.Telephone = companyPutDTO.Telephone;
+            company.Logo = fileName;
+            company.AppUser = user;
+            company.UserId = user.Id;
+            company.EmailForCv = companyPutDTO.EmailForCv;
+            company.NumberOfEmployees = companyPutDTO.NumberOfEmployees;
+            company.IncorporationDate = companyPutDTO.IncorporationDate;
+            //result.UserId = user.Id;
+            //result.AppUser = user;
+
+            _repository.Update(company);
             await _repository.SaveAsync();
 
             // Add Category
@@ -239,7 +251,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 CompanyAndCategory companyAndCategory = new();
                 companyAndCategory.CategoryId = catID;
-                companyAndCategory.CompanyId = result.Id;
+                companyAndCategory.CompanyId = company.Id;
                 companyAndCategoryList.Add(companyAndCategory);
 
             }
@@ -254,7 +266,7 @@ namespace JobStream.Business.Services.Implementations
             foreach (var categoryId in deletedCategoryId)
             {
                 var companyAndCategory = await _companyAndCategoryRepository
-                    .GetByCondition(cac => cac.CategoryId == categoryId && cac.CompanyId == result.Id, true)
+                    .GetByCondition(cac => cac.CategoryId == categoryId && cac.CompanyId == company.Id, true)
                     .FirstOrDefaultAsync();
 
                 if (companyAndCategory != null)

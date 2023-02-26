@@ -49,7 +49,7 @@ namespace JobStream.API.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPut("updateCompanyAndCategories/{id}")]
         public async Task<IActionResult> UpdateCompany(int id, [FromQuery] List<int> addedCategoryId, [FromQuery] List<int> deletedCategoryId, [FromForm] CompanyPutDTO companyPutDTO)
         {
             await _companyService.Update(id, addedCategoryId, deletedCategoryId, companyPutDTO);
