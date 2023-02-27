@@ -22,171 +22,68 @@ namespace JobStream.API.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAllUserAccounts()
         {
-            var accounts=_accountService.GetAllUserAccounts();
+            var accounts = _accountService.GetAllUserAccounts();
             return Ok(accounts);
         }
-
-        
 
         [HttpGet("[action]")]
         public IActionResult GetAllCandidateAccounts()
         {
-            try
-            {
-                var accounts = _accountService.GetAllCandidateAccounts();
-                return Ok(accounts);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
+            var accounts = _accountService.GetAllCandidateAccounts();
+            return Ok(accounts);
         }
 
         [HttpGet("[action]")]
         public IActionResult GetAllCompanyAccounts()
         {
-            try
-            {
-                var accounts = _accountService.GetAllCompanyAccounts();
-                return Ok(accounts);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
+            var accounts = _accountService.GetAllCompanyAccounts();
+            return Ok(accounts);
         }
 
         //[HttpGet("[action]")]
         [HttpGet("candidate/{userName}")]
         public async Task<IActionResult> GetCandidateAccountByUsername(string userName)
         {
-            try
-            {
-                var user = await _accountService.GetCandidateAccountByUsernameAsync(userName);
-                return Ok(user);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var user = await _accountService.GetCandidateAccountByUsernameAsync(userName);
+            return Ok(user);
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> RegisterCandidate(RegisterCandidateDTO candidateDto)
         {
-            try
-            {
-                await _accountService.RegisterCandidate(candidateDto);
-                return Ok("Candidate registered");
-            }
-            catch (DuplicateUserNameException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (DuplicateEmailException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (CreateUserFailedException ex)
-            {
-                return BadRequest(ex.Message);
-                //return StatusCode((int)HttpStatusCode.InternalServerError,ex.Message);
-            }
-            catch (CreateRoleFailedException ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
+            await _accountService.RegisterCandidate(candidateDto);
+            return Ok("Candidate registered");
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetUserRoles()
         {
-            try
-            {
-                var list = await _accountService.GetAllRolesAsync();
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
+            var list = await _accountService.GetAllRolesAsync();
+            return Ok(list);
         }
 
 
         [HttpPost("[action]")]
-        [ValidateRolesModel]
+        //[ValidateRolesModel] ??
         public async Task<IActionResult> CreateRole(string userName, [FromQuery] List<string> roles)
         {
-            try
-            {
-                bool isCreated = await _accountService.CreateRoleAsync(userName, roles);
-                return Ok(isCreated);
-            }
-            catch (Business.Exceptions.ArgumentNullException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (CreateRoleFailedException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            bool isCreated = await _accountService.CreateRoleAsync(userName, roles);
+            return Ok(isCreated);
 
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> UpdateRole(string userName, [FromQuery] List<string> newRoles, [FromQuery] List<string> deletedRoles)
         {
-            try
-            {
-                bool isUpdated = await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
-                return Ok(isUpdated);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            bool isUpdated = await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
+            return Ok(isUpdated);
         }
 
 
         [HttpPost("[action]")]
         public async Task<IActionResult> RegisterCompany(RegisterCompanyDTO companyDto)
         {
-            try
-            {
-                await _accountService.RegisterCompany(companyDto);
-                return Ok("Company registered");
-            }
-            catch (DuplicateUserNameException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (DuplicateEmailException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (CreateUserFailedException ex)
-            {
-                return BadRequest(ex.Message);
-                //return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-            catch (CreateRoleFailedException ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
+            await _accountService.RegisterCompany(companyDto);
+            return Ok("Company registered");
         }
 
         //[HttpPost("[action]")]
@@ -195,8 +92,6 @@ namespace JobStream.API.Controllers
         //	var response=await _accountService.SendConfirmationEmailAsync(mailRequestDTO.ToEmail, link);
         //	return Ok(response);
         //}
-
-
 
     }
 }

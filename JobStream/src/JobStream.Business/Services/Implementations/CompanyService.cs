@@ -128,10 +128,10 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task CreateAsync(CompanyPostDTO entity)
         {
-            if (!entity.Logo.CheckFileFormat("image/"))
-            {
-                throw new FileFormatException("Choose an image type");
-            }
+            //if (!entity.Logo.CheckFileFormat("image/"))
+            //{
+            //    throw new FileFormatException("Choose an image type");
+            //}
             var alreadyExists = _repository.GetAll().Any(n => n.Name == entity.Name);
             if (alreadyExists) throw new AlreadyExistsException("Company with that name already exists");
 
@@ -157,7 +157,7 @@ namespace JobStream.Business.Services.Implementations
             company.UserId = User.Id;
 
 
-            await _repository.CreateAsync(company);
+            _repository.Update(company);
             await _repository.SaveAsync();
 
 
@@ -329,6 +329,17 @@ namespace JobStream.Business.Services.Implementations
             //await _repository.SaveAsync();
         }
 
+
+
+
+
+
+
+
+
+
+
+
         public async Task Delete(int id)
         {
             var companies = _repository.GetAll();
@@ -338,7 +349,7 @@ namespace JobStream.Business.Services.Implementations
             }
             var company = await _repository.GetByIdAsync(id);
             var result = _mapper.Map<Company>(company);
-            result.IsDeleted=true;
+            result.IsDeleted = true;
             //_repository.Delete(result);
             await _repository.SaveAsync();
         }
@@ -355,60 +366,54 @@ namespace JobStream.Business.Services.Implementations
             var category = await _categoryRepository.GetByIdAsync(vacanciesPostDTO.CategoryId);
             var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPostDTO.JobTypeId);
             var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPostDTO.JobScheduleId);
-          
+
 
             var vacancy = _mapper.Map<Vacancy>(vacanciesPostDTO);
             vacancy.Company = company;
             vacancy.JobSchedule = jobSchedule;
             vacancy.JobType = jobType;
             vacancy.Category = category;
-            vacancy.PostedOn=DateTime.Now;
-            vacancy.ClosingDate=DateTime.Now.AddDays(40);
+            vacancy.PostedOn = DateTime.Now;
+            vacancy.ClosingDate = DateTime.Now.AddDays(40);
 
             await _vacanciesRepository.CreateAsync(vacancy);
             await _vacanciesRepository.SaveAsync();
 
 
-
-
-            //var exists = _vacanciesRepository.GetAll().FirstOrDefault(v => v.CompanyId == id);
-            //if (exists is null)
-            //{
-            //    throw new BadRequestException("Bad");
-            //}
-
-            //var company = _repository.GetAll().Include(c => c.Vacancies)
-            //      .FirstOrDefault(c => c.Id == id);
-
-            //if (company == null)
-            //{
-            //    throw new NotFoundException("Company not found");
-            //}
-
-
-            //var vacancy = _vacanciesRepository.GetAll().FirstOrDefault(v => v.Id == vacancyId);
-
-            //if (vacancy == null)
-            //{
-            //    throw new NotFoundException("Vacancy not found");
-            //}
-
-            //company.Vacancies.Remove(vacancy);
-            //_context.SaveChanges();
         }
+
+
+
+        public async Task UpdateVacancy(int id, VacanciesPutDTO vacanciesPutDTO)
+        {
+            var company = await _repository.GetAll().FirstOrDefaultAsync(c => c.Id == id);
+            if (company == null)
+            {
+                throw new NotFoundException("No company found");
+            }
+
+            var category = await _categoryRepository.GetByIdAsync(vacanciesPutDTO.CategoryId);
+            var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPutDTO.JobTypeId);
+            var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPutDTO.JobScheduleId);
+
+
+            var vacancy = _mapper.Map<Vacancy>(vacanciesPutDTO);
+            vacancy.Company = company;
+            vacancy.JobSchedule = jobSchedule;
+            vacancy.JobType = jobType;
+            vacancy.Category = category;
+            vacancy.PostedOn = DateTime.Now;
+            vacancy.ClosingDate = DateTime.Now.AddDays(40);
+
+             _vacanciesRepository.Update(vacancy);
+            await _vacanciesRepository.SaveAsync();
+        }
+
 
         public async Task DeleteVacancy(int id, int vacancyId)
         {
-            //var companies = _repository.GetAll();
-            //if (companies.All(x => x.Id != id))
-            //{
-            //    throw new NotFoundException("Not Found");
-            //}
 
-            //var company = await _repository.GetByIdAsync(id);
-            //var result = _mapper.Map<Company>(company);
-            //_repository.Delete(result);
-            //await _repository.SaveAsync();
+
             var exists = _vacanciesRepository.GetAll().FirstOrDefault(v => v.CompanyId == id);
             if (exists is null)
             {
@@ -482,5 +487,6 @@ namespace JobStream.Business.Services.Implementations
 
             });
         }
+
     }
 }

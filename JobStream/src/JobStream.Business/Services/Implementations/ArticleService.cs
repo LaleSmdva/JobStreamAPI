@@ -72,10 +72,19 @@ public class ArticleService : IArticleService
 
     public async Task CreateArticleAsync(ArticlePostDTO entity)
     {
+        if (entity == null)
+        {
+            throw new NullReferenceException("Article can't be null");
+        }
+        if (await _articleRepository.GetAll().AllAsync(r => r.Id != entity.RubricForArticlesId)) throw new NotFoundException("There is no rubric with that id");
+
+        var fileName = await _fileService.CopyFileAsync(entity.Image, _environment.WebRootPath, "images", "Articles");
+
         if (entity == null) throw new NullReferenceException("Article can't ne null");
-        var article = _mapper.Map<Article>(entity);
-        article.PostedOn = DateTime.Now;
-        await _articleRepository.CreateAsync(article);
+        var articles = _mapper.Map<Article>(entity);
+        articles.PostedOn = DateTime.Now;
+        articles.Image = fileName;
+        await _articleRepository.CreateAsync(articles);
         await _articleRepository.SaveAsync();
     }
 
@@ -85,8 +94,9 @@ public class ArticleService : IArticleService
         var articles = _articleRepository.GetByCondition(a => a.Id == article.Id, false);
         if (articles == null) throw new NotFoundException($"There is no article with id: {id}");
         if (id != article.Id) throw new BadRequestException($"{article.Id} was not found");
-
+        var fileName = await _fileService.CopyFileAsync(article.Image, _environment.WebRootPath, "images", "Articles");
         var result = _mapper.Map<Article>(article);
+        result.Image = fileName;
         _articleRepository.Update(result);
         await _articleRepository.SaveAsync();
     }
@@ -99,6 +109,7 @@ public class ArticleService : IArticleService
             throw new NotFoundException("Not Found");
         }
         var article = await _articleRepository.GetByIdAsync(id);
+        await _fileService.DeleteFileAsync(article.Image, _environment.WebRootPath, "images", "Articles");
         _articleRepository.Delete(article);
         await _articleRepository.SaveAsync();
 

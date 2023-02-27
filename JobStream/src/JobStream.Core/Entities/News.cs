@@ -18,5 +18,6 @@ namespace JobStream.Core.Entities
 		public DateTime? PostedOn { get; set; }
 		public int RubricForNewsId { get; set; }
 		public RubricForNews RubricForNews { get; }
-	}
+        public string? Image { get; set; }
+    }
 }

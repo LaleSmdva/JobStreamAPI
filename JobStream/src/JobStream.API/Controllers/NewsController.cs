@@ -53,7 +53,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(NewsPostDTO entity)
+        public async Task<IActionResult> CreateAsync([FromForm]NewsPostDTO entity)
         {
             await _newsService.CreateNewsAsync(entity);
             return Ok("News created");
@@ -61,7 +61,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, NewsPutDTO news)
+        public async Task<IActionResult> Update(int id, [FromForm] NewsPutDTO news)
         {
             await _newsService.UpdateNewsAsync(id, news);
             return Ok("Successfully updated");

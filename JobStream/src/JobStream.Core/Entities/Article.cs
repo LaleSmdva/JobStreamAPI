@@ -1,4 +1,5 @@
 ﻿using JobStream.Core.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,5 +17,6 @@ namespace JobStream.Core.Entities
 		public DateTime? PostedOn { get; set; }
 		public int RubricForArticlesId { get; set; }
 		public RubricForArticles RubricForArticles { get; }
-	}
+        public string? Image { get; set; }
+    }
 }

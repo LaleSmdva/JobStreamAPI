@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobStream.API.Controllers
@@ -7,5 +8,11 @@ namespace JobStream.API.Controllers
 	[ApiController]
 	public class SendMessagesController : ControllerBase
 	{
-	}
+		private readonly ISendMessageService _sendMessageService;
+
+        public SendMessagesController(ISendMessageService sendMessageService)
+        {
+            _sendMessageService = sendMessageService;
+        }
+    }
 }

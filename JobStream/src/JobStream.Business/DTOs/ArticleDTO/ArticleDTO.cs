@@ -1,4 +1,5 @@
 ﻿using JobStream.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ public class ArticleDTO
 	public string? Description { get; set; }
 	public DateTime? PostedOn { get; set; }
 	public int RubricForArticlesId { get; set; }
-	//public RubricForArticles RubricForArticles { get; }
+    //public RubricForArticles RubricForArticles { get; }
+    public IFormFile? Image { get; set; }
 }

@@ -1,11 +1,6 @@
 ﻿using JobStream.Business.DTOs.JobScheduleDTO;
-using JobStream.Business.DTOs.VacanciesDTO;
-using JobStream.Business.Exceptions;
-using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace JobStream.API.Controllers
 {
@@ -23,87 +18,40 @@ namespace JobStream.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllJobSchedulesAsync()
         {
-            try
-            {
-                var jobSchedules = await _jobScheduleService.GetAllJobSchedulesAsync();
-                return Ok(jobSchedules);
-            }
-            catch (Exception)
-            {
-
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            var jobSchedules = await _jobScheduleService.GetAllJobSchedulesAsync();
+            return Ok(jobSchedules);
         }
 
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetJobScheduleByIdAsync(int id)
         {
-            try
-            {
-                var article = await _jobScheduleService.GetJobScheduleByIdAsync(id);
-                return Ok(article);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            var jobSchedule = await _jobScheduleService.GetJobScheduleByIdAsync(id);
+            return Ok(jobSchedule);
         }
-
-        [HttpGet("GetAllVacancies")]
+        [HttpGet("GetAllVacancies/{id}")]
         public async Task<IActionResult> GetAllVacanciesByJobScheduleIdAsync(int id)
         {
-            try
-            {
-                var vacancies =await _jobScheduleService.GetAllVacanciesByJobScheduleIdAsync(id);
-                return Ok(vacancies);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var vacancies = await _jobScheduleService.GetAllVacanciesByJobScheduleIdAsync(id);
+            return Ok(vacancies);
         }
-   
-
         [HttpPost]
         public async Task<IActionResult> CreateJobScheduleAsync(JobSchedulePostDTO entity)
         {
-            try
-            {
-                await _jobScheduleService.CreateJobScheduleAsync(entity);
-                return Ok("Article created");
-            }
-            catch (NullReferenceException ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            await _jobScheduleService.CreateJobScheduleAsync(entity);
+            return Ok("Job schedule created");
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult>  UpdateJobScheduleAsync(int id, JobSchedulePutDTO jobSchedulePutDTO)
+        public async Task<IActionResult> UpdateJobScheduleAsync(int id, JobSchedulePutDTO jobSchedulePutDTO)
         {
-            try
-            {
-                await _jobScheduleService.UpdateJobScheduleAsync(id, jobSchedulePutDTO);
-                return Ok("Successfully updated");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _jobScheduleService.UpdateJobScheduleAsync(id, jobSchedulePutDTO);
+            return Ok("Successfully updated");
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult>  DeleteJobScheduleAsync(int id)
+        public async Task<IActionResult> DeleteJobScheduleAsync(int id)
         {
-            try
-            {
-                await _jobScheduleService.DeleteJobScheduleAsync(id);
-                return Ok("Article deleted");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _jobScheduleService.DeleteJobScheduleAsync(id);
+            return Ok("Job schedule deleted");
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Core.Entities
 {
-	public class Company : IEntity
+	public class Company :IEntity
 	{
 		public int Id { get; set; }
 		public string? Name { get; set; }

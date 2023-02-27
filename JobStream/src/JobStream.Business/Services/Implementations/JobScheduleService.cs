@@ -32,6 +32,7 @@ public class JobScheduleService : IJobScheduleService
     {
         var jobSchedules = await _repository.GetAll()
             .Include(v => v.Vacancies).ToListAsync();
+        if (!jobSchedules.Any()) throw new NotFoundException("No job schedule was found");
         var result = _mapper.Map<List<JobScheduleDTO>>(jobSchedules);
         return result;
     }
@@ -47,11 +48,17 @@ public class JobScheduleService : IJobScheduleService
 
     public async Task<List<VacanciesDTO>> GetAllVacanciesByJobScheduleIdAsync(int id)
     {
-        var jobSchedule = await _repository.GetByIdAsync(id); 
-        if (jobSchedule == null) throw new NotFoundException("Not found");
+        var jobSchedule = await _repository.GetAll().SingleOrDefaultAsync(js => js.Id == id);
+        if (jobSchedule == null)
+            throw new NotFoundException($"JobSchedule with ID {id} not found");
 
-        var vacancies = _vacanciesRepository.GetAll().Where(x => x.JobScheduleId == id);
-        if (vacancies == null || vacancies.Count() == 0) throw new NotFoundException("Vacancy not found");
+        var vacancies = await _vacanciesRepository.GetAll()
+            .Where(v => v.JobScheduleId == id)
+            .ToListAsync();
+
+        if (vacancies.Count == 0)
+            throw new NotFoundException($"No vacancies found for JobSchedule with ID {id}");
+
         var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
         return result;
     }
@@ -60,6 +67,8 @@ public class JobScheduleService : IJobScheduleService
     public async Task CreateJobScheduleAsync(JobSchedulePostDTO entity)
     {
         if (entity == null) throw new NullReferenceException("Schedule name can't ne null");
+        if (await _repository.GetAll().AnyAsync(j => j.Schedule == entity.Schedule))
+            throw new AlreadyExistsException("Job schedule with that name already exists");
         var jobSchedule = _mapper.Map<JobSchedule>(entity);
         await _repository.CreateAsync(jobSchedule);
         await _repository.SaveAsync();
@@ -67,9 +76,10 @@ public class JobScheduleService : IJobScheduleService
 
     public async Task UpdateJobScheduleAsync(int id, JobSchedulePutDTO jobSchedulePutDTO)
     {
-        var schedules = _repository.GetByCondition(a => a.Id == jobSchedulePutDTO.Id, false);
-        if (schedules == null) throw new NotFoundException("There is no article with id: ");
-        if (id != jobSchedulePutDTO.Id) throw new BadRequestException($"{jobSchedulePutDTO.Id} was not found");
+        if (id != jobSchedulePutDTO.Id)
+            throw new BadRequestException($"{jobSchedulePutDTO.Id} was not found");
+        var schedule = _repository.GetAll().FirstOrDefault(a => a.Id == jobSchedulePutDTO.Id);
+        if (schedule == null) throw new NotFoundException("There is no schedule with that id ");
 
         var result = _mapper.Map<JobSchedule>(jobSchedulePutDTO);
         _repository.Update(result);
@@ -78,13 +88,8 @@ public class JobScheduleService : IJobScheduleService
 
     public async Task DeleteJobScheduleAsync(int id)
     {
-        var schedules = _repository.GetAll().ToList();
-
-        if (schedules.All(x => x.Id != id))
-        {
-            throw new NotFoundException("Not Found");
-        }
         var schedule = await _repository.GetByIdAsync(id);
+        if(schedule == null) throw new NotFoundException("Not Found");
         _repository.Delete(schedule);
         await _repository.SaveAsync();
     }

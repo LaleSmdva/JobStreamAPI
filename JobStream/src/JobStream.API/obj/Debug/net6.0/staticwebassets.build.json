@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "moNv1uHsE+J/5mqPGFfoXx3sZfY4vKS4v/i4aGmGNfk=",
+  "Hash": "v2QPM6GmIMj4LuWXZcH/7dapDNhhhL2c0n+gV0vLXEY=",
   "Source": "JobStream.API",
   "BasePath": "_content/JobStream.API",
   "Mode": "Default",
@@ -34,6 +34,40 @@
       "OriginalItemSpec": "wwwroot\\images\\AboutUs\\c926e644-50aa-4985-8e56-67f75c0528df636762fb-0bf0-4742-a1ff-897f5bf793f91-1-570x633.jpg"
     },
     {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Articles\\93157e31-0604-4a47-9edb-7077e75dd0daImage_created_with_a_mobile_phone.png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/Articles/93157e31-0604-4a47-9edb-7077e75dd0daImage_created_with_a_mobile_phone.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Articles\\93157e31-0604-4a47-9edb-7077e75dd0daImage_created_with_a_mobile_phone.png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Articles\\98d500c7-28bc-4773-95d3-885a548a110eImage_created_with_a_mobile_phone.png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/Articles/98d500c7-28bc-4773-95d3-885a548a110eImage_created_with_a_mobile_phone.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Articles\\98d500c7-28bc-4773-95d3-885a548a110eImage_created_with_a_mobile_phone.png"
+    },
+    {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png",
       "SourceId": "JobStream.API",
       "SourceType": "Discovered",
@@ -49,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\0029b0de-a1d0-4201-86ef-8c8478cbd3a7Screenshot (15).png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\128c54c6-20c9-453d-ad1a-e614a861f8deImage_created_with_a_mobile_phone.png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/128c54c6-20c9-453d-ad1a-e614a861f8deImage_created_with_a_mobile_phone.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\128c54c6-20c9-453d-ad1a-e614a861f8deImage_created_with_a_mobile_phone.png"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\13b0c0d5-6221-4072-aee7-37fb9bc6a9e7Semedzade Lale CV.pdf",
@@ -714,6 +765,23 @@
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\a12fcb28-065c-4cf0-bb7d-83dbfe6ed44fSemedzade Lale CV.pdf"
     },
     {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\a8091724-1a58-41b1-88dc-fde32592708bImage_created_with_a_mobile_phone.png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/a8091724-1a58-41b1-88dc-fde32592708bImage_created_with_a_mobile_phone.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\a8091724-1a58-41b1-88dc-fde32592708bImage_created_with_a_mobile_phone.png"
+    },
+    {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\ab73510b-e7fd-4be4-9b54-fa45dce10fc8Screenshot (14).png",
       "SourceId": "JobStream.API",
       "SourceType": "Discovered",
@@ -763,6 +831,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\b132812c-6385-4153-87c7-4174401e2907Screenshot (13).png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\b3e9d2e3-9d35-43a6-bcb5-6defd6d13044Image_created_with_a_mobile_phone.png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/b3e9d2e3-9d35-43a6-bcb5-6defd6d13044Image_created_with_a_mobile_phone.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\b3e9d2e3-9d35-43a6-bcb5-6defd6d13044Image_created_with_a_mobile_phone.png"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\b443691f-20f9-4219-9f2a-40be95c99e0bScreenshot (11).png",
@@ -865,6 +950,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\d9eab83c-22aa-4b21-a06c-3531483bfcdaImage_created_with_a_mobile_phone.png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\ddc0352c-5834-46e4-afa6-c4242297b1fdScreenshot (10).png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/ddc0352c-5834-46e4-afa6-c4242297b1fdScreenshot (10).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\ddc0352c-5834-46e4-afa6-c4242297b1fdScreenshot (10).png"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\e0457d92-4089-4b70-b8cf-b4845769a893Image_created_with_a_mobile_phone.png",
@@ -984,6 +1086,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\companyLogos\\f0ee549f-f806-4b49-b1c2-2ef2de0289c9Image_created_with_a_mobile_phone.png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\f748abe5-7462-40c7-9b22-5e4b580b48d4Screenshot (10).png",
+      "SourceId": "JobStream.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\",
+      "BasePath": "_content/JobStream.API",
+      "RelativePath": "images/companyLogos/f748abe5-7462-40c7-9b22-5e4b580b48d4Screenshot (10).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\companyLogos\\f748abe5-7462-40c7-9b22-5e4b580b48d4Screenshot (10).png"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\companyLogos\\f7be024e-69c9-46c0-a855-b6efcf0b42c9Image_created_with_a_mobile_phone.png",

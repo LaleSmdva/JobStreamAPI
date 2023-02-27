@@ -5,6 +5,7 @@ using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
+using JobStream.Core.Interfaces;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
-    public class NewsService:INewsService
+    public class NewsService : INewsService
     {
         private readonly INewsRepository _newsRepository;
         private readonly IMapper _mapper;
@@ -71,9 +72,18 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task CreateNewsAsync(NewsPostDTO entity)
         {
+            if (entity == null)
+            {
+                throw new NullReferenceException("News can't be null");
+            }
+            if (await _rubricForNewsRepository.GetAll().AllAsync(r => r.Id != entity.RubricForNewsId)) throw new NotFoundException("There is no rubric with that id");
+    
+            var fileName = await _fileService.CopyFileAsync(entity.Image, _environment.WebRootPath, "images", "News");
+        
             if (entity == null) throw new NullReferenceException("News can't ne null");
             var news = _mapper.Map<News>(entity);
             news.PostedOn = DateTime.Now;
+            news.Image = fileName;
             await _newsRepository.CreateAsync(news);
             await _newsRepository.SaveAsync();
         }
@@ -81,11 +91,17 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateNewsAsync(int id, NewsPutDTO news)
         {
+            if (news == null)
+            {
+                throw new NullReferenceException("News can't be null");
+            }
             var articles = _newsRepository.GetByCondition(a => a.Id == news.Id, false);
             if (articles == null) throw new NotFoundException($"There is no news with id: {id}");
             if (id != news.Id) throw new BadRequestException($"{news.Id} was not found");
 
+            var fileName = await _fileService.CopyFileAsync(news.Image, _environment.WebRootPath, "images", "News");
             var result = _mapper.Map<News>(news);
+            result.Image = fileName;
             _newsRepository.Update(result);
             await _newsRepository.SaveAsync();
         }
@@ -98,6 +114,7 @@ namespace JobStream.Business.Services.Implementations
                 throw new NotFoundException("Not Found");
             }
             var deletedNews = await _newsRepository.GetByIdAsync(id);
+            await _fileService.DeleteFileAsync(deletedNews.Image, _environment.WebRootPath, "images", "News");
             _newsRepository.Delete(deletedNews);
             await _newsRepository.SaveAsync();
 

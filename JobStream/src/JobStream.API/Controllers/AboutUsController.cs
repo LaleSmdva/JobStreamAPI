@@ -19,19 +19,19 @@ namespace JobStream.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result=await _aboutUsService.GetAboutUsAsync();
+            var result = await _aboutUsService.GetAboutUsAsync();
             return Ok(result);
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> Post([FromForm] AboutUsPostDTO aboutUsPostDTO)
         {
-             await _aboutUsService.CreateAboutUsAsync(aboutUsPostDTO);
+            await _aboutUsService.CreateAboutUsAsync(aboutUsPostDTO);
             return Ok("About us created");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id,[FromForm] AboutUsPutDTO aboutUs)
+        public async Task<IActionResult> Put(int id, [FromForm] AboutUsPutDTO aboutUs)
         {
             await _aboutUsService.UpdateAboutUsAsync(id, aboutUs);
             return Ok("About us updated");
