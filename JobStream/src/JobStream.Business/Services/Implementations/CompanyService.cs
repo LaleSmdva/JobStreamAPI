@@ -45,9 +45,10 @@ namespace JobStream.Business.Services.Implementations
         private readonly IJobScheduleRepository _jobScheduleRepository;
         private readonly ICandidateResumeRepository _candidateResumeRepository;
         private readonly IMailService _mailService;
+        private readonly IApplicationRepository _applicationRepository;
 
 
-        public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository, ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, AppDbContext context, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository, ICandidateResumeRepository candidateResumeRepository, IMailService mailService)
+        public CompanyService(ICompanyRepository repository, IMapper mapper, IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository, ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, AppDbContext context, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository, ICandidateResumeRepository candidateResumeRepository, IMailService mailService, IApplicationRepository applicationRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -62,6 +63,7 @@ namespace JobStream.Business.Services.Implementations
             _jobScheduleRepository = jobScheduleRepository;
             _candidateResumeRepository = candidateResumeRepository;
             _mailService = mailService;
+            _applicationRepository = applicationRepository;
         }
 
 
@@ -385,19 +387,6 @@ namespace JobStream.Business.Services.Implementations
         //await _repository.SaveAsync();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         public async Task DeleteCompany(int id)
         {
             var companies = _repository.GetAll();
@@ -499,23 +488,25 @@ namespace JobStream.Business.Services.Implementations
             _context.SaveChanges();
         }
 
-        public async Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation)
+        public async Task InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation)
         {
-            Company company = await _repository.GetByIdAsync(companyId);
-            if (company == null) throw new NotFoundException($"There is no company with id: {companyId}");
             Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
             if (vacancy == null) throw new NotFoundException($"There is no vacancy with id: {vacancyId}");
             CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
             if (candidate == null) throw new NotFoundException($"There is no candidate with id: {candidateId}");
+
+            Applications application = _applicationRepository.GetAll().SingleOrDefault(x => x.VacancyId == vacancyId);
+
+            if (application == null) throw new NotFoundException("There is no application for this vacancy");
+            if (application.IsAccepted == true) throw new RepeatedChoiceException("You already rejected this candidate");
+            if (application.CandidateResumeId != candidateId) throw new NotFoundException("No application found from candidate");
+            if (application.VacancyId != vacancyId) throw new NotFoundException($"No application for vacancy {vacancyId}");
 
             var result = _mapper.Map<Invitation>(invitation);
             result.InterviewDate = invitation.InterviewDate;
             result.InterviewLocation = invitation.InterviewLocation;
             result.Message = invitation.Message;
 
-
-            //result.Company = company;
-            //result.Vacancy = vacancy;
             await _repository.SaveAsync();
 
             await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
@@ -528,14 +519,27 @@ namespace JobStream.Business.Services.Implementations
 
             });
 
+            application.IsAccepted = true;
+            application.CandidateResume = candidate;
+            application.Vacancy = vacancy;
+            application.CandidateResumeId = candidateId;
+            application.VacancyId = vacancyId;
+
+            _applicationRepository.Update(application);
+            await _applicationRepository.SaveAsync();
+
         }
 
-        public async Task RejectCandidate(int companyId, int vacancyId, int candidateId)
+        public async Task RejectCandidate(int vacancyId, int candidateId)
         {
-            Company company = await _repository.GetByIdAsync(companyId);
             Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
             CandidateResume candidate = await _candidateResumeRepository.GetByIdAsync(candidateId);
+            Applications application = _applicationRepository.GetAll().SingleOrDefault(x => x.VacancyId == vacancyId);
 
+            if (application == null) throw new NotFoundException("There is no application for this vacancy");
+            if (application.IsAccepted == false) throw new RepeatedChoiceException("You already rejected this candidate");
+            if (application.CandidateResumeId != candidateId) throw new NotFoundException("No application found from candidate");
+            if (application.VacancyId != vacancyId) throw new NotFoundException($"No application for vacancy {vacancyId}");
 
             await _repository.SaveAsync();
 
@@ -543,10 +547,20 @@ namespace JobStream.Business.Services.Implementations
             {
                 ToEmail = candidate.Email,
                 Subject = $"Update on your {vacancy.Name} application ",
-                Body = $"Dear {candidate.Fullname}.Thank you for your interest in the {vacancy.Name} position at {company.Name}" +
-                $". After careful consideration, we have decided not to move forward with your application.Regards{company.Name}"
+                Body = $"Dear {candidate.Fullname}.Thank you for your interest in the {vacancy.Name} position at" +
+                $". After careful consideration, we have decided not to move forward with your application."
 
             });
+
+            application.IsAccepted = false;
+            application.CandidateResume = candidate;
+            application.Vacancy = vacancy;
+            application.CandidateResumeId = candidateId;
+            application.VacancyId = vacancyId;
+
+            _applicationRepository.Update(application);
+            await _applicationRepository.SaveAsync();
+
         }
 
     }

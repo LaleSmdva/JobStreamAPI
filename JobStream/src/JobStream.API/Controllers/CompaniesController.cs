@@ -83,17 +83,17 @@ namespace JobStream.API.Controllers
             await _companyService.DeleteVacancy(id, vacancyId);
             return Ok("Successfully deleted vacancy");
         }
-        [HttpPost("[action]/{companyId}/{vacancyId}/{candidateId}")]
-        public async Task<IActionResult> InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation)
+        [HttpPost("[action]/{vacancyId}/{candidateId}")]
+        public async Task<IActionResult> InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation)
         {
-            await _companyService.InviteCandidateToInterview(companyId, vacancyId, candidateId, invitation);
+            await _companyService.InviteCandidateToInterview(vacancyId, candidateId, invitation);
             return Ok("Invitation sent successfully");
         }
 
-        [HttpPost("[action]/{companyId}/{vacancyId}/{candidateId}")]
-        public async Task<IActionResult> RejectCandidate(int companyId, int vacancyId, int candidateId)
+        [HttpPost("[action]/{vacancyId}/{candidateId}")]
+        public async Task<IActionResult> RejectCandidate(int vacancyId, int candidateId)
         {
-            await _companyService.RejectCandidate(companyId, vacancyId, candidateId);
+            await _companyService.RejectCandidate(vacancyId, candidateId);
             return Ok("Candidate rejected");
         }
     }

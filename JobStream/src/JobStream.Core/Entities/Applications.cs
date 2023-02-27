@@ -15,6 +15,7 @@ namespace JobStream.Core.Entities
         public Vacancy? Vacancy { get; set; }
         public int? CandidateResumeId { get; set; }
         public CandidateResume? CandidateResume { get; set; }
+        public bool? IsAccepted { get; set; }
 
     }
 }

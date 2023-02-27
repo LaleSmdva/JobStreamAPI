@@ -11,18 +11,16 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Interfaces
 {
-	public interface IVacanciesService
-	{
-		//Task<string> ApplyVacancy(VacanciesDTO vacancyId, CandidateResume candidateResume);
-
-		List<VacanciesDTO> GetAll();
-		Task<VacanciesDTO> GetVacancyByIdAsync(int id);
-		List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression);
-		Task CreateVacancyAsync(VacanciesPostDTO entity);
-		Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
-		Task DeleteVacancyAsync(int id);
-		 IEnumerable<Vacancy> GetExpiredVacancies();
-		Task VacancyCleanUp();
+    public interface IVacanciesService
+    {
+        List<VacanciesDTO> GetAll();
+        Task<VacanciesDTO> GetVacancyByIdAsync(int id);
+        List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression);
+        Task CreateVacancyAsync(VacanciesPostDTO entity);
+        Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
+        Task DeleteVacancyAsync(int id);
+        IEnumerable<Vacancy> GetExpiredVacancies();
+        Task VacancyCleanUp();
 
     }
 }

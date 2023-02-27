@@ -42,28 +42,6 @@ namespace JobStream.Business.Services.Implementations
             _jobScheduleRepository = jobScheduleRepository;
         }
 
-
-        ///
-
-
-
-        public async Task<string> ApplyVacancy(VacanciesDTO vacancy, CandidateResume candidateResume)
-        {
-            if (vacancy == null) throw new NotFoundException("Vacancy not found");
-            if (candidateResume == null) throw new NotFoundException("Resume not found");
-            //if (vacancyId <= 0) throw new BadRequestException("Invalid vacancy ID.");
-
-            var vac = await _vacanciesRepository.GetByIdAsync(vacancy.Id);
-
-            var application = new CandidateResume()
-            {
-                CV = candidateResume.CV
-            };
-
-            //_vacanciesRepository.CreateAsync(application);
-
-            return "Ok";
-        }
         public List<VacanciesDTO> GetAll()
         {
             var vacancies = _vacanciesRepository.GetAll()

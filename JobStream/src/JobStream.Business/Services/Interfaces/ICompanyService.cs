@@ -25,7 +25,7 @@ namespace JobStream.Business.Services.Interfaces
         Task UpdateVacancy(int id, VacanciesPutDTO vacanciesPutDTO);
         Task DeleteVacancy(int id, int vacancyId);
         //Update vacancy qaldi
-        Task InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation);
-        Task RejectCandidate(int companyId, int vacancyId, int candidateId);
+        Task InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation);
+        Task RejectCandidate(int vacancyId, int candidateId);
     }
 }
