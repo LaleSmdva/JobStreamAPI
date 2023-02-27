@@ -22,52 +22,52 @@ namespace JobStream.API.Controllers
             _companyService = companyService;
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCompanies()
         {
             var companies = await _companyService.GetAllAsync();
             return Ok(companies);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("Company/{id}")]
         public async Task<IActionResult> GetCompanyById(int id)
         {
             var companies = await _companyService.GetByIdAsync(id);
             return Ok(companies);
         }
-        [HttpGet("[action]")]
+        [HttpGet("Company/{companyName}")]
         public IActionResult GetCompanyByName(string companyName)
         {
             var companies = _companyService.GetCompaniesByName(companyName);
             return Ok(companies);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> AddCompany([FromForm] CompanyPostDTO company)
-        {
-            await _companyService.CreateAsync(company);
-            return Ok("Successfully created");
-        }
+        //[HttpPost("create")]
+        //public async Task<IActionResult> AddCompany([FromForm] CompanyPostDTO company)
+        //{
+        //    await _companyService.CreateAsync(company);
+        //    return Ok("Successfully created");
+        //}
 
 
-        [HttpPut("updateCompanyAndCategories/{id}")]
-        public async Task<IActionResult> UpdateCompany(int id, [FromQuery] List<int> addedCategoryId, [FromQuery] List<int> deletedCategoryId, [FromForm] CompanyPutDTO companyPutDTO)
+        [HttpPut("UpdateCompanyAccount/{id}")]
+        public async Task<IActionResult> UpdateCompany(string id, [FromQuery] List<int> addedCategoryId, [FromQuery] List<int> deletedCategoryId, [FromForm] CompanyPutDTO companyPutDTO)
         {
-            await _companyService.Update(id, addedCategoryId, deletedCategoryId, companyPutDTO);
+            await _companyService.UpdateCompanyAccount(id, addedCategoryId, deletedCategoryId, companyPutDTO);
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("DeleteAccount/{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            await _companyService.Delete(id);
+            await _companyService.DeleteCompany(id);
             return Ok("Successfully deleted");
         }
 
         [HttpPost("[action]/{id}")]
         public async Task<IActionResult> AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO)
         {
-            await _companyService.AddVacancy(id, vacanciesPostDTO);
+            await _companyService.AddVacancyToCompany(id, vacanciesPostDTO);
             return Ok("Successfully added vacancy");
 
         }
@@ -83,14 +83,14 @@ namespace JobStream.API.Controllers
             await _companyService.DeleteVacancy(id, vacancyId);
             return Ok("Successfully deleted vacancy");
         }
-        [HttpPost("{companyId}/{vacancyId}/{candidateId}/[action]")]
+        [HttpPost("[action]/{companyId}/{vacancyId}/{candidateId}")]
         public async Task<IActionResult> InviteCandidateToInterview(int companyId, int vacancyId, int candidateId, InvitationPostDTO invitation)
         {
             await _companyService.InviteCandidateToInterview(companyId, vacancyId, candidateId, invitation);
             return Ok("Invitation sent successfully");
         }
 
-        [HttpPost("{companyId}/{vacancyId}/{candidateId}/[action]")]
+        [HttpPost("[action]/{companyId}/{vacancyId}/{candidateId}")]
         public async Task<IActionResult> RejectCandidate(int companyId, int vacancyId, int candidateId)
         {
             await _companyService.RejectCandidate(companyId, vacancyId, candidateId);

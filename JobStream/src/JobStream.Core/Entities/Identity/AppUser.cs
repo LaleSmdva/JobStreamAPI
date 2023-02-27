@@ -18,6 +18,7 @@ namespace JobStream.Core.Entities.Identity
 		public CandidateResume? CandidateResume { get; set; }
 		//new 26
 		public Company? Company { get; set; }
+		public bool? IsDeleted { get; set; }
 		//public int? CandidateResumeId { get; set; }
 	}
 }

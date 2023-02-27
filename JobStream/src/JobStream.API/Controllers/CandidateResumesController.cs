@@ -50,7 +50,7 @@ namespace JobStream.API.Controllers
 
         //}
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, CandidateResumePutDTO resume)
+        public async Task<IActionResult> Update(int id,[FromForm] CandidateResumePutDTO resume)
         {
             await _candidateResumeService.UpdateCandidateResumeAsync(id, resume);
             return Ok("Successfully updated");
@@ -70,9 +70,9 @@ namespace JobStream.API.Controllers
             return Ok("Your application has been received");
         }
         [HttpGet("AppliedVacancies")]
-        public async Task<IActionResult> ViewAppliedJobs()
+        public async Task<IActionResult> ViewAppliedJobs(int candidateId)
         {
-           var appliedJobs=await _candidateResumeService.ViewAppliedJobs();
+           var appliedJobs=await _candidateResumeService.ViewAppliedJobs(candidateId);
             return Ok(appliedJobs);
         }
     }

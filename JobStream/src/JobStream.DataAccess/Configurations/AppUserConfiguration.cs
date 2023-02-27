@@ -19,6 +19,7 @@ namespace JobStream.DataAccess.Configurations
 
             builder.HasOne(b => b.Company).WithOne(c => c.AppUser)
                 .HasForeignKey<Company>(s => s.UserId);
+            builder.Property(b => b.IsDeleted).HasDefaultValue(false);
 
         }
     }

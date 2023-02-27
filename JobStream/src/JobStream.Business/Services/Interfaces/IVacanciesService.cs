@@ -17,7 +17,7 @@ namespace JobStream.Business.Services.Interfaces
 
 		List<VacanciesDTO> GetAll();
 		Task<VacanciesDTO> GetVacancyByIdAsync(int id);
-		List<VacanciesDTO> GetVacancyByCategory(Expression<Func<Vacancy, bool>> expression);
+		List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression);
 		Task CreateVacancyAsync(VacanciesPostDTO entity);
 		Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
 		Task DeleteVacancyAsync(int id);

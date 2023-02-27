@@ -109,6 +109,7 @@ builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<ICandidateEducationRepository, CandidateEducationRepository>();
 builder.Services.AddScoped<ICandidateResumeAndVacancyRepository, CandidateResumeAndVacancyRepository>();
 builder.Services.AddScoped<ICategoryFieldRepository, CategoryFieldRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
@@ -130,6 +131,7 @@ builder.Services.AddScoped<ICandidateResumeService, CandidateResumeService>();
 builder.Services.AddScoped<IAboutUsService, AboutUsService>();
 builder.Services.AddScoped<ICandidateEducationService, CandidateEducationService>();
 builder.Services.AddScoped<ICategoryFieldService, CategoryFieldService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
 
 

@@ -24,6 +24,7 @@ namespace JobStream.DataAccess.Configurations
 			builder.Property(v => v.Requirements).IsRequired(true);
 			builder.Property(v => v.Description).IsRequired(true);
 			builder.Property(v => v.ExperienceLevel).IsRequired(true);
+			builder.Property(v => v.isDeleted).HasDefaultValue(false);
 
 		}
 	}

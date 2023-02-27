@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobStream.Business.DTOs.ApplicationsDTO;
 using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
@@ -38,9 +39,10 @@ namespace JobStream.Business.Services.Implementations
         private readonly ICompanyRepository _companyRepository;
         private readonly IVacanciesRepository _vacanciesRepository;
         private readonly ICandidateResumeAndVacancyRepository _candidateResumeAndVacancy;
+        private readonly IApplicationRepository _applicationRepository;
 
 
-        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env, ICandidateEducationRepository candidateEducationRepository, ICompanyRepository companyRepository, IVacanciesRepository vacanciesRepository, ICandidateResumeAndVacancyRepository candidateResumeAndVacancy)
+        public CandidateResumeService(ICandidateResumeRepository candidateResumeRepository, IMapper mapper, IAccountService accountService1, UserManager<AppUser> userManager, IFileService fileService, IWebHostEnvironment env, ICandidateEducationRepository candidateEducationRepository, ICompanyRepository companyRepository, IVacanciesRepository vacanciesRepository, ICandidateResumeAndVacancyRepository candidateResumeAndVacancy, IApplicationRepository applicationRepository)
         {
             _candidateResumeRepository = candidateResumeRepository;
             _mapper = mapper;
@@ -52,14 +54,16 @@ namespace JobStream.Business.Services.Implementations
             _companyRepository = companyRepository;
             _vacanciesRepository = vacanciesRepository;
             _candidateResumeAndVacancy = candidateResumeAndVacancy;
+            _applicationRepository = applicationRepository;
         }
 
 
         public async Task<List<CandidateResumeDTO>> GetAllCandidatesResumesAsync()
         {
-            var candidateResumes = await _candidateResumeRepository.GetAll()
+            List<CandidateResume> candidateResumes = await _candidateResumeRepository.GetAll()
                 .Include(e => e.CandidateEducation)
-                .Include(u => u.AppUser).ToListAsync();
+                .Include(u => u.AppUser)
+                .Where(u=>u.IsDeleted==false).ToListAsync();
             var list = _mapper.Map<List<CandidateResumeDTO>>(candidateResumes);
             return list;
         }
@@ -126,13 +130,6 @@ namespace JobStream.Business.Services.Implementations
             var user = await _userManager.FindByEmailAsync(entity.Email);
             if (user is null) throw new NotFoundException("User not found");
 
-            var candidateResumes = _candidateResumeRepository
-                .GetAll()
-                .Include(e => e.CandidateEducation);
-            //if (entity.Email == user.Email)
-            //{
-            //    throw new BadRequestException("Resume is already created");
-            //}
 
             if (entity.CV != null)
             {
@@ -162,37 +159,43 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume)
         {
-            var resume = _candidateResumeRepository.GetAll().FirstOrDefault(a => a.Id == id);
-            //AppUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            //var userResume = _candidateResumeRepository.GetByCondition(u => u.AppUserId == id, false);
-            if (resume is null || resume.IsDeleted == true) throw new BadRequestException("No resume found with that id");
+            if (await _userManager.Users.AllAsync(r => r.Email != candidateResume.Email))
+                throw new BadRequestException("You can not change your email address");
 
-            //user.Id = userId;
-            //if (resume == null) throw new NotFoundException($"There is no candidate resume with id: {id}");
-            //if (userId != resume.Id) throw new BadRequestException($"{resume.Id} was not found");
-
+            //CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
+            //if (resume is null || resume.IsDeleted == true) throw new BadRequestException("No resume found with that id");
             var result = _mapper.Map<CandidateResume>(candidateResume);
+            var fileName = await _fileService.CopyFileAsync(candidateResume.ProfilePhoto, _env.WebRootPath, "images", "Resumes", "ProfilePicture");
+
+
+            var user = await _userManager.FindByEmailAsync(candidateResume.Email);
+            user.Fullname = result.Fullname;
+            user.PhoneNumber = result.Telephone.ToString();
+            user.IsDeleted = false;
+
+            result.ProfilePhoto = fileName;
+            result.AppUser = user;
+            result.AppUserId = user.Id;
+            result.IsDeleted = false;
+
+            //await _userManager.UpdateAsync(await _userManager.FindByEmailAsync(candidateResume.Email));
 
             _candidateResumeRepository.Update(result);
-            //resume.AppUserId = user.AppUserId;
-
-            //await _userManager.UpdateAsync(user);
             await _candidateResumeRepository.SaveAsync();
-
+            await _userManager.UpdateAsync(user);
         }
 
         public async Task DeleteCandidateResume(int id)
         {
-            var candidateEducations = _candidateResumeRepository.GetAll().ToList();
+            var candidateResumes = _candidateResumeRepository.GetAll().ToList();
 
-            if (candidateEducations.All(x => x.Id != id))
+            if (candidateResumes.All(x => x.Id != id))
             {
                 throw new NotFoundException("Not Found");
             }
 
-            var education = await _candidateResumeRepository.GetByIdAsync(id);
-            education.IsDeleted = true;
-            //_candidateResumeRepository.Delete(education);
+            CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
+            resume.IsDeleted = true;
             await _candidateResumeRepository.SaveAsync();
         }
 
@@ -225,7 +228,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 vacancy.Applications = new List<Applications>();
             }
-            //var result = _mapper.Map<Applications>(applyVacancyDTO);
+
             var application = new Applications
             {
                 CandidateResumeId = candidateId,
@@ -235,14 +238,15 @@ namespace JobStream.Business.Services.Implementations
                 CV = fileName,
             };
 
-            vacancy.Applications.Add(application);
-            vacancy.Company = company;
-
-            await _vacanciesRepository.SaveAsync();
+            await _applicationRepository.CreateAsync(application);
+            await _applicationRepository.SaveAsync();
 
             CandidateResumeAndVacancy candidateResumeAndVacancy = new();
             candidateResumeAndVacancy.CandidateResumeId = application.Id;
             candidateResumeAndVacancy.VacancyId = vacancyId;
+            candidateResumeAndVacancy.CandidateResume = candidate;
+            candidateResumeAndVacancy.Vacancy = vacancy;
+
 
             await _candidateResumeAndVacancy.CreateAsync(candidateResumeAndVacancy);
             await _candidateResumeRepository.SaveAsync();
@@ -250,10 +254,10 @@ namespace JobStream.Business.Services.Implementations
             vacancy.isApplied = true;
         }
 
-        public async Task<List<VacanciesDTO>> ViewAppliedJobs()
+        public async Task<List<ApplicationsDTO>> ViewAppliedJobs(int candidateId)
         {
-            List<Vacancy> vacancies=await _vacanciesRepository.GetAll().Where(v => v.isApplied == true).ToListAsync();
-            var list=_mapper.Map<List<VacanciesDTO>>(vacancies);
+            List<Applications> applications = _applicationRepository.GetAll().Where(c => c.CandidateResumeId == candidateId).ToList();
+            var list = _mapper.Map<List<ApplicationsDTO>>(applications);
             return list;
         }
     }

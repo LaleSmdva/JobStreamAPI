@@ -18,10 +18,10 @@ namespace JobStream.Business.Services.Interfaces
         List<CompanyDTO> GetCompaniesByName(string companyName);
 
         //register da olur
-        Task CreateAsync(CompanyPostDTO entity);
-        Task Update(int id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
-        Task Delete(int id);
-        Task AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO);
+        //Task CreateAsync(CompanyPostDTO entity);
+        Task UpdateCompanyAccount(string id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
+        Task DeleteCompany(int id);
+        Task AddVacancyToCompany(int id, VacanciesPostDTO vacanciesPostDTO);
         Task UpdateVacancy(int id, VacanciesPutDTO vacanciesPutDTO);
         Task DeleteVacancy(int id, int vacancyId);
         //Update vacancy qaldi

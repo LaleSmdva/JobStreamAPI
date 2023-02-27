@@ -19,6 +19,7 @@ namespace JobStream.DataAccess.Configurations
 			builder.Property(c=>c.Location).IsRequired(true).HasMaxLength(200);
 			builder.Property(c=>c.AboutCompany).IsRequired(true);
 			builder.Property(c=>c.Email).IsRequired(true);
+			builder.Property(c => c.IsDeleted).HasDefaultValue(false);
 
 
 		}

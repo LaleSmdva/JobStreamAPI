@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.AboutUsDTO;
+using JobStream.Business.DTOs.ApplicationsDTO;
 using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Core.Entities;
 using System;
@@ -16,7 +17,9 @@ namespace JobStream.Business.Mappers
         public ApplicationsMapper()
         {
 
-            CreateMap<Applications, ApplyVacancyDTO>().ReverseMap();
+            CreateMap<Applications, ApplicationsDTO>().ReverseMap();
+            CreateMap<Applications, ApplicationsPostDTO>().ReverseMap();
+            CreateMap<Applications, ApplicationsPutDTO>().ReverseMap();
 
         }
     }

@@ -102,6 +102,9 @@ namespace JobStream.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("PostedOn")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -315,7 +318,9 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -393,6 +398,11 @@ namespace JobStream.DataAccess.Migrations
 
                     b.Property<string>("InfoCompany")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -515,6 +525,9 @@ namespace JobStream.DataAccess.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("PostedOn")
@@ -661,7 +674,9 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 

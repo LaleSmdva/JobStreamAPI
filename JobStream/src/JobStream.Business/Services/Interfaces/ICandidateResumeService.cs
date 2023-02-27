@@ -1,4 +1,5 @@
-﻿using JobStream.Business.DTOs.ApplyVacancyDTO;
+﻿using JobStream.Business.DTOs.ApplicationsDTO;
+using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
@@ -30,8 +31,10 @@ namespace JobStream.Business.Services.Interfaces
         Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume);
         Task DeleteCandidateResume(int id); //delete account from website
         Task ApplyVacancy(int candidateId, int companyId, int vacancyId, ApplyVacancyDTO applyVacancyDTO);
-        Task<List<VacanciesDTO>> ViewAppliedJobs();
+        Task<List<ApplicationsDTO>> ViewAppliedJobs(int candidateId);
         //new 26
+        //subscribe To company
+        //Task Subscribe(int companyId);
 
     }
 

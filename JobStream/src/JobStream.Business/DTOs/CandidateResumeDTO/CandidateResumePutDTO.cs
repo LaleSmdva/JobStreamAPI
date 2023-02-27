@@ -21,7 +21,7 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
         //new 25
-        public int? CandidateEducationId { get; set; }
+        //public int? CandidateEducationId { get; set; }
         // ONE TO ONE 
         //public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
         //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
@@ -31,9 +31,10 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         //public int? JobTypeId { get; set; }
         //public JobType? JobType { get; set; }
 
-        public string? AppUserId { get; set; }
+        //public string? AppUserId { get; set; }
         //public AppUser AppUser { get; set; }
         //public bool? IsDeleted { get; set; }
+        public IFormFile? ProfilePhoto { get; set; }
 
         public int? DesiredSalary { get; set; }
         public string? WorkExperience { get; set; }

@@ -18,8 +18,8 @@ public class CompanyPutDTOValidator : AbstractValidator<CompanyPutDTO>
         RuleFor(c => c.AboutCompany).NotNull().WithMessage("Enter about your company.")
             .NotEmpty().WithMessage("Enter about your company.")
             .MaximumLength(500).WithMessage("Max characters:500");
-        RuleFor(c => c.Email).NotNull().WithMessage("Enter email.")
-         .NotEmpty().WithMessage("Enter email.")
-         .EmailAddress().WithMessage("Enter valid email address");
+        //RuleFor(c => c.Email).NotNull().WithMessage("Enter email.")
+        // .NotEmpty().WithMessage("Enter email.")
+        // .EmailAddress().WithMessage("Enter valid email address");
     }
 }

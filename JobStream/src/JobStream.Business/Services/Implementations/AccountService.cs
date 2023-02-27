@@ -292,15 +292,15 @@ namespace JobStream.Business.Services.Implementations
                 throw new DuplicateEmailException("User with the same email address already exists");
             }
             //new 27
-            //var Company = new Company
-            //{
-            //    Name = registerCompany.Companyname,
-            //    Email = registerCompany.Email,
-            //    AboutCompany = "-",
-            //    Location="-"
-                
-            //};
-            //company.Company = Company;
+            var Company = new Company
+            {
+                Name = registerCompany.Companyname,
+                Email = registerCompany.Email,
+                AboutCompany = "-",
+                Location = "-"
+
+            };
+            company.Company = Company;
             //new 27
 
             var identityResult = await _userManager.CreateAsync(company, registerCompany.Password);
@@ -327,7 +327,7 @@ namespace JobStream.Business.Services.Implementations
                 }
                 throw new CreateRoleFailedException($"{errorMessages}");
             }
-            //await _companyRepository.SaveAsync();
+            await _companyRepository.SaveAsync();
         }
       
 

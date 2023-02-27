@@ -66,14 +66,16 @@ namespace JobStream.Business.Services.Implementations
         }
         public List<VacanciesDTO> GetAll()
         {
-            var vacancies = _vacanciesRepository.GetAll().ToList();
+            var vacancies = _vacanciesRepository.GetAll()
+                .Where(v => v.isDeleted == false).ToList();
             var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
             return result;
         }
 
-        public List<VacanciesDTO> GetVacancyByCategory(Expression<Func<Vacancy, bool>> expression)
+        public List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression)
         {
-            var vacancy = _vacanciesRepository.GetByCondition(expression).ToList();
+            List<Vacancy> vacancy = _vacanciesRepository.GetByCondition(expression).Where(v => v.isDeleted == false).ToList();
+            if (vacancy is null) throw new NotFoundException("No vacancy was found");
             var result = _mapper.Map<List<VacanciesDTO>>(vacancy);
             return result;
         }
@@ -107,7 +109,7 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateVacancyAsync(int id, VacanciesPutDTO vacancy)
         {
-           // Vacancy ozu,JobTypeId,JobScheduleID,CategoryId,CompanyId
+            // Vacancy ozu,JobTypeId,JobScheduleID,CategoryId,CompanyId
             var vacancies = _vacanciesRepository.GetByCondition(c => c.Id == vacancy.Id, false);
             if (vacancies == null) throw new NotFoundException("Not Found");
             if (id != vacancy.Id) throw new BadRequestException("Id is not valid");
@@ -166,7 +168,7 @@ namespace JobStream.Business.Services.Implementations
             var expiredVacancies = GetExpiredVacancies();
             foreach (var vacancy in expiredVacancies)
             {
-                 _vacanciesRepository.Delete(vacancy);
+                _vacanciesRepository.Delete(vacancy);
             }
             await _vacanciesRepository.SaveAsync();
         }
