@@ -90,6 +90,12 @@ public class JobScheduleService : IJobScheduleService
     {
         var schedule = await _repository.GetByIdAsync(id);
         if(schedule == null) throw new NotFoundException("Not Found");
+
+        var vacancies = _vacanciesRepository.GetAll().Where(j => j.JobScheduleId == id).ToList();
+        foreach (var vacancy in vacancies)
+        {
+            vacancy.JobScheduleId = null;
+        }
         _repository.Delete(schedule);
         await _repository.SaveAsync();
     }

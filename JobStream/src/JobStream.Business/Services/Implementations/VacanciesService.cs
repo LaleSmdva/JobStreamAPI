@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
 using Hangfire;
 using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
@@ -152,6 +153,17 @@ namespace JobStream.Business.Services.Implementations
         }
 
 
+        public async Task<List<VacanciesDTO>> SearchVacancies(string? keyword, string? location,List<int>? categoryId, string? companyName)
+        {
+            List<Vacancy> vacancies = _vacanciesRepository.GetAll()
+             .Where(v => v.Name.Contains(keyword) || v.Location.Contains(location)
+                 || categoryId.Contains(v.CategoryId) || v.Company.Name.Contains(companyName))
+             .ToList();
+            var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
+            return result;
+
+
+        }
 
 
 

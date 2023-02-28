@@ -37,7 +37,7 @@ namespace JobStream.Business.Services.Implementations
             if (entity.Image != null)
             {
                 var fileName = await _fileService.CopyFileAsync(entity.Image, _environment.WebRootPath, "images", "AboutUs");
-                if (entity == null) throw new NullReferenceException("About Us can't ne null");
+                if (entity == null) throw new NullReferenceException("Entity can't ne null");
                 var aboutUs = _mapper.Map<AboutUs>(entity);
                 aboutUs.Image = fileName;
                 await _repository.CreateAsync(aboutUs);

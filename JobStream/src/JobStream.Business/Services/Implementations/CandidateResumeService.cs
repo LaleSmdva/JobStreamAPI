@@ -3,6 +3,7 @@ using JobStream.Business.DTOs.ApplicationsDTO;
 using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
+using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
@@ -63,7 +64,7 @@ namespace JobStream.Business.Services.Implementations
             List<CandidateResume> candidateResumes = await _candidateResumeRepository.GetAll()
                 .Include(e => e.CandidateEducation)
                 .Include(u => u.AppUser)
-                .Where(u=>u.IsDeleted==false).ToListAsync();
+                .Where(u => u.IsDeleted == false).ToListAsync();
             var list = _mapper.Map<List<CandidateResumeDTO>>(candidateResumes);
             return list;
         }
@@ -82,12 +83,7 @@ namespace JobStream.Business.Services.Implementations
             var result = _mapper.Map<CandidateResumeDTO>(resume);
             return result;
         }
-        /// <summary>
-        /// //
-        /// </summary>
-        /// <param name="candidateId"></param>
-        /// <returns></returns>
-        /// <exception cref="NotFoundException"></exception>
+
         public async Task<CandidateResumeDTO> CandidateResumeDetails(int candidateId)
         {
 
@@ -161,10 +157,19 @@ namespace JobStream.Business.Services.Implementations
         {
             if (await _userManager.Users.AllAsync(r => r.Email != candidateResume.Email))
                 throw new BadRequestException("You can not change your email address");
+            if (!candidateResume.ProfilePhoto.CheckFileFormat("image/"))
+            {
+                throw new FileFormatException("Choose an image type");
+            }
+            if ((!candidateResume.CV.CheckFileFormat("application/pdf")))
+                throw new FileFormatException("Choose pdf file format.");
+
+
 
             //CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
             //if (resume is null || resume.IsDeleted == true) throw new BadRequestException("No resume found with that id");
             var result = _mapper.Map<CandidateResume>(candidateResume);
+            var CurriculumVitae = await _fileService.CopyFileAsync(candidateResume.CV, _env.WebRootPath, "images", "Resumes", "CV");
             var fileName = await _fileService.CopyFileAsync(candidateResume.ProfilePhoto, _env.WebRootPath, "images", "Resumes", "ProfilePicture");
 
 
@@ -174,15 +179,23 @@ namespace JobStream.Business.Services.Implementations
             user.IsDeleted = false;
 
             result.ProfilePhoto = fileName;
+            result.CV = CurriculumVitae;
             result.AppUser = user;
             result.AppUserId = user.Id;
             result.IsDeleted = false;
 
-            //await _userManager.UpdateAsync(await _userManager.FindByEmailAsync(candidateResume.Email));
 
             _candidateResumeRepository.Update(result);
             await _candidateResumeRepository.SaveAsync();
-            await _userManager.UpdateAsync(user);
+            var identityResult = await _userManager.UpdateAsync(user);
+            if (!identityResult.Succeeded)
+            {
+                foreach (var error in identityResult.Errors)
+                {
+                    // display the error to the user
+                    Console.WriteLine(error.Description);
+                }
+            }
         }
 
         public async Task DeleteCandidateResume(int id)
@@ -254,11 +267,11 @@ namespace JobStream.Business.Services.Implementations
             vacancy.isApplied = true;
         }
 
-        public async Task<List<ApplicationsDTO>> ViewAppliedJobs(int candidateId)
+        public async Task<List<ApplicationsResponseDTO>> ViewStatusOfAppliedJobs(int candidateId)
         {
             List<Applications> applications = _applicationRepository.GetAll().Where(c => c.CandidateResumeId == candidateId).ToList();
-            var list = _mapper.Map<List<ApplicationsDTO>>(applications);
-            return list;
+            var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
+            return result;
         }
     }
 }

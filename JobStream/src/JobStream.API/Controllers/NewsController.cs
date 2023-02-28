@@ -23,7 +23,7 @@ namespace JobStream.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllNews()
         {
-            var news = await _newsService.GetAllAsync();
+            var news = await _newsService.GetAll();
             return Ok(news);
         }
 

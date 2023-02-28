@@ -16,9 +16,11 @@ namespace JobStream.Business.Services.Interfaces
         List<VacanciesDTO> GetAll();
         Task<VacanciesDTO> GetVacancyByIdAsync(int id);
         List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression);
-        Task CreateVacancyAsync(VacanciesPostDTO entity);
-        Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
-        Task DeleteVacancyAsync(int id);
+        //Task CreateVacancyAsync(VacanciesPostDTO entity);
+        //Task UpdateVacancyAsync(int id, VacanciesPutDTO company);
+        //Task DeleteVacancyAsync(int id);
+        //Task<List<VacanciesDTO>> GetVacanciesByCategoryAsync(); //sonra
+        Task<List<VacanciesDTO>> SearchVacancies(string? keyword, string? location, List<int>? categoryId, string? companyName);
         IEnumerable<Vacancy> GetExpiredVacancies();
         Task VacancyCleanUp();
 

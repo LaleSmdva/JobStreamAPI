@@ -35,6 +35,7 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         //public AppUser AppUser { get; set; }
         //public bool? IsDeleted { get; set; }
         public IFormFile? ProfilePhoto { get; set; }
+        public IFormFile? CV { get; set; }
 
         public int? DesiredSalary { get; set; }
         public string? WorkExperience { get; set; }

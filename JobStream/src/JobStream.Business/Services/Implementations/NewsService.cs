@@ -35,7 +35,7 @@ namespace JobStream.Business.Services.Implementations
             _rubricForNewsRepository = rubricForNewsRepository;
         }
 
-        public async Task<List<NewsDTO>> GetAllAsync()
+        public async Task<List<NewsDTO>> GetAll()
         {
             var news = await _newsRepository.GetAll().ToListAsync();
             var list = _mapper.Map<List<NewsDTO>>(news);
@@ -77,9 +77,9 @@ namespace JobStream.Business.Services.Implementations
                 throw new NullReferenceException("News can't be null");
             }
             if (await _rubricForNewsRepository.GetAll().AllAsync(r => r.Id != entity.RubricForNewsId)) throw new NotFoundException("There is no rubric with that id");
-    
+            if (await _newsRepository.GetAll().AnyAsync(n => n.Title == entity.Title)) throw new AlreadyExistsException("News with same title already exists");
             var fileName = await _fileService.CopyFileAsync(entity.Image, _environment.WebRootPath, "images", "News");
-        
+
             if (entity == null) throw new NullReferenceException("News can't ne null");
             var news = _mapper.Map<News>(entity);
             news.PostedOn = DateTime.Now;
@@ -91,19 +91,23 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateNewsAsync(int id, NewsPutDTO news)
         {
-            if (news == null)
-            {
-                throw new NullReferenceException("News can't be null");
-            }
+            var News = await _newsRepository.GetByIdAsync(id);
             var articles = _newsRepository.GetByCondition(a => a.Id == news.Id, false);
-            if (articles == null) throw new NotFoundException($"There is no news with id: {id}");
-            if (id != news.Id) throw new BadRequestException($"{news.Id} was not found");
+            if (articles == null) throw new NotFoundException($"There is no article with id: {id}");
+            if (id != news.Id) throw new BadRequestException("Id's do not match");
+            if (await _rubricForNewsRepository.GetAll().AllAsync(a => a.Id != news.RubricForNewsId)) throw new NotFoundException("No rubric for article found");
+            var fileName = await _fileService.CopyFileAsync(news.Image, _environment.WebRootPath, "images", "Articles");
 
-            var fileName = await _fileService.CopyFileAsync(news.Image, _environment.WebRootPath, "images", "News");
-            var result = _mapper.Map<News>(news);
-            result.Image = fileName;
-            _newsRepository.Update(result);
+            var prevPostedOn = News.PostedOn;
+
+            News.Image = fileName;
+            News.PostedOn = prevPostedOn;
+            News.Title = news.Title;
+            News.RubricForNewsId = news.RubricForNewsId;
+
+            _newsRepository.Update(News);
             await _newsRepository.SaveAsync();
+            
         }
         public async Task DeleteNewsAsync(int id)
         {

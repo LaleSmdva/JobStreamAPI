@@ -32,7 +32,7 @@ public class JobTypeService : IJobTypeService
     public async Task<List<JobTypeDTO>> GetAllJobTypesAsync()
     {
         var jobTypes = await _jobTypeRepository.GetAll()
-            .Include(v=>v.Vacancies)
+            .Include(v => v.Vacancies)
             .ToListAsync();
         var list = _mapper.Map<List<JobTypeDTO>>(jobTypes);
         return list;
@@ -56,9 +56,9 @@ public class JobTypeService : IJobTypeService
 
     public async Task<List<VacanciesDTO>> GetVacanciesByJobTypeId(int id)
     {
-        var jobType=await _jobTypeRepository.GetByIdAsync(id);
+        var jobType = await _jobTypeRepository.GetByIdAsync(id);
         if (jobType == null) throw new NotFoundException("Not found");
-        var vacancies =await  _vacanciesRepository.GetAll().Where(v => v.JobTypeId == id).ToListAsync();
+        var vacancies = await _vacanciesRepository.GetAll().Where(v => v.JobTypeId == id).ToListAsync();
         if (vacancies == null || vacancies.Count() == 0) throw new NotFoundException("Vacancy not found");
         var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
         return result;
@@ -68,7 +68,7 @@ public class JobTypeService : IJobTypeService
     {
         if (entity == null) throw new NullReferenceException("Job type can't ne null");
         var jobType = _mapper.Map<JobType>(entity);
-  
+
         await _jobTypeRepository.CreateAsync(jobType);
         await _jobTypeRepository.SaveAsync();
     }
@@ -77,7 +77,7 @@ public class JobTypeService : IJobTypeService
     {
         var jobTypes = _jobTypeRepository.GetByCondition(a => a.Id == jobType.Id, false);
         if (jobTypes == null) throw new NotFoundException($"There is no job type with id: {id}");
-        if (id != jobType.Id) throw new BadRequestException($"{jobType.Id} was not found");
+        if (id != jobType.Id) throw new BadRequestException("Id's don't match");
 
         var result = _mapper.Map<JobType>(jobType);
         _jobTypeRepository.Update(result);
@@ -86,18 +86,15 @@ public class JobTypeService : IJobTypeService
 
     public async Task DeleteJobTypeAsync(int id)
     {
-        var jobTypes = _jobTypeRepository.GetAll().ToList();
-
-        if (jobTypes.All(x => x.Id != id))
-        {
-            throw new NotFoundException("Not Found");
-        }
         var jobType = await _jobTypeRepository.GetByIdAsync(id);
+        if (jobType is null) throw new NotFoundException("Job type not found");
+
+        var vacancies = _vacanciesRepository.GetAll().Where(j => j.JobTypeId == id).ToList();
+        foreach (var vacancy in vacancies)
+        {
+            vacancy.JobTypeId = null;
+        }
         _jobTypeRepository.Delete(jobType);
         await _jobTypeRepository.SaveAsync();
     }
-
- 
-
-  
 }

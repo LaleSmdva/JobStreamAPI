@@ -12,6 +12,17 @@ public class ArticlePostDTOValidator : AbstractValidator<ArticlePostDTO>
 {
 	public ArticlePostDTOValidator()
 	{
+        RuleFor(c => c.Title)
+    .NotNull()
+    .NotEmpty();
 
-	}
+        RuleFor(c => c.Description)
+        .NotNull()
+        .NotEmpty();
+
+        RuleFor(c => c.RubricForArticlesId)
+        .NotNull()
+        .NotEmpty();
+        RuleFor(c => c.Image).NotEmpty().WithMessage("Please provide a file.");
+    }
 }

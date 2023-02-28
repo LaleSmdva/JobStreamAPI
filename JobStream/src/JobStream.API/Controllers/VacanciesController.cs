@@ -30,25 +30,32 @@ namespace JobStream.API.Controllers
             return Ok(companies);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> AddCompany(VacanciesPostDTO vacancy)
-        {
-            await _vacanciesService.CreateVacancyAsync(vacancy);
-            return Ok("Successfully created");
-        }
+        //[HttpPost("create")]
+        //public async Task<IActionResult> AddCompany(VacanciesPostDTO vacancy)
+        //{
+        //    await _vacanciesService.CreateVacancyAsync(vacancy);
+        //    return Ok("Successfully created");
+        //}
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVacancy(int id, [FromQuery] VacanciesPutDTO vacancy)
-        {
-            await _vacanciesService.UpdateVacancyAsync(id, vacancy);
-            return Ok("Successfully updated");
-        }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateVacancy(int id, [FromQuery] VacanciesPutDTO vacancy)
+        //{
+        //    await _vacanciesService.UpdateVacancyAsync(id, vacancy);
+        //    return Ok("Successfully updated");
+        //}
 
         [HttpPost("vuy")]
         public async Task<IActionResult> Cleanup()
         {
             await _vacanciesService.VacancyCleanUp();
             return Ok("Hangfire successed");
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> SearchVacancies([FromQuery]string? keyword, [FromQuery] string? location, [FromQuery] List<int>? categoryId, [FromQuery] string? companyName)
+        {
+            List<VacanciesDTO> list=await _vacanciesService.SearchVacancies(keyword, location, categoryId, companyName);
+            return Ok(list);
         }
 
     }

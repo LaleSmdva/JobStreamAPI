@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using A=JobStream.Business.DTOs.ArticleDTO;
 
 namespace JobStream.Business.DTOs.RubricForArticlesDTO
 {
@@ -11,6 +12,6 @@ namespace JobStream.Business.DTOs.RubricForArticlesDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Article>? Articles { get; set; }
+        public ICollection<A.ArticleDTO>? Articles { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace JobStream.Business.Services.Interfaces
         Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume);
         Task DeleteCandidateResume(int id); //delete account from website
         Task ApplyVacancy(int candidateId, int companyId, int vacancyId, ApplyVacancyDTO applyVacancyDTO);
-        Task<List<ApplicationsDTO>> ViewAppliedJobs(int candidateId);
+        Task<List<ApplicationsResponseDTO>> ViewStatusOfAppliedJobs(int candidateId);
         //new 26
         //subscribe To company
         //Task Subscribe(int companyId);

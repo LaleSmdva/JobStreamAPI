@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+    
+
 namespace JobStream.Business.Services.Implementations
 {
 
@@ -35,7 +37,8 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<List<RubricForNewsDTO>> GetAllAsync()
         {
-            var rubricForNews = await _rubricForNewsRepository.GetAll().ToListAsync();
+            var rubricForNews = await _rubricForNewsRepository.GetAll()
+                .Include(a=>a.News).ToListAsync();
             var list = _mapper.Map<List<RubricForNewsDTO>>(rubricForNews);
             return list;
         }
@@ -60,7 +63,7 @@ namespace JobStream.Business.Services.Implementations
             }
             var rubricForNews = _rubricForNewsRepository.GetByCondition(a => a.Id == rubric.Id, false);
             if (rubricForNews == null) throw new NotFoundException($"There is no rubric with id: {id}");
-            if (id != rubric.Id) throw new BadRequestException($"{rubric.Id} was not found");
+            if (id != rubric.Id) throw new BadRequestException("Id's do not match");
 
             var result = _mapper.Map<RubricForNews>(rubric);
             _rubricForNewsRepository.Update(result);

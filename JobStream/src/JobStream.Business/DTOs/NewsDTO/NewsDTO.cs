@@ -15,7 +15,7 @@ namespace JobStream.Business.DTOs.NewsDTO
         public string Content { get; set; }
         public string? CreationTime { get; set; }
         public int RubricForNewsId { get; set; }
-        public RubricForNews RubricForNews { get; }
-        public IFormFile? Image { get; set; }
+        //public RubricForNews RubricForNews { get; }
+        //public IFormFile? Image { get; set; }
     }
 }

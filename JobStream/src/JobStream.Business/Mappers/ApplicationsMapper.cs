@@ -20,6 +20,7 @@ namespace JobStream.Business.Mappers
             CreateMap<Applications, ApplicationsDTO>().ReverseMap();
             CreateMap<Applications, ApplicationsPostDTO>().ReverseMap();
             CreateMap<Applications, ApplicationsPutDTO>().ReverseMap();
+            CreateMap<Applications, ApplicationsResponseDTO>().ReverseMap();
 
         }
     }

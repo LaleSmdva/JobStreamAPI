@@ -28,7 +28,8 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<List<RubricForArticlesDTO>> GetAllAsync()
         {
-             var rubricForArticles = await _rubricForArticlesRepository.GetAll().ToListAsync();
+             List<RubricForArticles> rubricForArticles = await _rubricForArticlesRepository.GetAll()
+               .Include(a=>a.Articles).ToListAsync();
             var list = _mapper.Map<List<RubricForArticlesDTO>>(rubricForArticles);
             return list;
         }
@@ -54,7 +55,7 @@ namespace JobStream.Business.Services.Implementations
             }
             var rubricForArticles = _rubricForArticlesRepository.GetByCondition(a => a.Id == rubric.Id, false);
             if (rubricForArticles == null) throw new NotFoundException($"There is no rubric with id: {id}");
-            if (id != rubric.Id) throw new BadRequestException($"{rubric.Id} was not found");
+            if (id != rubric.Id) throw new BadRequestException("Id's do not match");
 
             var result = _mapper.Map<RubricForArticles>(rubric);
             _rubricForArticlesRepository.Update(result);

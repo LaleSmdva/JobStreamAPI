@@ -34,21 +34,12 @@ namespace JobStream.API.Controllers
             var candidate = await _candidateResumeService.CandidateResumeDetails(resumeId);
             return Ok(candidate);
         }
-
-
         [HttpGet("[action]")]
         public async Task<IActionResult> GetCandidateResumeByUserId(string resumeId)
         {
             var resume = await _candidateResumeService.GetCandidateResumeByUserId(resumeId);
             return Ok(resume);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> CreateAsync([FromForm] CandidateResumePostDTO entity)
-        //{
-        //    await _candidateResumeService.CreateCandidateResumeAsync(entity);
-        //    return Ok("Candidate resume created");
-
-        //}
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id,[FromForm] CandidateResumePutDTO resume)
         {
@@ -69,10 +60,10 @@ namespace JobStream.API.Controllers
             await _candidateResumeService.ApplyVacancy(candidateId, companyId, vacancyId, applyVacancyDTO);
             return Ok("Your application has been received");
         }
-        [HttpGet("AppliedVacancies")]
+        [HttpGet("AppliedVacanciesStatus")]
         public async Task<IActionResult> ViewAppliedJobs(int candidateId)
         {
-           var appliedJobs=await _candidateResumeService.ViewAppliedJobs(candidateId);
+           var appliedJobs=await _candidateResumeService.ViewStatusOfAppliedJobs(candidateId);
             return Ok(appliedJobs);
         }
     }

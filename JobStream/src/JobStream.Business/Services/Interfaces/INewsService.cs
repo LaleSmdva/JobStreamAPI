@@ -10,7 +10,7 @@ namespace JobStream.Business.Services.Interfaces
 {
     public interface INewsService
     {
-        Task<List<NewsDTO>> GetAllAsync();
+        Task<List<NewsDTO>> GetAll();
 
         Task<NewsDTO> GetNewsByIdAsync(int id);
         List<NewsDTO> GetNewsByTitle(string title);

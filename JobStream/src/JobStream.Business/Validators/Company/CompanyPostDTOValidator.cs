@@ -21,5 +21,6 @@ public class CompanyPostDTOValidator : AbstractValidator<CompanyPostDTO>
         RuleFor(c => c.Email).NotNull().WithMessage("Enter email.")
          .NotEmpty().WithMessage("Enter email.")
          .EmailAddress().WithMessage("Enter valid email address");
+      
     }
 }

@@ -12,10 +12,10 @@ namespace JobStream.Business.Services.Interfaces;
 
 public interface IArticleService
 {
-	Task<List<ArticleDTO>> GetAllAsync();
+	Task<List<ArticleDTO>> GetAll();
 
     Task<ArticleDTO> GetArticleByIdAsync(int id);
-	List<ArticleDTO> GetArticleByTitle(string title);
+	List<ArticleDTO> GetArticlesByTitle(string title);
 	Task<List<ArticleDTO>> GetArticlesByRubricId(int id);
 	Task CreateArticleAsync(ArticlePostDTO entity);
 	Task UpdateArticleAsync(int id, ArticlePutDTO article);

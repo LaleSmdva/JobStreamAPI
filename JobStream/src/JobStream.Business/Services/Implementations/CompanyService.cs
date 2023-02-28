@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -66,11 +67,6 @@ namespace JobStream.Business.Services.Implementations
             _applicationRepository = applicationRepository;
         }
 
-
-        ///AddCategory
-        ///categoryname,
-        ///AddVacancy
-        ///ContactApplicant
 
         public async Task<List<CompanyDTO>> GetAllAsync()
         {
@@ -412,6 +408,8 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new NotFoundException("No company found");
             }
+            var isExists = await _vacanciesRepository.GetAll().Where(x => x.Name == vacanciesPostDTO.Name && x.CompanyId == vacanciesPostDTO.CompanyId).FirstOrDefaultAsync();
+            if(isExists != null) throw new AlreadyExistsException("Vacancy with same name already exists");
 
             var category = await _categoryRepository.GetByIdAsync(vacanciesPostDTO.CategoryId);
             var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPostDTO.JobTypeId);
@@ -507,7 +505,7 @@ namespace JobStream.Business.Services.Implementations
             result.InterviewLocation = invitation.InterviewLocation;
             result.Message = invitation.Message;
 
-            await _repository.SaveAsync();
+            var previousCv = application.CV;
 
             await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
             {
@@ -524,6 +522,7 @@ namespace JobStream.Business.Services.Implementations
             application.Vacancy = vacancy;
             application.CandidateResumeId = candidateId;
             application.VacancyId = vacancyId;
+            application.CV = previousCv;
 
             _applicationRepository.Update(application);
             await _applicationRepository.SaveAsync();
@@ -541,7 +540,7 @@ namespace JobStream.Business.Services.Implementations
             if (application.CandidateResumeId != candidateId) throw new NotFoundException("No application found from candidate");
             if (application.VacancyId != vacancyId) throw new NotFoundException($"No application for vacancy {vacancyId}");
 
-            await _repository.SaveAsync();
+            var previousCv = application.CV;
 
             await _mailService.SendEmailAsync(new DTOs.Account.MailRequestDTO
             {
@@ -557,6 +556,7 @@ namespace JobStream.Business.Services.Implementations
             application.Vacancy = vacancy;
             application.CandidateResumeId = candidateId;
             application.VacancyId = vacancyId;
+            application.CV = previousCv;
 
             _applicationRepository.Update(application);
             await _applicationRepository.SaveAsync();

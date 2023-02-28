@@ -24,7 +24,7 @@ namespace JobStream.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllArticles()
         {
-            var articles = await _articleService.GetAllAsync();
+            var articles = await _articleService.GetAll();
             return Ok(articles);
         }
 
@@ -32,7 +32,7 @@ namespace JobStream.API.Controllers
         [HttpGet("GetArticleByTitle/{title}")]
         public IActionResult GetArticleByTitle(string title)
         {
-            var articles = _articleService.GetArticleByTitle(title);
+            var articles = _articleService.GetArticlesByTitle(title);
             return Ok(articles);
         }
 
@@ -54,7 +54,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(ArticlePostDTO entity)
+        public async Task<IActionResult> CreateAsync([FromForm] ArticlePostDTO entity)
         {
             await _articleService.CreateArticleAsync(entity);
             return Ok("Article created");
@@ -62,7 +62,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, ArticlePutDTO article)
+        public async Task<IActionResult> Update(int id, [FromForm] ArticlePutDTO article)
         {
             await _articleService.UpdateArticleAsync(id, article);
             return Ok("Successfully updated");
