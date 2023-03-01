@@ -1,52 +1,32 @@
-﻿using JobStream.Business.DTOs.Account;
+﻿using AutoMapper;
+using JobStream.Business.DTOs.Account;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
 using JobStream.Core.Enums;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Mail;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using JobStream.DataAccess.Repositories.Interfaces;
-using AutoMapper;
-using ArgumentNullException = JobStream.Business.Exceptions.ArgumentNullException;
-using JobStream.Business.DTOs.CompanyDTO;
-using C = JobStream.Business.DTOs.Account;
-using Hangfire.Annotations;
-using AutoMapper.Configuration.Annotations;
-using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Text.RegularExpressions;
+using ArgumentNullException = JobStream.Business.Exceptions.ArgumentNullException;
+using C = JobStream.Business.DTOs.Account;
 
 namespace JobStream.Business.Services.Implementations
 {
     public class AccountService : IAccountService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ICandidateResumeRepository _candidateResumeRepository;
         private readonly ICompanyRepository _companyRepository;
 
-        public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IAccountRepository accountRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, ICandidateResumeRepository candidateResumeRepository, ICompanyRepository companyRepository)
+        public AccountService(UserManager<AppUser> userManager, IAccountRepository accountRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, ICandidateResumeRepository candidateResumeRepository, ICompanyRepository companyRepository)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
             _accountRepository = accountRepository;
             _mapper = mapper;
             _roleManager = roleManager;
@@ -129,7 +109,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new DuplicateEmailException("User with the same email address already exists");
             }
-            //new 27
+            //
             var candidateResume = new CandidateResume
             {
                 Fullname = registerCandidate.Fullname,
@@ -139,7 +119,7 @@ namespace JobStream.Business.Services.Implementations
             };
 
             candidate.CandidateResume = candidateResume;
-            //new 27
+            //
 
 
             var identityResult = await _userManager.CreateAsync(candidate, registerCandidate.Password);
@@ -166,12 +146,12 @@ namespace JobStream.Business.Services.Implementations
                 }
                 throw new CreateRoleFailedException($"{errorMessages}");
             }
-            ////new 27
+            
 
             await _candidateResumeRepository.SaveAsync();
-            //////// NEW  ///////
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(candidate);
-            //var confirmationLink = Url
+            //////// 
+            //var token = await _userManager.GenerateEmailConfirmationTokenAsync(candidate);
+          
 
         }
 
@@ -241,7 +221,7 @@ namespace JobStream.Business.Services.Implementations
                     {
                         throw new NotFoundException("There is no such a role");
                     }
-                    //if newRole doesn't exist create new role
+                    
                     if (await _roleManager.RoleExistsAsync(newRole))
                     {
                         var newRolee = new IdentityRole()
@@ -250,7 +230,7 @@ namespace JobStream.Business.Services.Implementations
                         };
                         await _roleManager.CreateAsync(newRolee);
                         await _userManager.AddToRoleAsync(user, newRole);
-                    }//if newRole exists do nothing
+                    }
                 }
 
                 foreach (var deletedRole in deletedRoles)
@@ -259,8 +239,7 @@ namespace JobStream.Business.Services.Implementations
                     {
                         throw new NotFoundException("There is no such a role");
                     }
-                    //if deletedRole exists delete
-                    //if deletedRole doesn't exists do nothing
+                   
                     if (await _roleManager.RoleExistsAsync(deletedRole))
                     {
                         var deletedRolee = new IdentityRole()
@@ -285,26 +264,7 @@ namespace JobStream.Business.Services.Implementations
             }
             throw new NotFoundException("User not found");
         }
-        //[HttpGet("confirm-email")]
-        //public async Task<string> SendConfirmationEmailAsync(string emailAddress, string confirmationLink)
-        //{
-        //	var message = new MailMessage();
-        //	message.To.Add(new MailAddress(emailAddress));
-        //	message.Subject = "Confirm Your Registration";
-        //	message.Body = $"Thank you for registering with our service. To complete the registration process, please click on the following link to verify your email address: {confirmationLink}";
-
-        //	using (var client = new SmtpClient())
-        //	{
-        //		client.Host = "smtp.gmail.com"; // replace with your email provider's SMTP server address
-        //		client.Port = 587; // replace with your email provider's SMTP server port
-        //		client.UseDefaultCredentials = false;
-        //		client.Credentials = new NetworkCredential("your_email_address@gmail.com", "your_email_password");
-        //		client.EnableSsl = true;
-        //		await client.SendMailAsync(message);
-        //	}
-        //	return message.Body;
-
-        //}
+   
 
         public async Task RegisterCompany(RegisterCompanyDTO registerCompany)
         {
@@ -323,7 +283,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new DuplicateEmailException("User with the same email address already exists");
             }
-            //new 27
+            //new
             var Company = new Company
             {
                 Name = registerCompany.Companyname,
@@ -334,7 +294,7 @@ namespace JobStream.Business.Services.Implementations
 
             };
             company.Company = Company;
-            //new 27
+            //new
 
             var identityResult = await _userManager.CreateAsync(company, registerCompany.Password);
             if (!identityResult.Succeeded)
@@ -346,7 +306,7 @@ namespace JobStream.Business.Services.Implementations
                 }
                 //throw new CreateUserFailedException($"{errorMessages}");
                 throw new CreateUserFailedException(string.Join(", ", errorMessages));
-                //return BadRequest(errorMessages);
+                
             }
 
 
@@ -364,28 +324,10 @@ namespace JobStream.Business.Services.Implementations
         }
 
 
-
-
-
         ///////    new ////
         //var code = await _userManager.GenerateEmailConfirmationTokenAsync(company.Id);
         //var callbackUrl = Url.Link("ConfirmEmailRoute", new { userId = company.Id, code = code });
         //await _userManager.SendEmailAsync(company.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-
-
-        //	var result = await _userManager.AddToRoleAsync(company, UserRoles.Company.ToString());
-        //	if (!result.Succeeded)
-        //	{
-        //		var errorMessages = new List<string>();
-        //		foreach (var error in result.Errors)
-        //		{
-        //			errorMessages.Add(error.Description);
-        //		}
-        //		throw new CreateRoleFailedException($"{errorMessages}");
-        //	}
-
-        //}
 
 
 

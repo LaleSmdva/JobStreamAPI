@@ -42,13 +42,7 @@ namespace JobStream.API.Controllers
             return Ok(companies);
         }
 
-        //[HttpPost("create")]
-        //public async Task<IActionResult> AddCompany([FromForm] CompanyPostDTO company)
-        //{
-        //    await _companyService.CreateAsync(company);
-        //    return Ok("Successfully created");
-        //}
-
+    
 
         [HttpPut("UpdateCompanyAccount/{id}")]
         public async Task<IActionResult> UpdateCompany(string id, [FromQuery] List<int> addedCategoryId, [FromQuery] List<int> deletedCategoryId, [FromForm] CompanyPutDTO companyPutDTO)

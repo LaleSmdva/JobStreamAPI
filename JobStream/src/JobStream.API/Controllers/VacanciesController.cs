@@ -1,13 +1,6 @@
-﻿using JobStream.Business.DTOs.CompanyDTO;
-using JobStream.Business.DTOs.VacanciesDTO;
-using JobStream.Business.Exceptions;
-using JobStream.Business.Services.Implementations;
+﻿using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Services.Interfaces;
-using JobStream.Core.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
-using System.Net;
 
 namespace JobStream.API.Controllers
 {

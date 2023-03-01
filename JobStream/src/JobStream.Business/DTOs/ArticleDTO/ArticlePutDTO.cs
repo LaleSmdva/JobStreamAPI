@@ -13,7 +13,6 @@ public class ArticlePutDTO
 	public int Id { get; set; }
 	public string? Title { get; set; }
 	public string? Description { get; set; }
-	//public DateTime? PostedOn { get; set; }
 	public int RubricForArticlesId { get; set; }
     //public RubricForArticles RubricForArticles { get; }
     public IFormFile? Image { get; set; }

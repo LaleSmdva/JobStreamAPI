@@ -14,7 +14,6 @@ namespace JobStream.Core.Entities
         public int Id { get; set; }
 		public string Title { get; set; }
 		public string Content { get; set; }
-		//Updated 26
 		public DateTime? PostedOn { get; set; }
 		public int RubricForNewsId { get; set; }
 		public RubricForNews RubricForNews { get; }

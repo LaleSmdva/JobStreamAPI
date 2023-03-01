@@ -11,7 +11,6 @@ namespace JobStream.Business.Services.Interfaces;
 
 public interface IJobTypeService
 {
-    //AddVacancyToJobType
     Task<List<JobTypeDTO>> GetAllJobTypesAsync();
 
     Task<JobTypeDTO> GetJobTypeByIdAsync(int id);

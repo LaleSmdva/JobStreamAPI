@@ -13,7 +13,7 @@ namespace JobStream.Business.HelperServices.Implementations
 {
 	public class FileService : IFileService
 	{
-        //private readonly IRepository _repository;
+        
 
         public async  Task<string> CopyFileAsync(IFormFile file, string root, params string[] folders)
 		{

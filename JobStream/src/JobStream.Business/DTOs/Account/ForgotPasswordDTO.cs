@@ -8,7 +8,6 @@ namespace JobStream.Business.DTOs.Account
 {
 	public class ForgotPasswordDTO
 	{
-		//required
 		public string? Email { get; set; }
 	}
 }

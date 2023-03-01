@@ -1,23 +1,12 @@
 ﻿using AutoMapper;
-using JobStream.Business.DTOs.NewsDTO;
 using JobStream.Business.DTOs.RubricForNewsDTO;
 using JobStream.Business.Exceptions;
-using JobStream.Business.HelperServices.Implementations;
-using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-    
+
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -82,7 +71,5 @@ namespace JobStream.Business.Services.Implementations
             _rubricForNewsRepository.Delete(result);
             await _rubricForNewsRepository.SaveAsync();
         }
-
-    
     }
 }

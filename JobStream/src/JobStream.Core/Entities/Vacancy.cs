@@ -18,7 +18,7 @@ namespace JobStream.Core.Entities
         public string Description { get; set; }
         public string ExperienceLevel { get; set; }
         public string? HREmail { get; set; }
-        public DateTime? PostedOn { get; set; }  //  ???
+        public DateTime? PostedOn { get; set; }  
 
         public int CompanyId { get; set; }
         public Company Company { get; set; }
@@ -26,20 +26,18 @@ namespace JobStream.Core.Entities
         public JobType? JobType { get; set; } //full-time,part-time,temporary,permanent,internship,contract,etc
 
 
-        //modified
         public int? JobScheduleId { get; set; } //8 hour shift ,day shift,evening shift, self-determined schedule,etc
         public JobSchedule? JobSchedule { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        //yazmamisam
+        //
         public DateTime ClosingDate { get; set; }
         public string? OfferedBenfits { get; set; } //health insurance,paid time-off,flexible schedule
         public bool? isDeleted { get; set; }
         //new 26
         public ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
         public ICollection<Applications> Applications { get; set; }
-        public bool? isApplied { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }
 }

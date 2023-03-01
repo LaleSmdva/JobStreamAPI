@@ -663,9 +663,6 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<int>("Salary")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("isApplied")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("isDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")

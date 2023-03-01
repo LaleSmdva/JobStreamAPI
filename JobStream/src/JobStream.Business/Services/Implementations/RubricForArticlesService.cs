@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.RubricForArticlesDTO;
-using JobStream.Business.DTOs.RubricForNewsDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -74,7 +67,5 @@ namespace JobStream.Business.Services.Implementations
             _rubricForArticlesRepository.Delete(result);
             await _rubricForArticlesRepository.SaveAsync();
         }
-
-    
     }
 }

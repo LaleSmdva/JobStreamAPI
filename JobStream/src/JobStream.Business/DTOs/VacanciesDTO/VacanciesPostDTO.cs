@@ -19,7 +19,7 @@ namespace JobStream.Business.DTOs.VacanciesDTO
         public string Description { get; set; }
         public string ExperienceLevel { get; set; }
         public string? HREmail { get; set; }
-        //public DateTime? PostedOn { get; set; }  //  ???
+        //public DateTime? PostedOn { get; set; }  
 
         //public int CompanyId { get; set; }
         //public string CompanyName { get; set; }
@@ -31,7 +31,6 @@ namespace JobStream.Business.DTOs.VacanciesDTO
 
         public int CategoryId { get; set; }
         //public Category Category { get; set; }
-        //yazmamisam
         //public DateTime ClosingDate { get; set; }
         public string? OfferedBenfits { get; set; } //health insurance,paid time-off,flexible schedule
     }

@@ -1,10 +1,6 @@
 ﻿using JobStream.Business.DTOs.ArticleDTO;
-using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
-using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
-using System.Net;
 
 namespace JobStream.API.Controllers
 {
@@ -13,12 +9,10 @@ namespace JobStream.API.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        private readonly IRubricForArticlesService _rubricForArticlesService;
 
-        public ArticlesController(IArticleService articleService, IRubricForArticlesService rubricForArticlesService)
+        public ArticlesController(IArticleService articleService)
         {
             _articleService = articleService;
-            _rubricForArticlesService = rubricForArticlesService;
         }
 
         [HttpGet]

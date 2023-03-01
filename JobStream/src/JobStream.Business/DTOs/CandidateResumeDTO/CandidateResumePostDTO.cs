@@ -11,8 +11,6 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
 {
     public class CandidateResumePostDTO
     {
-        //public int Id { get; set; }
-
         public IFormFile? CV { get; set; }
         public string? Fullname { get; set; }
         public int? Telephone { get; set; }
@@ -21,15 +19,7 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
         public E.CandidateEducationPostDTO? CandidateEducation { get; set; }
-        //public int? CandidateEducationId { get; set; }
-        // ONE TO ONE 
-        //public E.CandEdDTO? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
-        //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
-        //institution-Baku State University
         public string? LanguageSkills { get; set; }
-        //[NotMapped]
-        //public int? JobTypeId { get; set; }
-        //public JobType? JobType { get; set; }
 
         //public int AppUserId { get; set; }
         //public AppUser AppUser { get; set; }

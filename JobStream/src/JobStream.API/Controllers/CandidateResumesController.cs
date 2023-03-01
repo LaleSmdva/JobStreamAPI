@@ -1,13 +1,7 @@
 ﻿using JobStream.Business.DTOs.ApplyVacancyDTO;
-using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
-using JobStream.Business.DTOs.VacanciesDTO;
-using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
-using JobStream.Core.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace JobStream.API.Controllers
 {
@@ -22,19 +16,8 @@ namespace JobStream.API.Controllers
             _candidateResumeService = candidateResumeService;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllCandidatesEducations()
-        //{
-        //    var list = await _candidateResumeService.GetAllCandidatesResumesAsync();
-        //    return Ok(list);
-        //}
-
-        //[HttpGet("details")]
-        //public async Task<IActionResult> GetCandidateResumeDetails(int resumeId)
-        //{
-        //    var candidate = await _candidateResumeService.CandidateResumeDetails(resumeId);
-        //    return Ok(candidate);
-        //}
+      
+ 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetCandidateResumeByUserId(string userId)
         {

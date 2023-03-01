@@ -11,10 +11,8 @@ public class AppUserDTO
 {
 	//public string? Id { get; set; }
     public string? UserName { get; set; }
-    //new 24
     public string? CompanyName { get; set; }
 	public string? FullName { get; set; }
 	public string? Email { get; set; }
-    // new 25
     public int? CandidateResumeId { get; set; }
 }

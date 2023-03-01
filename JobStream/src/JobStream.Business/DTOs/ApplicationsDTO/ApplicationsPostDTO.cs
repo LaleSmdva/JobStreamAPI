@@ -9,7 +9,6 @@ namespace JobStream.Business.DTOs.ApplicationsDTO
 {
     public class ApplicationsPostDTO
     {
-        //public int Id { get; set; }
         public string? CV { get; set; }
         public int? VacancyId { get; set; }
         //public Vacancy? Vacancy { get; set; }

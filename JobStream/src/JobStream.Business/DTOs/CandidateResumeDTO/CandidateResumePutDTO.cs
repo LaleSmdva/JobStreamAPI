@@ -1,36 +1,17 @@
-﻿using JobStream.Business.DTOs.CandidateEducationDTO;
-using JobStream.Core.Entities;
-using JobStream.Core.Entities.Identity;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace JobStream.Business.DTOs.CandidateResumeDTO
 {
     public class CandidateResumePutDTO
     {
         public int Id { get; set; }
-
-        //public IFormFile? CV { get; set; }
         public string? Fullname { get; set; }
         public int? Telephone { get; set; }
         public string? Email { get; set; }
         public string? Location { get; set; }
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
-        //new 25
-        //public int? CandidateEducationId { get; set; }
-        // ONE TO ONE 
-        //public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
-        //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
-        //institution-Baku State University
         public string? LanguageSkills { get; set; }
-        //[NotMapped]
-        //public int? JobTypeId { get; set; }
-        //public JobType? JobType { get; set; }
 
         //public string? AppUserId { get; set; }
         //public AppUser AppUser { get; set; }

@@ -1,20 +1,12 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.CategoryDTO;
-using JobStream.Business.DTOs.CompanyDTO;
-using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations;
 
@@ -22,20 +14,12 @@ public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
     private readonly IMapper _mapper;
-    private readonly IWebHostEnvironment _environment;
-    private readonly IFileService _fileService;
-    private readonly ICompanyRepository _companyRepository;
-    private readonly IVacanciesRepository _vacanciesRepository;
 
 
-    public CategoryService(IMapper mapper, IWebHostEnvironment environment, IFileService fileService, ICategoryRepository repository, ICompanyRepository companyRepository, IVacanciesRepository vacanciesRepository)
+    public CategoryService(IMapper mapper,ICategoryRepository repository)
     {
         _mapper = mapper;
-        _environment = environment;
-        _fileService = fileService;
         _repository = repository;
-        _companyRepository = companyRepository;
-        _vacanciesRepository = vacanciesRepository;
     }
     public async Task<List<CategoriesDTO>> GetAllCategories()
     {

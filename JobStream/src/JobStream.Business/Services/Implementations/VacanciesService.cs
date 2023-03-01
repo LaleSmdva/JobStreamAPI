@@ -65,7 +65,7 @@ namespace JobStream.Business.Services.Implementations
                 }
             }
             var list = _mapper.Map<List<VacanciesDTO>>(vacanciesDTOs);
-          
+
             return list;
 
         }
@@ -83,14 +83,19 @@ namespace JobStream.Business.Services.Implementations
             return _vacanciesRepository.GetAll().Where(v => v.ClosingDate <= currentDateUtc);
         }
 
-
+       
+         ////////////  Hangfire  //////////// 
+      
         //[AutomaticRetry(Attempts = 0)]
         public async Task VacancyCleanUp()
         {
             var expiredVacancies = GetExpiredVacancies();
             foreach (var vacancy in expiredVacancies)
             {
-                _vacanciesRepository.Delete(vacancy);
+                //_vacanciesRepository.Delete(vacancy);
+                vacancy.isDeleted = true;
+                _vacanciesRepository.Update(vacancy);
+
             }
             await _vacanciesRepository.SaveAsync();
         }
@@ -104,14 +109,6 @@ namespace JobStream.Business.Services.Implementations
              .ToList();
             var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
             return result;
-
-
         }
-
-
-
-
-
-
     }
 }

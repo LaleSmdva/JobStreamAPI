@@ -64,12 +64,12 @@ namespace JobStream.Business.Services.Implementations
 				throw new NotFoundException("Email not found");
 			}
 			var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-			/////// custom link
+			/// custom link
 			string baseUrl = "https://localhost:7101/";
 			string resetPasswordPath = "api/Auth/resetpassword";
 
 			string resetPasswordLink = $"{baseUrl}{resetPasswordPath}?userId={user.Id}&token={token}";
-			///////
+			///
 			await _mailService.SendEmailAsync(new MailRequestDTO 
 			{
 				ToEmail = user.Email,

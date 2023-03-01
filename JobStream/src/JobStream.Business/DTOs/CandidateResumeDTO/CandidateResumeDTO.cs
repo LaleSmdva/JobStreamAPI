@@ -22,15 +22,7 @@ public class CandidateResumeDTO
     public string? Location { get; set; }
     public string? DesiredPosition { get; set; }
     public string? AboutMe { get; set; }
-    //public int CandidateEducationId { get; set; }
-    // ONE TO ONE 
-    //public E.CandidateEducationDTO? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
-    //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
-    //institution-Baku State University
     public string? LanguageSkills { get; set; }
-    //[NotMapped]
-    //public int? JobTypeId { get; set; }
-    //public JobType? JobType { get; set; }
 
     //public string? AppUserId { get; set; }
     //public AppUser? AppUser { get; set; }

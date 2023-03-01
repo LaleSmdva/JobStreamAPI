@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
-using JobStream.Business.DTOs.CategoryDTO;
 using JobStream.Business.DTOs.CategoryFieldDTO;
 using JobStream.Business.Exceptions;
-using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -77,7 +68,5 @@ namespace JobStream.Business.Services.Implementations
             _categoryFieldRepository.Delete(categoryField);
             await _categoryFieldRepository.SaveAsync();
         }
-
-
     }
 }

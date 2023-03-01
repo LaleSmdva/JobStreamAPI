@@ -89,24 +89,8 @@ namespace JobStream.Business.Services.Implementations
 
         }
 
-
-        //var result = _mapper.Map<CandidateResumeDTO>(resume, opt =>
-        //{
-        //    if(resume.AppUser.Companyname==null)
-        //    {
-        //        opt.BeforeMap((src, dest) =>
-        //        {
-        //            //dest.AppUser.CompanyName = null;
-
-        //        });
-        //        opt.AfterMap((src, dest) =>
-        //        {
-        //            dest.AppUser.CompanyName = null;
-        //        });
-        //    }
-
-        //});
-
+        /// Register zamani create olunur
+        /// 
         //public async Task CreateCandidateResumeAsync(CandidateResumePostDTO entity)
         //{
         //    if (entity == null) throw new NullReferenceException("Candidate resume can't ne null");
@@ -136,8 +120,6 @@ namespace JobStream.Business.Services.Implementations
         //    }
         //    await _candidateResumeRepository.SaveAsync();
         //}
-
-
 
         public async Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume)
         {
@@ -284,8 +266,6 @@ namespace JobStream.Business.Services.Implementations
             return result;
 
         }
-
-
     }
 }
 

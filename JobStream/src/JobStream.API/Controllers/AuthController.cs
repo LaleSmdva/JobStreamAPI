@@ -27,11 +27,6 @@ namespace JobStream.API.Controllers
             return Ok(tokenResponse);
         }
 
-
-        /// <summary>
-        /// //
-        /// </summary>
-        /// <returns></returns>
         [HttpPost]
         [Route("forgotpassword")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
@@ -49,19 +44,6 @@ namespace JobStream.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("[action]")]
-
-        //public async Task<IActionResult> ConfirmEmail( string token,string userId)
-        //{
-        //	await _authService.ConfirmEmail(token,userId);
-        //	return Ok();
-        //}
-
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> LoginCompany(LoginCompanyDTO loginCompanyDTO)
-        //{
-        //	await _authService.LoginCompany(loginCompanyDTO);
-        //	return Ok("Logged in");
-        //}
+      
     }
 }

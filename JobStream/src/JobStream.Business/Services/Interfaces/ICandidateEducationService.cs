@@ -14,7 +14,6 @@ namespace JobStream.Business.Services.Interfaces
         Task<List<CandidateEducationDTO>> GetAllCandidatesEducationAsync();
 
         //Task<CandidateEducationDTO> GetCandidateEducationByResumeIdAsync(int id);
-        Task CreateCandidateEducationeAsync(CandidateEducationPostDTO entity);
         Task UpdateCandidateEducationAsync(int id, CandidateEducationPutDTO education);
         //Task DeleteCandidateEducation(int id);
         Task DeleteCandidateEducationInfoAsync(int candidateId, List<int> educationIds);

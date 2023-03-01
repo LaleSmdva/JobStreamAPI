@@ -50,7 +50,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
     opt.Lockout.AllowedForNewUsers = false;
 
-    //future use
+    //f
 
     //opt.Tokens.EmailConfirmationTokenProvider= null;
 
@@ -95,7 +95,6 @@ builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-//new
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IJobTypeRepository, JobTypeRepository>();
 builder.Services.AddScoped<IJobScheduleRepository, JobScheduleRepository>();
@@ -119,7 +118,6 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddTransient<IMailService, MailService>();
-//new
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IJobTypeService, JobTypeService>();
 builder.Services.AddScoped<IJobScheduleService, JobScheduleService>();
@@ -131,7 +129,6 @@ builder.Services.AddScoped<ICandidateResumeService, CandidateResumeService>();
 builder.Services.AddScoped<IAboutUsService, AboutUsService>();
 builder.Services.AddScoped<ICandidateEducationService, CandidateEducationService>();
 builder.Services.AddScoped<ICategoryFieldService, CategoryFieldService>();
-builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
 
 
@@ -139,8 +136,6 @@ builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddHangfireServer();
-
-
 
 
 
@@ -170,20 +165,19 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
-    //var initializer = app.Services.GetRequiredService<AppDbContextInitializer>(); //dependency injection
-    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>(); //dependency injection
+    //var initializer = app.Services.GetRequiredService<AppDbContextInitializer>(); 
+    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>(); 
     await initializer.SeedRoleAsync();
     await initializer.SeedUserAsync();
 }
 
 
 //// Hangfire
-///
 app.UseHangfireDashboard();
 app.UseHangfireServer();
 
-//RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 * * ? * *");
-RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 0 1 1 *");
+//RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 * * ? * *"); //every minute
+RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 0 1 1 *");  //every year
 
 
 app.MapControllers();

@@ -9,7 +9,6 @@ namespace JobStream.Business.DTOs.RubricForArticlesDTO
 {
     public class RubricForArticlesPostDTO
     {
-        //public int Id { get; set; }
         public string Name { get; set; }
         //public ICollection<Article>? Articles { get; set; }
     }

@@ -1,18 +1,11 @@
 ﻿using AutoMapper;
-using JobStream.Business.DTOs.ArticleDTO;
 using JobStream.Business.DTOs.JobTypeDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations;
 

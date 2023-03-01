@@ -1,22 +1,12 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.ArticleDTO;
-using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using JobStream.Business.Mappers;
-using JobStream.Business.DTOs.NewsDTO;
 
 namespace JobStream.Business.Services.Implementations;
 
@@ -136,8 +126,6 @@ public class ArticleService : IArticleService
         await _fileService.DeleteFileAsync(article.Image, _environment.WebRootPath, "images", "Articles");
         _articleRepository.Delete(article);
         await _articleRepository.SaveAsync();
-
-
     }
 
 }

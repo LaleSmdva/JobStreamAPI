@@ -26,21 +26,6 @@ namespace JobStream.API.Controllers
         }
 
 
-
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetCandidateEducationByResumeId(int id)
-        //{
-        //    var candidateEducation = await _candidateEducation.GetCandidateEducationByResumeIdAsync(id);
-        //    return Ok(candidateEducation);
-        //}
-
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync(CandidateEducationPostDTO entity)
-        {
-            await _candidateEducation.CreateCandidateEducationeAsync(entity);
-            return Ok("Candidate education created");
-
-        }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CandidateEducationPutDTO education)
         {

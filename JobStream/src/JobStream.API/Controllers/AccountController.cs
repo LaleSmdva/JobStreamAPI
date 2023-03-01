@@ -11,7 +11,6 @@ namespace JobStream.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        //GetAccount//UpdateAccount//DeleteAccount
         private readonly IAccountService _accountService;
 
         public AccountController(IAccountService accountService)
@@ -93,12 +92,7 @@ namespace JobStream.API.Controllers
             return Ok("Company registered");
         }
 
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> ConfirmEmail(MailRequestDTO mailRequestDTO,string link)
-        //{
-        //	var response=await _accountService.SendConfirmationEmailAsync(mailRequestDTO.ToEmail, link);
-        //	return Ok(response);
-        //}
+    
 
     }
 }

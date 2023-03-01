@@ -17,7 +17,6 @@ namespace JobStream.Business.Mappers
         {
             CreateMap<Invitation, InvitationDTO>().ReverseMap();
             CreateMap<Invitation, InvitationPostDTO>().ReverseMap();
-            CreateMap<Invitation, InvitationPutDTO>().ReverseMap();
 
         }
     }
