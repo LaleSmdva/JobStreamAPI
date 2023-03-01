@@ -4,14 +4,10 @@ using JobStream.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.HelperServices.Implementations
 {
@@ -89,7 +85,7 @@ namespace JobStream.Business.HelperServices.Implementations
 			if (user != null)
 			{
 				user.RefreshToken = refreshToken;
-				user.RefreshTokenExpires = accessTokenDate.AddMinutes(addOnAccessTokenDate);
+				user.RefreshTokenExpires = accessTokenDate.AddHours(addOnAccessTokenDate);
 				await _userManager.UpdateAsync(user);
 			}
 			else throw new Exception();

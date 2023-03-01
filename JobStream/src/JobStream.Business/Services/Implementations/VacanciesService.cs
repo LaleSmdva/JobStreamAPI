@@ -5,6 +5,7 @@ using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
+using JobStream.Business.Validators.Vacancies;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
@@ -51,12 +52,20 @@ namespace JobStream.Business.Services.Implementations
             return result;
         }
 
-        public List<VacanciesDTO> GetVacanciesByCategory(Expression<Func<Vacancy, bool>> expression)
+        public async Task<List<VacanciesDTO>> GetVacanciesByCategoryAsync(List<int> categoryIds)
         {
-            List<Vacancy> vacancy = _vacanciesRepository.GetByCondition(expression).Where(v => v.isDeleted == false).ToList();
-            if (vacancy is null) throw new NotFoundException("No vacancy was found");
-            var result = _mapper.Map<List<VacanciesDTO>>(vacancy);
-            return result;
+            //List<Vacancy> vacancy = await _vacanciesRepository.GetByIdAsync(categoryId).Where(v => v.isDeleted == false).ToList();
+            List<Vacancy> vacanciesDTOs= new List<Vacancy>(); 
+            foreach (var categoryId in categoryIds)
+            {
+
+                var vacancy = await _vacanciesRepository.GetByIdAsync(categoryId);
+                vacanciesDTOs.Add(vacancy);
+       
+            }
+            var list=_mapper.Map<List<VacanciesDTO>>(vacanciesDTOs);
+            return list;
+
         }
 
         public async Task<VacanciesDTO> GetVacancyByIdAsync(int id)
@@ -65,75 +74,7 @@ namespace JobStream.Business.Services.Implementations
             var result = _mapper.Map<VacanciesDTO>(vacancy);
             return result;
         }
-        public async Task CreateVacancyAsync(VacanciesPostDTO entity)
-        {
-            var company = await _companyRepository.GetByIdAsync(entity.CompanyId);
-            var category = await _categoryRepository.GetByIdAsync(entity.CategoryId);
-            var jobType = await _jobTypeRepository.GetByIdAsync(entity.JobTypeId);
-            var jobSchedule = await _jobScheduleRepository.GetByIdAsync(entity.JobScheduleId);
-
-            var vacancy = _mapper.Map<Vacancy>(entity);
-
-            vacancy.Company = company;
-            vacancy.Category = category;
-            vacancy.JobType = jobType;
-            vacancy.JobSchedule = jobSchedule;
-            vacancy.PostedOn = DateTime.Now;
-            vacancy.ClosingDate = DateTime.Now.AddDays(30);
-
-
-            await _vacanciesRepository.CreateAsync(vacancy);
-            await _vacanciesRepository.SaveAsync();
-        }
-
-        public async Task UpdateVacancyAsync(int id, VacanciesPutDTO vacancy)
-        {
-            // Vacancy ozu,JobTypeId,JobScheduleID,CategoryId,CompanyId
-            var vacancies = _vacanciesRepository.GetByCondition(c => c.Id == vacancy.Id, false);
-            if (vacancies == null) throw new NotFoundException("Not Found");
-            if (id != vacancy.Id) throw new BadRequestException("Id is not valid");
-            var result = _mapper.Map<Vacancy>(vacancy);
-
-
-            // Get all the properties of the VacanciesPutDTO class
-            var properties = typeof(VacanciesPutDTO).GetProperties();
-
-            //foreach (var property in properties)
-            //{
-            //    // Get the value of the property in the VacanciesPutDTO object
-            //    var value = property.GetValue(vacancy);
-
-            //    // Check if the value is null or empty
-            //    //if (value != null && !string.IsNullOrEmpty(value.ToString()))
-            //    //{
-            //        // Get the corresponding property in the Vacancy object
-            //        var vacancyProperty = typeof(Vacancy).GetProperty(property.Name);
-
-            //        // Set the value of the Vacancy property to the value of the VacanciesPutDTO property
-            //        vacancyProperty.SetValue(result, value);
-            //    //}
-            //}
-
-
-            //result.JobTypeId= vacancy.JobTypeId;
-            //result.JobScheduleId = vacancy.JobScheduleId;
-            //result.CategoryId= vacancy.CategoryId;  
-            //result.CompanyId= vacancy.CompanyId;
-            //
-            //result.ClosingDate= DateTime.UtcNow.AddDays(vacancy.ClosingDate);
-            _vacanciesRepository.Update(result);
-            await _vacanciesRepository.SaveAsync();
-        }
-
-
-        public async Task DeleteVacancyAsync(int id)
-        {
-            var vacancy = await _vacanciesRepository.GetByIdAsync(id);
-            var result = _mapper.Map<Vacancy>(vacancy);
-            _vacanciesRepository.Delete(result);
-            await _vacanciesRepository.SaveAsync();
-        }
-
+        
         public IEnumerable<Vacancy> GetExpiredVacancies()
         {
             var currentDateUtc = DateTime.Now;
@@ -153,7 +94,7 @@ namespace JobStream.Business.Services.Implementations
         }
 
 
-        public async Task<List<VacanciesDTO>> SearchVacancies(string? keyword, string? location,List<int>? categoryId, string? companyName)
+        public async Task<List<VacanciesDTO>> SearchVacancies(string? keyword, string? location, List<int>? categoryId, string? companyName)
         {
             List<Vacancy> vacancies = _vacanciesRepository.GetAll()
              .Where(v => v.Name.Contains(keyword) || v.Location.Contains(location)

@@ -14,11 +14,6 @@ namespace JobStream.Business.Services.Interfaces
 {
     public interface ICandidateResumeService
     {
-
-        //CandidateResumeDetails
-        //TrackApplicationStatus
-        //contactApplicant --company profile
-
         //SavedVacancies
         //ViewAppliedJobs
         //Viewvacancies
@@ -32,6 +27,7 @@ namespace JobStream.Business.Services.Interfaces
         Task DeleteCandidateResume(int id); //delete account from website
         Task ApplyVacancy(int candidateId, int companyId, int vacancyId, ApplyVacancyDTO applyVacancyDTO);
         Task<List<ApplicationsResponseDTO>> ViewStatusOfAppliedJobs(int candidateId);
+    
         //new 26
         //subscribe To company
         //Task Subscribe(int companyId);

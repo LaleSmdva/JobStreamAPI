@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
-    public class CandidateEducationService : ICandidateEducationService
+    public class CandidateEducationService :ICandidateEducationService
     {
         private readonly ICandidateEducationRepository _candidateEducationRepository;
         private readonly ICandidateResumeRepository _candidateResumeRepository;
@@ -39,18 +39,18 @@ namespace JobStream.Business.Services.Implementations
             return list;
         }
 
-        public async Task<CandidateEducationDTO> GetCandidateEducationByResumeIdAsync(int id)
-        {
+        //public async Task<CandidateEducationDTO> GetCandidateEducationByResumeIdAsync(int id)
+        //{
           
-            CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
-            if (resume == null) throw new NotFoundException("No data found");
+        //    CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
+        //    if (resume == null) throw new NotFoundException("No data found");
           
-            CandidateEducation education = await _candidateEducationRepository.GetAll()
-                .FirstOrDefaultAsync(c => c.CandidateResumeId == id);
-            if (education == null) throw new NotFoundException("Not found");
-            var result = _mapper.Map<CandidateEducationDTO>(education);
-            return result;
-        }
+            //CandidateEducation education = await _candidateEducationRepository.GetAll()
+                //.FirstOrDefaultAsync(c => c.CandidateResumeId == id);
+            //if (education == null) throw new NotFoundException("Not found");
+            //var result = _mapper.Map<CandidateEducationDTO>(education);
+            //return result;
+        //}
         public async Task CreateCandidateEducationeAsync(CandidateEducationPostDTO entity)
         {
             //if (entity == null) throw new NullReferenceException("Candidate education can't ne null");
@@ -74,19 +74,57 @@ namespace JobStream.Business.Services.Implementations
             _candidateEducationRepository.Update(result);
             await _candidateEducationRepository.SaveAsync();
         }
-        public async Task DeleteCandidateEducation(int id)
-        {
-            var candidateEducations = _candidateEducationRepository.GetAll().ToList();
+        //public async Task DeleteCandidateEducation(int id)
+        //{
+        //    var candidateEducations = _candidateEducationRepository.GetAll().ToList();
 
-            if (candidateEducations.All(x => x.Id != id))
+        //    if (candidateEducations.All(x => x.Id != id))
+        //    {
+        //        throw new NotFoundException("Not Found");
+        //    }
+        //    var education = await _candidateEducationRepository.GetByIdAsync(id);
+        //    _candidateEducationRepository.Delete(education);
+        //    await _candidateEducationRepository.SaveAsync();
+        //}
+
+        public async Task DeleteCandidateEducationInfoAsync(int candidateId, List<int> educationIds)
+        {
+            //// Get the candidate from the database based on the candidateId
+            var candidate = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(c => c.Id == candidateId);
+
+            if (candidate == null)
             {
-                throw new NotFoundException("Not Found");
+                throw new ArgumentException("Candidate not found", nameof(candidateId));
             }
-            var education = await _candidateEducationRepository.GetByIdAsync(id);
-            _candidateEducationRepository.Delete(education);
+            List<CandidateEducation> deletedIds = new List<CandidateEducation>();
+            foreach (var educationId in educationIds)
+            {
+                var educationInfo = await _candidateEducationRepository.GetByIdAsync(educationId);
+                if (educationInfo == null)
+                {
+                    throw new NotFoundException("Education info not found");
+                }
+
+                List<CandidateEducation> deletedInfos = await _candidateEducationRepository.GetAll().Where(x => x.CandidateResumeId == candidateId).Where(x => x.Id == educationId).ToListAsync();
+                if (deletedInfos.Count() != 0)
+                {
+                    foreach (var deletedInfo in deletedInfos)
+                    {
+
+                        deletedIds.Add(deletedInfo);
+                    }
+                }
+            }
+
+            foreach (var deletedId in deletedIds)
+            {
+                _candidateEducationRepository.Delete(deletedId);
+            }
             await _candidateEducationRepository.SaveAsync();
+
+
         }
 
-   
+
     }
 }

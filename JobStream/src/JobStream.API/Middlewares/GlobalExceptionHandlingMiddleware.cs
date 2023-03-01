@@ -67,7 +67,7 @@ namespace JobStream.API.Middlewares
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(new { Message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                  context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

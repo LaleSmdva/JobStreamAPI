@@ -13,12 +13,10 @@ namespace JobStream.DataAccess.Configurations
 	{
 		public void Configure(EntityTypeBuilder<CandidateEducation> builder)
 		{
-			builder.HasOne(b => b.CandidateResume).WithOne(c => c.CandidateEducation)
-			.HasForeignKey<CandidateResume>(s => s.Id);
+			//builder.HasOne(b => b.CandidateResume).WithOne(c => c.CandidateEducation)
+			//.HasForeignKey<CandidateResume>(s => s.Id);
 
-			builder.Property(c => c.Major).IsRequired(true).HasMaxLength(150);
-			builder.Property(c => c.Degree).IsRequired(true).HasMaxLength(150);
-			builder.Property(c => c.Institution).IsRequired(true).HasMaxLength(150);
+			builder.Property(c => c.EducationInfo).IsRequired(true).HasMaxLength(300);
 		}
 	}
 }

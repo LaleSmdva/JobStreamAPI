@@ -35,7 +35,7 @@ namespace JobStream.API.Controllers
             var companies = await _companyService.GetByIdAsync(id);
             return Ok(companies);
         }
-        [HttpGet("Company/{companyName}")]
+        [HttpGet("{companyName}")]
         public IActionResult GetCompanyByName(string companyName)
         {
             var companies = _companyService.GetCompaniesByName(companyName);
@@ -64,17 +64,17 @@ namespace JobStream.API.Controllers
             return Ok("Successfully deleted");
         }
 
-        [HttpPost("[action]/{id}")]
-        public async Task<IActionResult> AddVacancy(int id, VacanciesPostDTO vacanciesPostDTO)
+        [HttpPost("{companyId}/AddVacancy")]
+        public async Task<IActionResult> AddVacancyToCompany(int companyId,[FromForm] VacanciesPostDTO vacanciesPostDTO)
         {
-            await _companyService.AddVacancyToCompany(id, vacanciesPostDTO);
+            await _companyService.AddVacancyToCompany(companyId, vacanciesPostDTO);
             return Ok("Successfully added vacancy");
 
         }
-        [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> UpdateVacancy(int id, VacanciesPutDTO vacanciesPutDTO)
+        [HttpPut("{companyId}/vacancies/{vacancyId}")]
+        public async Task<IActionResult> UpdateVacancy(int companyId, int vacancyId, VacanciesPutDTO vacanciesPutDTO)
         {
-            await _companyService.UpdateVacancy(id, vacanciesPutDTO);
+            await _companyService.UpdateVacancy(companyId,vacancyId, vacanciesPutDTO);
             return Ok("Vacancy updated");
         }
         [HttpDelete("[action]/{id}/{vacancyId}")]

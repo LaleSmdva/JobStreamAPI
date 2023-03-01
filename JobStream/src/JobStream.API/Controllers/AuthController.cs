@@ -21,9 +21,9 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CandidateLogin(LoginCandidateDTO loginCandidateDTO)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            var tokenResponse = await _authService.LoginCandidateAsync(loginCandidateDTO);
+            var tokenResponse = await _authService.Login(loginDTO);
             return Ok(tokenResponse);
         }
 
@@ -48,13 +48,7 @@ namespace JobStream.API.Controllers
             var result = await _authService.ResetPassword(resetPasswordDTO, userId, token);
             return Ok(result);
         }
-        [HttpPost]
-        [Route("emailresetpassword")]
-        public async Task<IActionResult> EmailResetPassword([FromForm] MailRequestDTO mailRequestDTO)
-        {
-            await _mailService.SendEmailAsync(mailRequestDTO);
-            return Ok();
-        }
+
         //[HttpPost("[action]")]
 
         //public async Task<IActionResult> ConfirmEmail( string token,string userId)

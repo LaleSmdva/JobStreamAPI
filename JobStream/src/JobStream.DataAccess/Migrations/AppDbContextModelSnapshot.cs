@@ -138,26 +138,12 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<int?>("CandidateResumeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Degree")
+                    b.Property<string>("EducationInfo")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Institution")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Major")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CandidateResumeId")
-                        .IsUnique()
-                        .HasFilter("[CandidateResumeId] IS NOT NULL");
 
                     b.ToTable("CandidateEducation");
                 });
@@ -636,8 +622,9 @@ namespace JobStream.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ExperienceLevel")
-                        .HasColumnType("int");
+                    b.Property<string>("ExperienceLevel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HREmail")
                         .HasColumnType("nvarchar(max)");
@@ -654,6 +641,9 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -853,15 +843,6 @@ namespace JobStream.DataAccess.Migrations
                     b.Navigation("RubricForArticles");
                 });
 
-            modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
-                {
-                    b.HasOne("JobStream.Core.Entities.CandidateResume", "CandidateResume")
-                        .WithOne("CandidateEducation")
-                        .HasForeignKey("JobStream.Core.Entities.CandidateEducation", "CandidateResumeId");
-
-                    b.Navigation("CandidateResume");
-                });
-
             modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
                 {
                     b.HasOne("JobStream.Core.Entities.Identity.AppUser", "AppUser")
@@ -1020,11 +1001,6 @@ namespace JobStream.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>
-                {
-                    b.Navigation("CandidateEducation");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.Category", b =>

@@ -21,8 +21,8 @@ namespace JobStream.Business.Services.Interfaces
         //Task CreateAsync(CompanyPostDTO entity);
         Task UpdateCompanyAccount(string id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
         Task DeleteCompany(int id);
-        Task AddVacancyToCompany(int id, VacanciesPostDTO vacanciesPostDTO);
-        Task UpdateVacancy(int id, VacanciesPutDTO vacanciesPutDTO);
+        Task AddVacancyToCompany(int companyId, VacanciesPostDTO vacanciesPostDTO);
+        Task UpdateVacancy(int companyId, int vacancyId, VacanciesPutDTO vacanciesPutDTO);
         Task DeleteVacancy(int id, int vacancyId);
         //Update vacancy qaldi
         Task InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Validators.Account
 {
-	public class LoginCandidateDTOValidator:AbstractValidator<LoginCandidateDTO>
+	public class LoginCandidateDTOValidator:AbstractValidator<LoginDTO>
 	{
 		public LoginCandidateDTOValidator()
 		{

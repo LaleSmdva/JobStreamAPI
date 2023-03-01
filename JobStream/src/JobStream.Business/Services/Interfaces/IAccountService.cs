@@ -13,15 +13,18 @@ namespace JobStream.Business.Services.Interfaces
 {
 	public interface IAccountService
 	{
-		List<object> GetAllUserAccounts();
-		List<CandidateDTO> GetAllCandidateAccounts();
-		List<C.CompanyDTO> GetAllCompanyAccounts();
-		Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName);
-		Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
+       
+		Task<List<CandidateDTO>> GetAllCandidateAccounts();
+		Task<List<C.CompanyDTO>> GetAllCompanyAccounts();
+		Task<CandidateDTO> GetCandidateAccountByUsernameAsync(string userName);
+		Task<C.CompanyDTO> GetCompanyAccountByCompanyNameAsync(string companyName);
+
+        Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
 
 		Task<List<object>> GetAllRolesAsync();
 		Task<bool> CreateRoleAsync(string userName, List<string> roles);
 		Task<bool> UpdateRoleAsync(string userName, List<string> newRoles, List<string> deletedRoles);
+		Task<List<string>> GetRolesById(string id);
 
 		Task RegisterCompany(RegisterCompanyDTO registerCompany);
 		//Task<string> SendConfirmationEmailAsync(string emailAddress, string confirmationLink);

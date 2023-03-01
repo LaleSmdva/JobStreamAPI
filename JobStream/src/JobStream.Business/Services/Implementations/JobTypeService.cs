@@ -67,8 +67,9 @@ public class JobTypeService : IJobTypeService
     public async Task CreateJobTypeAsync(JobTypePostDTO entity)
     {
         if (entity == null) throw new NullReferenceException("Job type can't ne null");
+        if (await _jobTypeRepository.GetAll().AnyAsync(j => j.Name == entity.Name))
+            throw new AlreadyExistsException("Job type with that name already exists");
         var jobType = _mapper.Map<JobType>(entity);
-
         await _jobTypeRepository.CreateAsync(jobType);
         await _jobTypeRepository.SaveAsync();
     }

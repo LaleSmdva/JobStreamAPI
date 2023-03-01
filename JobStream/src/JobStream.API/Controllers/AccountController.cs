@@ -19,24 +19,19 @@ namespace JobStream.API.Controllers
             _accountService = accountService;
         }
 
+
+
         [HttpGet("[action]")]
-        public IActionResult GetAllUserAccounts()
+        public async Task<IActionResult> GetAllCandidateAccounts()
         {
-            var accounts = _accountService.GetAllUserAccounts();
+            var accounts = await _accountService.GetAllCandidateAccounts();
             return Ok(accounts);
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllCandidateAccounts()
+        public async Task<IActionResult> GetAllCompanyAccounts()
         {
-            var accounts = _accountService.GetAllCandidateAccounts();
-            return Ok(accounts);
-        }
-
-        [HttpGet("[action]")]
-        public IActionResult GetAllCompanyAccounts()
-        {
-            var accounts = _accountService.GetAllCompanyAccounts();
+            var accounts = await _accountService.GetAllCompanyAccounts();
             return Ok(accounts);
         }
 
@@ -45,6 +40,12 @@ namespace JobStream.API.Controllers
         public async Task<IActionResult> GetCandidateAccountByUsername(string userName)
         {
             var user = await _accountService.GetCandidateAccountByUsernameAsync(userName);
+            return Ok(user);
+        }
+        [HttpGet("company/{companyName}")]
+        public async Task<IActionResult> GetCompanyAccountByCompanyNameAsync(string companyName)
+        {
+            var user = await _accountService.GetCompanyAccountByCompanyNameAsync(companyName);
             return Ok(user);
         }
 
@@ -66,18 +67,24 @@ namespace JobStream.API.Controllers
         //[ValidateRolesModel] ??
         public async Task<IActionResult> CreateRole(string userName, [FromQuery] List<string> roles)
         {
-            bool isCreated = await _accountService.CreateRoleAsync(userName, roles);
-            return Ok(isCreated);
+            await _accountService.CreateRoleAsync(userName, roles);
+            return Ok("Role added successfully");
 
         }
 
-        [HttpPost("[action]")]
+        [HttpPut("[action]")]
         public async Task<IActionResult> UpdateRole(string userName, [FromQuery] List<string> newRoles, [FromQuery] List<string> deletedRoles)
         {
-            bool isUpdated = await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
-            return Ok(isUpdated);
+            await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
+            return Ok("Role updated successfully");
         }
-
+        [HttpGet("{id}/roles")]
+        public async Task<IActionResult> GetRolesById(string id)
+        {
+            var roles=await _accountService.GetRolesById(id);
+            return Ok(roles);
+        }
+      
 
         [HttpPost("[action]")]
         public async Task<IActionResult> RegisterCompany(RegisterCompanyDTO companyDto)

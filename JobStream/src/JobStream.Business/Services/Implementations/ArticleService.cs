@@ -16,6 +16,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using JobStream.Business.Mappers;
+using JobStream.Business.DTOs.NewsDTO;
 
 namespace JobStream.Business.Services.Implementations;
 
@@ -37,8 +38,17 @@ public class ArticleService : IArticleService
     }
     public async Task<List<ArticleDTO>> GetAll()
     {
-        var articles = await _articleRepository.GetAll().ToListAsync();
-        var list = _mapper.Map<List<ArticleDTO>>(articles);
+        var list = await _articleRepository.GetAll().Select(n => new ArticleDTO
+        {
+            Id = n.Id,
+            Title = n.Title,
+            Description = n.Description,
+            RubricForArticlesId = n.RubricForArticlesId,
+            PostedOn = n.PostedOn,
+            Image = n.Image
+        
+        }).ToListAsync();
+      
         return list;
     }
 
@@ -77,7 +87,7 @@ public class ArticleService : IArticleService
             throw new NullReferenceException("Article can't be null");
         }
         if (await _rubricForArticlesRepository.GetAll().AllAsync(r => r.Id != entity.RubricForArticlesId)) throw new NotFoundException("There is no rubric with that id");
-        if (await _articleRepository.GetAll().AllAsync(n => n.Title == entity.Title)) throw new AlreadyExistsException("Article with same title already exists");
+        if (await _articleRepository.GetAll().AnyAsync(n => n.Title == entity.Title)) throw new AlreadyExistsException("Article with same title already exists");
         var fileName = await _fileService.CopyFileAsync(entity.Image, _environment.WebRootPath, "images", "Articles");
 
         if (entity == null) throw new NullReferenceException("Article can't ne null");
@@ -108,6 +118,7 @@ public class ArticleService : IArticleService
         Article.Image = fileName;
         Article.PostedOn = prevPostedOn;
         Article.Title = article.Title;
+        Article.Description= article.Description;
         Article.RubricForArticlesId = article.RubricForArticlesId;
 
         _articleRepository.Update(Article);

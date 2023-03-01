@@ -22,7 +22,7 @@ public class CandidateResume : IEntity
     public string? AboutMe { get; set; }
     // ONE TO ONE  YAZMA
     //public int? CandidateEducationId { get; set; }
-    public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
+    //public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
                                                                 //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
                                                                 //institution-Baku State University
     public string? LanguageSkills { get; set; }
@@ -44,4 +44,6 @@ public class CandidateResume : IEntity
     public string? ProfilePhoto { get; set; }
     ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
     ICollection<Applications>? Applications { get; set; }
+    //new 1
+    //ICollection<CandidateEducation>? CandidateEducations { get; set; }
 }

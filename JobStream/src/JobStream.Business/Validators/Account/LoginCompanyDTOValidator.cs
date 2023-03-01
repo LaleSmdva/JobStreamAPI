@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace JobStream.Business.Validators.Account
 {
-	public class LoginCompanyDTOValidator:AbstractValidator<LoginCompanyDTO>
+	public class LoginCompanyDTOValidator:AbstractValidator<LoginDTO>
 	{
 		public LoginCompanyDTOValidator()
 		{
-			RuleFor(c => c.Email).EmailAddress().WithMessage("Insert a valid email address");
+			//RuleFor(c => c.Email).EmailAddress().WithMessage("Insert a valid email address");
+			RuleFor(ue => ue.UsernameOrEmail).NotNull().NotEmpty().WithMessage("Username/Email field can't be empty");
 			RuleFor(c => c.Password)
 				.NotNull().WithMessage("Enter your password")
 				.NotEmpty().WithMessage("Enter your password")

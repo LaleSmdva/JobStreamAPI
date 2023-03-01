@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace JobStream.Business.Services.Implementations
         public async Task<List<CandidateResumeDTO>> GetAllCandidatesResumesAsync()
         {
             List<CandidateResume> candidateResumes = await _candidateResumeRepository.GetAll()
-                .Include(e => e.CandidateEducation)
+                //.Include(e => e.Ca)
                 .Include(u => u.AppUser)
                 .Where(u => u.IsDeleted == false).ToListAsync();
             var list = _mapper.Map<List<CandidateResumeDTO>>(candidateResumes);
@@ -94,7 +95,7 @@ namespace JobStream.Business.Services.Implementations
             if (resume == null) throw new NotFoundException("Candidate not found");
 
             CandidateResume candidateResume = _candidateResumeRepository.GetAll()
-                .Include(e => e.CandidateEducation)
+                //.Include(e => e.CandidateEducation)
                 .Include(u => u.AppUser).FirstOrDefault(e => e.Id == candidateId);
             var result = _mapper.Map<CandidateResumeDTO>(resume);
 
@@ -120,82 +121,88 @@ namespace JobStream.Business.Services.Implementations
 
         //});
 
-        public async Task CreateCandidateResumeAsync(CandidateResumePostDTO entity)
-        {
-            if (entity == null) throw new NullReferenceException("Candidate resume can't ne null");
-            var user = await _userManager.FindByEmailAsync(entity.Email);
-            if (user is null) throw new NotFoundException("User not found");
+        //public async Task CreateCandidateResumeAsync(CandidateResumePostDTO entity)
+        //{
+        //    if (entity == null) throw new NullReferenceException("Candidate resume can't ne null");
+        //    var user = await _userManager.FindByEmailAsync(entity.Email);
+        //    if (user is null) throw new NotFoundException("User not found");
 
 
-            if (entity.CV != null)
-            {
-                var fileName = await _fileService.CopyFileAsync(entity.CV, _env.WebRootPath, "images", "Resumes");
+        //    if (entity.CV != null)
+        //    {
+        //        var fileName = await _fileService.CopyFileAsync(entity.CV, _env.WebRootPath, "images", "Resumes");
 
-                CandidateResume resume = _mapper.Map<CandidateResume>(entity);
-                resume.CV = fileName;
-                resume.AppUserId = user.Id;
+        //        CandidateResume resume = _mapper.Map<CandidateResume>(entity);
+        //        resume.CV = fileName;
+        //        resume.AppUserId = user.Id;
 
-                //if (_candidateEducationRepository.GetAll().All(x => x.CandidateResumeId == resume.Id))
-                //    throw new BadRequestException("Education is already created");
+        //        //if (_candidateEducationRepository.GetAll().All(x => x.CandidateResumeId == resume.Id))
+        //        //    throw new BadRequestException("Education is already created");
 
-                CandidateEducation candidateEducation = new()
-                {
-                    Major = entity.CandidateEducation.Major,
-                    Degree = entity.CandidateEducation.Degree,
-                    Institution = entity.CandidateEducation.Institution,
-                };
+        //        CandidateEducation candidateEducation = new()
+        //        {
+        //            Major = entity.CandidateEducation.Major,
+        //            Degree = entity.CandidateEducation.Degree,
+        //            Institution = entity.CandidateEducation.Institution,
+        //        };
 
-                await _candidateResumeRepository.CreateAsync(resume);
-            }
-            await _candidateResumeRepository.SaveAsync();
-        }
-
+        //        await _candidateResumeRepository.CreateAsync(resume);
+        //    }
+        //    await _candidateResumeRepository.SaveAsync();
+        //}
 
 
 
         public async Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume)
         {
             if (await _userManager.Users.AllAsync(r => r.Email != candidateResume.Email))
-                throw new BadRequestException("You can not change your email address");
+            {
+                throw new BadRequestException("You cannot change your email address.");
+            }
+
             if (!candidateResume.ProfilePhoto.CheckFileFormat("image/"))
             {
-                throw new FileFormatException("Choose an image type");
+                throw new FileFormatException("Please choose an image type.");
             }
-            if ((!candidateResume.CV.CheckFileFormat("application/pdf")))
-                throw new FileFormatException("Choose pdf file format.");
 
+            if (!candidateResume.CV.CheckFileFormat("application/pdf"))
+            {
+                throw new FileFormatException("Please choose a PDF file format.");
+            }
 
-
-            //CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
-            //if (resume is null || resume.IsDeleted == true) throw new BadRequestException("No resume found with that id");
-            var result = _mapper.Map<CandidateResume>(candidateResume);
-            var CurriculumVitae = await _fileService.CopyFileAsync(candidateResume.CV, _env.WebRootPath, "images", "Resumes", "CV");
-            var fileName = await _fileService.CopyFileAsync(candidateResume.ProfilePhoto, _env.WebRootPath, "images", "Resumes", "ProfilePicture");
-
+            //var result = await _candidateResumeRepository.GetByIdAsync(id);
 
             var user = await _userManager.FindByEmailAsync(candidateResume.Email);
-            user.Fullname = result.Fullname;
-            user.PhoneNumber = result.Telephone.ToString();
+            user.Fullname = candidateResume.Fullname;
+            user.PhoneNumber = candidateResume.Telephone.ToString();
             user.IsDeleted = false;
 
-            result.ProfilePhoto = fileName;
-            result.CV = CurriculumVitae;
+            var result = _mapper.Map<CandidateResume>(candidateResume);
+            result.ProfilePhoto = await _fileService.CopyFileAsync(candidateResume.ProfilePhoto, _env.WebRootPath, "images", "Resumes", "ProfilePicture");
+            result.CV = await _fileService.CopyFileAsync(candidateResume.CV, _env.WebRootPath, "images", "Resumes", "CV");
             result.AppUser = user;
             result.AppUserId = user.Id;
             result.IsDeleted = false;
 
+            //List<CandidateEducation> candidateEducations = new List<CandidateEducation>();
 
+            if (candidateResume.CandidateEducations != null)
+            {
+                foreach (var education in candidateResume.CandidateEducations)
+                {
+                    var ed = new CandidateEducation()
+                    {
+                        EducationInfo = education,
+                        CandidateResumeId = result.Id
+                    };
+
+                    await _candidateEducationRepository.CreateAsync(ed);
+                }
+                await _candidateEducationRepository.SaveAsync();
+            }
             _candidateResumeRepository.Update(result);
             await _candidateResumeRepository.SaveAsync();
-            var identityResult = await _userManager.UpdateAsync(user);
-            if (!identityResult.Succeeded)
-            {
-                foreach (var error in identityResult.Errors)
-                {
-                    // display the error to the user
-                    Console.WriteLine(error.Description);
-                }
-            }
+
         }
 
         public async Task DeleteCandidateResume(int id)
@@ -273,6 +280,8 @@ namespace JobStream.Business.Services.Implementations
             var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
             return result;
         }
+
+
     }
 }
 

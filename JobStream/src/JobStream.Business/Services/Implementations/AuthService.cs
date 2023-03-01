@@ -4,23 +4,8 @@ using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities.Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -43,14 +28,12 @@ namespace JobStream.Business.Services.Implementations
 			_mailService = mailService;
 		}
 
-
-
-		public async Task<LoginTokenResponseDTO> LoginCandidateAsync(LoginCandidateDTO loginCandidate)
+		public async Task<LoginTokenResponseDTO> Login(LoginDTO loginDTO)
 		{
-			var user = await _userManager.FindByEmailAsync(loginCandidate.UsernameOrEmail);
+			var user = await _userManager.FindByEmailAsync(loginDTO.UsernameOrEmail);
 			if (user == null)
 			{
-				user = await _userManager.FindByNameAsync(loginCandidate.UsernameOrEmail);
+				user = await _userManager.FindByNameAsync(loginDTO.UsernameOrEmail);
 				if (user == null)
 				{
 					throw new BadRequestException("Username/Email or password in incorrect");
@@ -58,7 +41,7 @@ namespace JobStream.Business.Services.Implementations
 			}
 			//change password
 			//await _userManager.ChangePasswordAsync(user, loginCandidate.Password);
-			var checkPassword = await _userManager.CheckPasswordAsync(user, loginCandidate.Password);
+			var checkPassword = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
 
 			if (!checkPassword)
 			{
@@ -66,7 +49,7 @@ namespace JobStream.Business.Services.Implementations
 			}
 
 			var response = await _tokenHandler.GenerateTokenAsync(user, 3);
-			await _tokenHandler.UpdateRefreshToken(response.RefreshToken, user, response.Expires, 5);
+			//await _tokenHandler.UpdateRefreshToken(response.RefreshToken, user, response.Expires, 5);
 			return response;
 
 		}
@@ -119,12 +102,5 @@ namespace JobStream.Business.Services.Implementations
 			return "Password reset successfully.";
 		}
 
-
-
-
-		//public async Task LoginCompany(LoginCompanyDTO loginCompany)
-		//{
-
-		//}
 	}
 }

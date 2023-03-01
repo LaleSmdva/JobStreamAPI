@@ -17,5 +17,5 @@ public class ArticleDTO
 	public DateTime? PostedOn { get; set; }
 	public int RubricForArticlesId { get; set; }
 	//public RubricForArticles RubricForArticles { get; }
-	public IFormFile? Image { get; set; }
+	public string? Image { get; set; }
 }

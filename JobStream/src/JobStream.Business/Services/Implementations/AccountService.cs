@@ -27,6 +27,7 @@ using Hangfire.Annotations;
 using AutoMapper.Configuration.Annotations;
 using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Implementations;
+using System.Text.RegularExpressions;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -53,42 +54,60 @@ namespace JobStream.Business.Services.Implementations
             _companyRepository = companyRepository;
         }
 
-        public List<object> GetAllUserAccounts()
-        {
-            var accounts = _accountRepository.GetAll().ToList();
-            if (accounts is null) throw new NotFoundException("No user account exists");
 
-            List<CandidateDTO> candidates = GetAllCandidateAccounts();
-            List<C.CompanyDTO> companies = GetAllCompanyAccounts();
-            var allAccounts = new List<object>();
-            allAccounts.AddRange(candidates);
-            allAccounts.AddRange(companies);
-
-            return allAccounts;
-        }
-
-        public List<CandidateDTO> GetAllCandidateAccounts()
+        public async Task<List<CandidateDTO>> GetAllCandidateAccounts()
         {
 
             var accounts = _accountRepository.GetAll().Where(a => a.Companyname == null).ToList();
             if (accounts is null) throw new NotFoundException("No candidate account exists");
-            var result = _mapper.Map<List<CandidateDTO>>(accounts);
+
+            List<AppUser> candidates = new List<AppUser>();
+
+            foreach (var user in accounts)
+            {
+                var isCandidate = await _userManager.IsInRoleAsync(user, "Candidate");
+                if (isCandidate)
+                    candidates.Add(user);
+
+            }
+            var result = _mapper.Map<List<CandidateDTO>>(candidates);
             return result;
         }
 
-        public List<C.CompanyDTO> GetAllCompanyAccounts()
+        public async Task<List<C.CompanyDTO>> GetAllCompanyAccounts()
         {
             var accounts = _accountRepository.GetAll().Where(a => a.Companyname != null).ToList();
             if (accounts is null) throw new NotFoundException("No company account exists");
-            var result = _mapper.Map<List<C.CompanyDTO>>(accounts);
+            List<AppUser> companies = new List<AppUser>();
+
+            foreach (var user in accounts)
+            {
+                var isCompany = await _userManager.IsInRoleAsync(user, "Company");
+                if (isCompany)
+                    companies.Add(user);
+
+            }
+            var result = _mapper.Map<List<C.CompanyDTO>>(companies);
             return result;
         }
 
-        public async Task<AppUserDTO> GetCandidateAccountByUsernameAsync(string userName)
+        public async Task<CandidateDTO> GetCandidateAccountByUsernameAsync(string userName)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.UserName == userName);
             if (user == null) throw new NotFoundException("User not found");
-            var response = _mapper.Map<AppUserDTO>(user);
+            var isCandidate = await _userManager.IsInRoleAsync(user, "Candidate");
+            if (!isCandidate) throw new NotFoundException("User not found");
+            var response = _mapper.Map<CandidateDTO>(user);
+            return response;
+        }
+        public async Task<C.CompanyDTO> GetCompanyAccountByCompanyNameAsync(string companyName)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Companyname == companyName);
+            if (user == null) throw new NotFoundException("Company not found");
+            var isCompany = await _userManager.IsInRoleAsync(user, "Company");
+            if (!isCompany) throw new NotFoundException("Company not found");
+            var response = _mapper.Map<C.CompanyDTO>(user);
             return response;
         }
 
@@ -146,7 +165,7 @@ namespace JobStream.Business.Services.Implementations
                 throw new CreateRoleFailedException($"{errorMessages}");
             }
             ////new 27
-          
+
             await _candidateResumeRepository.SaveAsync();
             //////// NEW  ///////
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(candidate);
@@ -185,7 +204,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 if (!allRoles.Contains(role))
                 {
-                    throw new NotFoundException("There is no such a role");
+                    throw new NotFoundException("There is no such a role.Choose among: Candidate, Company, Moderator, Admin");
                 }
 
                 var newRole = new IdentityRole
@@ -253,6 +272,17 @@ namespace JobStream.Business.Services.Implementations
             return true;
         }
 
+
+        public async Task<List<string>> GetRolesById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                return roles.ToList();
+            }
+            throw new NotFoundException("User not found");
+        }
         //[HttpGet("confirm-email")]
         //public async Task<string> SendConfirmationEmailAsync(string emailAddress, string confirmationLink)
         //{
@@ -278,7 +308,7 @@ namespace JobStream.Business.Services.Implementations
         {
             AppUser company = new()
             {
-                UserName = registerCompany.Companyname,
+                UserName = Regex.Replace(registerCompany.Companyname, @"[^a-zA-Z0-9]+", "_").ToLower() + Guid.NewGuid().ToString().Substring(0, 8),/*registerCompany.Companyname.Replace(" ", "").ToLower() + Guid.NewGuid().ToString().Substring(0, 8),*/
                 Companyname = registerCompany.Companyname,
                 Email = registerCompany.Email,
                 InfoCompany = registerCompany.InfoCompany,
@@ -296,8 +326,9 @@ namespace JobStream.Business.Services.Implementations
             {
                 Name = registerCompany.Companyname,
                 Email = registerCompany.Email,
-                AboutCompany = "-",
-                Location = "-"
+                AboutCompany = registerCompany.InfoCompany,
+                Location = "-",
+               
 
             };
             company.Company = Company;
@@ -329,7 +360,7 @@ namespace JobStream.Business.Services.Implementations
             }
             await _companyRepository.SaveAsync();
         }
-      
+
 
 
 

@@ -37,16 +37,29 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<List<NewsDTO>> GetAll()
         {
-            var news = await _newsRepository.GetAll().ToListAsync();
-            var list = _mapper.Map<List<NewsDTO>>(news);
+            var list = await _newsRepository.GetAll().Select(n => new NewsDTO
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Content = n.Content,
+                RubricForNewsId = n.RubricForNewsId,
+                PostedOn = n.PostedOn,
+                Image=n.Image
+
+            }).ToListAsync();
+
             return list;
         }
+
 
         public List<NewsDTO> GetNewsByTitle(string title/*Expression<Func<Article, bool>> expression*/)
         {
             var news = _newsRepository.GetAll().Where(a => a.Title.Contains(title)).ToList();
             if (news is null) throw new NotFoundException($"No title with name {title} found");
+
             var list = _mapper.Map<List<NewsDTO>>(news);
+
+
             return list;
         }
 
@@ -103,11 +116,12 @@ namespace JobStream.Business.Services.Implementations
             News.Image = fileName;
             News.PostedOn = prevPostedOn;
             News.Title = news.Title;
+            News.Content= news.Content; 
             News.RubricForNewsId = news.RubricForNewsId;
 
             _newsRepository.Update(News);
             await _newsRepository.SaveAsync();
-            
+
         }
         public async Task DeleteNewsAsync(int id)
         {
@@ -126,3 +140,4 @@ namespace JobStream.Business.Services.Implementations
         }
     }
 }
+

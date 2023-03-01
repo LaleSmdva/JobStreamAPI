@@ -16,7 +16,7 @@ namespace JobStream.Core.Entities
         public int Salary { get; set; }
         public string Requirements { get; set; }
         public string Description { get; set; }
-        public int ExperienceLevel { get; set; }
+        public string ExperienceLevel { get; set; }
         public string? HREmail { get; set; }
         public DateTime? PostedOn { get; set; }  //  ???
 
@@ -40,5 +40,6 @@ namespace JobStream.Core.Entities
         public ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
         public ICollection<Applications> Applications { get; set; }
         public bool? isApplied { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

@@ -10,14 +10,14 @@ namespace JobStream.Business.DTOs.VacanciesDTO
 	public class VacanciesPostDTO
 	{
         //public int Id { get; set; }
-        public int CompanyId { get; set; }
+        //public int CompanyId { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public string? JobLocation { get; set; } //remote/hybrid remote/ on the road/in person(precise location)/in person(general location)
         public int Salary { get; set; }
         public string Requirements { get; set; }
         public string Description { get; set; }
-        public int ExperienceLevel { get; set; }
+        public string ExperienceLevel { get; set; }
         public string? HREmail { get; set; }
         //public DateTime? PostedOn { get; set; }  //  ???
 

@@ -18,7 +18,7 @@ namespace JobStream.Business.Validators.Account
 			RuleFor(c => c.Email).NotNull().WithMessage("Enter email").NotEmpty().WithMessage("Enter email")
 				.EmailAddress().WithMessage("Invalid email address");
 
-			RuleFor(c => c.InfoCompany).MaximumLength(300).WithMessage("Max length is 300 characters");
+			RuleFor(c => c.InfoCompany).MaximumLength(500).WithMessage("Max length is 500 characters");
 
 			RuleFor(c => c.Password).NotNull().WithMessage("Enter password").NotEmpty().WithMessage("Enter password")
 				.Length(6, 100).WithMessage("Password must be between 6 and 100 characters")

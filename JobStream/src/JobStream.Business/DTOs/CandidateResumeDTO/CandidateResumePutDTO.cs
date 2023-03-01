@@ -1,4 +1,5 @@
-﻿using JobStream.Core.Entities;
+﻿using JobStream.Business.DTOs.CandidateEducationDTO;
+using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -42,5 +43,6 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? Sertifications { get; set; }
         public string? LinkedinLink { get; set; }
         public string? GithubLink { get; set; }
+        public List<string>? CandidateEducations { get; set; }
     }
 }

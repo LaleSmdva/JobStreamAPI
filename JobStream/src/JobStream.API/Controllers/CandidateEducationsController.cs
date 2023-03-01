@@ -27,12 +27,12 @@ namespace JobStream.API.Controllers
 
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCandidateEducationByResumeId(int id)
-        {
-            var candidateEducation = await _candidateEducation.GetCandidateEducationByResumeIdAsync(id);
-            return Ok(candidateEducation);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetCandidateEducationByResumeId(int id)
+        //{
+        //    var candidateEducation = await _candidateEducation.GetCandidateEducationByResumeIdAsync(id);
+        //    return Ok(candidateEducation);
+        //}
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CandidateEducationPostDTO entity)
@@ -48,11 +48,12 @@ namespace JobStream.API.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{candidateId}/DeleteEducation")]
+        public async Task<IActionResult>  DeleteCandidateEducationInfoAsync(int candidateId, List<int> educationIds)
         {
-            await _candidateEducation.DeleteCandidateEducation(id);
+            await _candidateEducation.DeleteCandidateEducationInfoAsync(candidateId,educationIds);
             return Ok("Candidate education deleted");
         }
+
     }
 }

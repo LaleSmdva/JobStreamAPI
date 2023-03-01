@@ -11,7 +11,7 @@ namespace JobStream.Business.Services.Interfaces
 {
 	public interface IAuthService
 	{
-		Task<LoginTokenResponseDTO> LoginCandidateAsync(LoginCandidateDTO loginCandidate);
+		Task<LoginTokenResponseDTO> Login(LoginDTO loginDTO);
 		//Task LoginCompanyAsync(LoginCompanyDTO loginCompany);
 		Task<string> ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
 		Task<string> ResetPassword(ResetPasswordDTO resetPasswordDTO, string userId, string token);
