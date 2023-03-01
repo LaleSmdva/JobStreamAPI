@@ -1,31 +1,17 @@
 ﻿using AutoMapper;
 using JobStream.Business.DTOs.ApplicationsDTO;
 using JobStream.Business.DTOs.ApplyVacancyDTO;
-using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
-using JobStream.Business.DTOs.CompanyDTO;
-using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.HelperServices.Interfaces;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Utilities;
 using JobStream.Core.Entities;
 using JobStream.Core.Entities.Identity;
-using JobStream.Core.Interfaces;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace JobStream.Business.Services.Implementations
 {
 
@@ -63,8 +49,7 @@ namespace JobStream.Business.Services.Implementations
         public async Task<List<CandidateResumeDTO>> GetAllCandidatesResumesAsync()
         {
             List<CandidateResume> candidateResumes = await _candidateResumeRepository.GetAll()
-                //.Include(e => e.Ca)
-                .Include(u => u.AppUser)
+                
                 .Where(u => u.IsDeleted == false).ToListAsync();
             var list = _mapper.Map<List<CandidateResumeDTO>>(candidateResumes);
             return list;
@@ -72,16 +57,17 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<CandidateResumeDTO> GetCandidateResumeByUserId(string userId)
         {
-            //private readonly UserManager<AppUser> _userManager;
-            //CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
-            var resume = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(u => u.AppUserId == userId);
-            if (resume == null) throw new NotFoundException("No data found");
+           
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+            {
+                throw new NotFoundException("User not found");
+            }
+            CandidateResume resume = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(u=>u.AppUserId==userId);
 
-
-            //CandidateEducation education = await _candidateEducationRepository.GetAll()
-            //    .FirstOrDefaultAsync(c => c.CandidateResumeId == id);
-            //if (education == null) throw new NotFoundException("Not found");
             var result = _mapper.Map<CandidateResumeDTO>(resume);
+            //result.AppUserId = user.Id;
+
             return result;
         }
 
@@ -96,7 +82,7 @@ namespace JobStream.Business.Services.Implementations
 
             CandidateResume candidateResume = _candidateResumeRepository.GetAll()
                 //.Include(e => e.CandidateEducation)
-                .Include(u => u.AppUser).FirstOrDefault(e => e.Id == candidateId);
+               .FirstOrDefault(e => e.Id == candidateId);
             var result = _mapper.Map<CandidateResumeDTO>(resume);
 
             return result;
@@ -208,14 +194,15 @@ namespace JobStream.Business.Services.Implementations
         public async Task DeleteCandidateResume(int id)
         {
             var candidateResumes = _candidateResumeRepository.GetAll().ToList();
-
             if (candidateResumes.All(x => x.Id != id))
             {
                 throw new NotFoundException("Not Found");
             }
-
+            
             CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
+            var user=_userManager.Users.FirstOrDefault(x => x.Id == resume.AppUserId);
             resume.IsDeleted = true;
+            user.IsDeleted = true;
             await _candidateResumeRepository.SaveAsync();
         }
 
@@ -271,7 +258,6 @@ namespace JobStream.Business.Services.Implementations
             await _candidateResumeAndVacancy.CreateAsync(candidateResumeAndVacancy);
             await _candidateResumeRepository.SaveAsync();
 
-            vacancy.isApplied = true;
         }
 
         public async Task<List<ApplicationsResponseDTO>> ViewStatusOfAppliedJobs(int candidateId)
@@ -279,6 +265,24 @@ namespace JobStream.Business.Services.Implementations
             List<Applications> applications = _applicationRepository.GetAll().Where(c => c.CandidateResumeId == candidateId).ToList();
             var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
             return result;
+        }
+
+        public async Task<List<ApplicationsResponseDTO>> GetAcceptedVacancies()
+        {
+            List<Applications> applications = _applicationRepository.GetAll()
+                .Where(c => c.IsAccepted==true).ToList();
+            var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
+            return result;
+
+        }
+
+        public async Task<List<ApplicationsResponseDTO>> GetRejectedVacancies()
+        {
+            List<Applications> applications = _applicationRepository.GetAll()
+                .Where(c => c.IsAccepted == false).ToList();
+            var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
+            return result;
+
         }
 
 

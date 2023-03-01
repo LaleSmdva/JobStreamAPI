@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace JobStream.Core.Entities;
 
+
+
 public class CandidateResume : IEntity
 {
     public int Id { get; set; }
@@ -23,8 +25,8 @@ public class CandidateResume : IEntity
     // ONE TO ONE  YAZMA
     //public int? CandidateEducationId { get; set; }
     //public CandidateEducation? CandidateEducation { get; set; } //major- Computer Science,Business Administration,
-                                                                //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
-                                                                //institution-Baku State University
+    //degree-Bachelor/Master of Business Administration (MBA),Bachelor/Master of Science (BS)
+    //institution-Baku State University
     public string? LanguageSkills { get; set; }
     //[NotMapped]
     //public int? JobTypeId { get; set; }
@@ -47,3 +49,4 @@ public class CandidateResume : IEntity
     //new 1
     //ICollection<CandidateEducation>? CandidateEducations { get; set; }
 }
+

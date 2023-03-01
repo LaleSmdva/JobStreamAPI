@@ -28,13 +28,13 @@ namespace JobStream.API.Controllers
             var vacancies = _vacanciesService.GetAll();
             return Ok(vacancies);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}/details")]
         public async Task<IActionResult> GetVacancyByIdAsync(int id)
         {
             var vacancies = await _vacanciesService.GetVacancyByIdAsync(id);
             return Ok(vacancies);
         }
-        [HttpGet("{categoryIds}")]
+        [HttpPost("GetVacanciesByCategoryIDs")]
         public async Task<IActionResult> GetVacanciesByCategoryAsync(List<int> categoryIds)
         {
             var vacancies = await _vacanciesService.GetVacanciesByCategoryAsync(categoryIds);

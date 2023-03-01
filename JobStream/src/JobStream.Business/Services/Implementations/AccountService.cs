@@ -134,6 +134,8 @@ namespace JobStream.Business.Services.Implementations
             {
                 Fullname = registerCandidate.Fullname,
                 Email = registerCandidate.Email,
+                AppUser=candidate,
+                AppUserId=candidate.Id
             };
 
             candidate.CandidateResume = candidateResume;

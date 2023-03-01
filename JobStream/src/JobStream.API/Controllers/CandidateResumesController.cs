@@ -7,6 +7,7 @@ using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace JobStream.API.Controllers
 {
@@ -21,26 +22,40 @@ namespace JobStream.API.Controllers
             _candidateResumeService = candidateResumeService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllCandidatesEducations()
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllCandidatesEducations()
+        //{
+        //    var list = await _candidateResumeService.GetAllCandidatesResumesAsync();
+        //    return Ok(list);
+        //}
+
+        //[HttpGet("details")]
+        //public async Task<IActionResult> GetCandidateResumeDetails(int resumeId)
+        //{
+        //    var candidate = await _candidateResumeService.CandidateResumeDetails(resumeId);
+        //    return Ok(candidate);
+        //}
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetCandidateResumeByUserId(string userId)
         {
-            var list = await _candidateResumeService.GetAllCandidatesResumesAsync();
+            var resume = await _candidateResumeService.GetCandidateResumeByUserId(userId);
+            return Ok(resume);
+        }
+
+        [HttpGet("AcceptedVacancies")]
+        public async Task<IActionResult> GetAcceptedVacancies()
+        {
+            var list = await _candidateResumeService.GetAcceptedVacancies();
             return Ok(list);
         }
 
-        [HttpGet("details")]
-        public async Task<IActionResult> GetCandidateResumeDetails(int resumeId)
+        [HttpGet("RejectedVacancies")]
+        public async Task<IActionResult> GetRejectedVacancies()
         {
-            var candidate = await _candidateResumeService.CandidateResumeDetails(resumeId);
-            return Ok(candidate);
+            var list = await _candidateResumeService.GetRejectedVacancies();
+            return Ok(list);
         }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetCandidateResumeByUserId(string resumeId)
-        {
-            var resume = await _candidateResumeService.GetCandidateResumeByUserId(resumeId);
-            return Ok(resume);
-        }
-        [HttpPost("update/{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] CandidateResumePutDTO resume)
         {
             await _candidateResumeService.UpdateCandidateResumeAsync(id, resume);

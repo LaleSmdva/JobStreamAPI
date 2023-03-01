@@ -55,15 +55,17 @@ namespace JobStream.Business.Services.Implementations
         public async Task<List<VacanciesDTO>> GetVacanciesByCategoryAsync(List<int> categoryIds)
         {
             //List<Vacancy> vacancy = await _vacanciesRepository.GetByIdAsync(categoryId).Where(v => v.isDeleted == false).ToList();
-            List<Vacancy> vacanciesDTOs= new List<Vacancy>(); 
+            List<Vacancy> vacanciesDTOs = new List<Vacancy>();
             foreach (var categoryId in categoryIds)
             {
-
-                var vacancy = await _vacanciesRepository.GetByIdAsync(categoryId);
-                vacanciesDTOs.Add(vacancy);
-       
+                var vacancies = _vacanciesRepository.GetAll().Where(x => x.CategoryId == categoryId);
+                foreach (var vacancy in vacancies)
+                {
+                    vacanciesDTOs.Add(vacancy);
+                }
             }
-            var list=_mapper.Map<List<VacanciesDTO>>(vacanciesDTOs);
+            var list = _mapper.Map<List<VacanciesDTO>>(vacanciesDTOs);
+          
             return list;
 
         }
@@ -74,7 +76,7 @@ namespace JobStream.Business.Services.Implementations
             var result = _mapper.Map<VacanciesDTO>(vacancy);
             return result;
         }
-        
+
         public IEnumerable<Vacancy> GetExpiredVacancies()
         {
             var currentDateUtc = DateTime.Now;

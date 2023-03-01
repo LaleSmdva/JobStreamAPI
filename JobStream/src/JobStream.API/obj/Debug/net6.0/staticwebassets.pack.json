@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\AboutUs\\bdbeb94a-c547-4f6a-a9de-55a04d5bff39JobST.png",
+      "PackagePath": "staticwebassets\\images\\AboutUs\\bdbeb94a-c547-4f6a-a9de-55a04d5bff39JobST.png"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Articles\\1ca5e3d2-8a79-4afc-9a60-d4a50de3a0509cUH2sFmQBtfuUs82pHkWWLOxc8mCvLYZ7JKilWH.jpg",
       "PackagePath": "staticwebassets\\images\\Articles\\1ca5e3d2-8a79-4afc-9a60-d4a50de3a0509cUH2sFmQBtfuUs82pHkWWLOxc8mCvLYZ7JKilWH.jpg"
     },
@@ -41,6 +45,14 @@
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\2bd8390b-a65d-45da-af52-424c44307e09Semedzade Lale CV.pdf"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\2ea2f3d0-0f92-4c95-a2ae-ddced7a82627Semedzade Lale CV.pdf",
+      "PackagePath": "staticwebassets\\images\\Resumes\\CV\\2ea2f3d0-0f92-4c95-a2ae-ddced7a82627Semedzade Lale CV.pdf"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\33c43709-8a3c-484f-9428-5ce22844307cSemedzade Lale CV.pdf",
+      "PackagePath": "staticwebassets\\images\\Resumes\\CV\\33c43709-8a3c-484f-9428-5ce22844307cSemedzade Lale CV.pdf"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\3570fe71-6af6-461f-ad26-28911d55ccb2Semedzade Lale CV.pdf",
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\3570fe71-6af6-461f-ad26-28911d55ccb2Semedzade Lale CV.pdf"
     },
@@ -57,6 +69,10 @@
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\63c96e4f-ef0b-4e59-a6fa-2ffb3a974b3cSemedzade Lale CV.pdf"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\67580d6d-8d88-4261-87bf-d28088557d01Semedzade Lale CV.pdf",
+      "PackagePath": "staticwebassets\\images\\Resumes\\CV\\67580d6d-8d88-4261-87bf-d28088557d01Semedzade Lale CV.pdf"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\6eb788bf-2cd5-464e-ba06-5f0b79017956Semedzade Lale CV.pdf",
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\6eb788bf-2cd5-464e-ba06-5f0b79017956Semedzade Lale CV.pdf"
     },
@@ -67,6 +83,10 @@
     {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\8114ca1a-3bfd-48bc-bc4d-f4fc7391cfa5Semedzade Lale CV.pdf",
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\8114ca1a-3bfd-48bc-bc4d-f4fc7391cfa5Semedzade Lale CV.pdf"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\863e1ec0-5d68-4ad9-8489-e52823d299efSemedzade Lale CV.pdf",
+      "PackagePath": "staticwebassets\\images\\Resumes\\CV\\863e1ec0-5d68-4ad9-8489-e52823d299efSemedzade Lale CV.pdf"
     },
     {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\a2363088-fd44-4e75-8787-202a46a74447Semedzade Lale CV.pdf",
@@ -97,6 +117,10 @@
       "PackagePath": "staticwebassets\\images\\Resumes\\CV\\fa988e99-d3c4-47f3-954a-eedbdcee02f1Semedzade Lale CV.pdf"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\CV\\fea6af99-e9c2-4f99-b9d5-76ed57ff0959Semedzade Lale CV.pdf",
+      "PackagePath": "staticwebassets\\images\\Resumes\\CV\\fea6af99-e9c2-4f99-b9d5-76ed57ff0959Semedzade Lale CV.pdf"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\ProfilePicture\\19b2ff81-f002-4844-868e-1c6963e05e79Image_created_with_a_mobile_phone.png",
       "PackagePath": "staticwebassets\\images\\Resumes\\ProfilePicture\\19b2ff81-f002-4844-868e-1c6963e05e79Image_created_with_a_mobile_phone.png"
     },
@@ -107,6 +131,10 @@
     {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\ProfilePicture\\2c0821a2-ed52-43e7-8521-7abdfb3eb89cImage_created_with_a_mobile_phone.png",
       "PackagePath": "staticwebassets\\images\\Resumes\\ProfilePicture\\2c0821a2-ed52-43e7-8521-7abdfb3eb89cImage_created_with_a_mobile_phone.png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\ProfilePicture\\2ff635a8-316d-429c-9f3f-3dfe30a9d23aImage_created_with_a_mobile_phone.png",
+      "PackagePath": "staticwebassets\\images\\Resumes\\ProfilePicture\\2ff635a8-316d-429c-9f3f-3dfe30a9d23aImage_created_with_a_mobile_phone.png"
     },
     {
       "Id": "C:\\Users\\User\\Desktop\\FinalProject\\JobStream\\src\\JobStream.API\\wwwroot\\images\\Resumes\\ProfilePicture\\3dec628f-1f83-4191-9ead-3f0c501751a8Image_created_with_a_mobile_phone.png",
