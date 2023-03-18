@@ -3,8 +3,10 @@ using JobStream.Business.DTOs.RubricForNewsDTO;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
 using JobStream.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace JobStream.API.Controllers;
 
@@ -27,6 +29,7 @@ public class RubricForNewsController : ControllerBase
     }
 
     [HttpPost]
+    //[Authorize(Roles = "Admin,Moderator")]
     public async Task<IActionResult> Create(RubricForNewsPostDTO entity)
     {
         await _rubricForNewsService.CreateRubricForNewsAsync(entity);
@@ -35,6 +38,7 @@ public class RubricForNewsController : ControllerBase
 
 
     [HttpPut("{id}")]
+    //[Authorize(Roles = "Admin,Moderator")]
     public async Task<IActionResult> Update(int id,RubricForNewsPutDTO rubricForNews)    
     {
         await _rubricForNewsService.UpdateRubricForNewsAsync(id, rubricForNews);
@@ -43,6 +47,7 @@ public class RubricForNewsController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    //[Authorize(Roles = "Admin,Moderator")]
     public async Task<IActionResult> Delete(int id)
     {
         await _rubricForNewsService.DeleteRubricForNewsAsync(id);

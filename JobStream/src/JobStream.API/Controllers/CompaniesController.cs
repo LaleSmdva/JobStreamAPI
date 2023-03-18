@@ -2,13 +2,13 @@
 using JobStream.Business.DTOs.InvitationDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobStream.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class CompaniesController : ControllerBase
     {
         private readonly ICompanyService _companyService;
@@ -41,6 +41,7 @@ namespace JobStream.API.Controllers
     
 
         [HttpPut("{id}")]
+        //[Authorize(Roles ="Admin,Moderator,Company")]
         public async Task<IActionResult> UpdateCompany(string id, [FromQuery] List<int> deletedCategoryId, [FromForm] CompanyPutDTO companyPutDTO)
         {
             await _companyService.UpdateCompanyAccount(id, deletedCategoryId, companyPutDTO);
@@ -48,6 +49,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
             await _companyService.DeleteCompany(id);
@@ -55,6 +57,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("{companyId}/AddVacancy")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> AddVacancyToCompany(int companyId,[FromBody] VacanciesPostDTO vacanciesPostDTO)
         {
             await _companyService.AddVacancyToCompany(companyId, vacanciesPostDTO);
@@ -62,24 +65,23 @@ namespace JobStream.API.Controllers
 
         }
         [HttpPut("{companyId}/vacancies/{vacancyId}")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> UpdateVacancy(int companyId, int vacancyId,[FromBody] VacanciesPutDTO vacanciesPutDTO)
         {
             await _companyService.UpdateVacancy(companyId,vacancyId, vacanciesPutDTO);
             return Ok("Vacancy updated");
         }
         [HttpDelete("{companyId}/vacancies/{vacancyId}")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> DeleteVacancy(int companyId, int vacancyId)
         {
             await _companyService.DeleteVacancy(companyId, vacancyId);
             return Ok("Successfully deleted vacancy");
         }
-        //[HttpPost("[action]/{vacancyId}/{candidateId}")]
-        //public async Task<IActionResult> InviteCandidateToInterview(int vacancyId, int candidateId, [FromBody] InvitationPostDTO invitation)
-        //{
-        //    await _companyService.InviteCandidateToInterview(vacancyId, candidateId, invitation);
-        //    return Ok("Invitation sent successfully");
-        //}
+
+
         [HttpPost("{vacancyId}/invite/{candidateId}")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> InviteCandidateToInterview(int vacancyId, int candidateId, [FromBody] InvitationPostDTO invitation)
         {
             await _companyService.InviteCandidateToInterview(vacancyId, candidateId, invitation);
@@ -87,6 +89,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("{vacancyId}/reject/{candidateId}")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> RejectCandidate(int vacancyId, int candidateId)
         {
             await _companyService.RejectCandidate(vacancyId, candidateId);
@@ -94,6 +97,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet("{companyId}/Applications")]
+        //[Authorize(Roles = "Admin,Moderator,Company")]
         public async Task<IActionResult> GetAllApplications(int companyId)
         {
             var list=await _companyService.GetAllApplications(companyId);

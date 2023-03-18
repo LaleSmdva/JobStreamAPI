@@ -1,6 +1,8 @@
 ﻿using JobStream.Business.DTOs.JobScheduleDTO;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace JobStream.API.Controllers
 {
@@ -35,12 +37,14 @@ namespace JobStream.API.Controllers
             return Ok(vacancies);
         }
         [HttpPost]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> CreateJobScheduleAsync(JobSchedulePostDTO entity)
         {
             await _jobScheduleService.CreateJobScheduleAsync(entity);
             return Ok("Job schedule created");
         }
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> UpdateJobScheduleAsync(int id, JobSchedulePutDTO jobSchedulePutDTO)
         {
             await _jobScheduleService.UpdateJobScheduleAsync(id, jobSchedulePutDTO);
@@ -48,6 +52,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> DeleteJobScheduleAsync(int id)
         {
             await _jobScheduleService.DeleteJobScheduleAsync(id);

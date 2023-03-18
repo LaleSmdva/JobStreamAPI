@@ -3,8 +3,10 @@ using JobStream.Business.DTOs.JobTypeDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Net;
 
 namespace JobStream.API.Controllers
@@ -45,6 +47,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> CreateAsync(JobTypePostDTO entity)
         {
             await _jobTypeService.CreateJobTypeAsync(entity);
@@ -52,6 +55,7 @@ namespace JobStream.API.Controllers
 
         }
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Update(int id, JobTypePutDTO jobType)
         {
             await _jobTypeService.UpdateJobTypeAsync(id, jobType);
@@ -59,6 +63,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Delete(int id)
         {
             await _jobTypeService.DeleteJobTypeAsync(id);

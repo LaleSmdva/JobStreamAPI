@@ -2,8 +2,10 @@
 using JobStream.Business.DTOs.NewsDTO;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace JobStream.API.Controllers
 {
@@ -53,6 +55,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPost]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> CreateAsync([FromForm]NewsPostDTO entity)
         {
             await _newsService.CreateNewsAsync(entity);
@@ -61,6 +64,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Update(int id, [FromForm] NewsPutDTO news)
         {
             await _newsService.UpdateNewsAsync(id, news);
@@ -69,6 +73,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> DeleteNews(int id)
         {
             await _newsService.DeleteNewsAsync(id);

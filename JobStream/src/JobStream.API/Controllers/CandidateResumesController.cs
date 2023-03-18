@@ -1,7 +1,9 @@
 ﻿using JobStream.Business.DTOs.ApplyVacancyDTO;
 using JobStream.Business.DTOs.CandidateResumeDTO;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace JobStream.API.Controllers
 {
@@ -16,8 +18,6 @@ namespace JobStream.API.Controllers
             _candidateResumeService = candidateResumeService;
         }
 
-      
- 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetCandidateResumeByUserId(string userId)
         {
@@ -26,6 +26,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet("{candidateId}/AcceptedVacancies")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> GetAcceptedVacancies(int candidateId)
         {
             var list = await _candidateResumeService.GetAcceptedVacancies(candidateId);
@@ -33,12 +34,14 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet("{candidateId}/RejectedVacancies")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> GetRejectedVacancies(int candidateId)
         {
             var list = await _candidateResumeService.GetRejectedVacancies(candidateId);
             return Ok(list);
         }
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> Update(int id, [FromForm] CandidateResumePutDTO resume)
         {
             await _candidateResumeService.UpdateCandidateResumeAsync(id, resume);
@@ -48,6 +51,7 @@ namespace JobStream.API.Controllers
      
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> Delete(int id)
         {
             await _candidateResumeService.DeleteCandidateResume(id);
@@ -55,12 +59,14 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("[action]/{candidateId}/{companyId}/{vacancyId}")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> ApplyVacancy(int candidateId, int companyId, int vacancyId, [FromForm] ApplyVacancyDTO applyVacancyDTO)
         {
             await _candidateResumeService.ApplyVacancy(candidateId, companyId, vacancyId, applyVacancyDTO);
             return Ok("Your application has been received");
         }
         [HttpGet("{candidateId}/[action]")]
+        //[Authorize(Roles = "Admin,Moderator,Candidate")]
         public async Task<IActionResult> ViewAppliedJobs(int candidateId)
         {
             var appliedJobs = await _candidateResumeService.ViewStatusOfAppliedJobs(candidateId);

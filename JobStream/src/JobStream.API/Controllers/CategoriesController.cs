@@ -4,8 +4,10 @@ using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Implementations;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Net;
 
 namespace JobStream.API.Controllers
@@ -35,6 +37,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Post(CategoriesPostDTO category)
         {
             await _categoryService.CreateCategoryAsync(category);
@@ -42,6 +45,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Update(int id, CategoriesPutDTO category)
         {
             await _categoryService.UpdateCategoryNameAsync(id, category);
@@ -50,6 +54,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.DeleteCategoryAsync(id);
