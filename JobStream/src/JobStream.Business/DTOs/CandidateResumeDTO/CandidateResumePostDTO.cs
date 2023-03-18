@@ -18,7 +18,7 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? Location { get; set; }
         public string? DesiredPosition { get; set; }
         public string? AboutMe { get; set; }
-        public E.CandidateEducationPostDTO? CandidateEducation { get; set; }
+        //public E.CandidateEducationPostDTO? CandidateEducation { get; set; }
         public string? LanguageSkills { get; set; }
 
         //public int AppUserId { get; set; }

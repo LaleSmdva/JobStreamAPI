@@ -18,27 +18,27 @@ namespace JobStream.API.Controllers
 
       
  
-        [HttpGet("[action]")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetCandidateResumeByUserId(string userId)
         {
             var resume = await _candidateResumeService.GetCandidateResumeByUserId(userId);
             return Ok(resume);
         }
 
-        [HttpGet("AcceptedVacancies")]
-        public async Task<IActionResult> GetAcceptedVacancies()
+        [HttpGet("{candidateId}/AcceptedVacancies")]
+        public async Task<IActionResult> GetAcceptedVacancies(int candidateId)
         {
-            var list = await _candidateResumeService.GetAcceptedVacancies();
+            var list = await _candidateResumeService.GetAcceptedVacancies(candidateId);
             return Ok(list);
         }
 
-        [HttpGet("RejectedVacancies")]
-        public async Task<IActionResult> GetRejectedVacancies()
+        [HttpGet("{candidateId}/RejectedVacancies")]
+        public async Task<IActionResult> GetRejectedVacancies(int candidateId)
         {
-            var list = await _candidateResumeService.GetRejectedVacancies();
+            var list = await _candidateResumeService.GetRejectedVacancies(candidateId);
             return Ok(list);
         }
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] CandidateResumePutDTO resume)
         {
             await _candidateResumeService.UpdateCandidateResumeAsync(id, resume);
@@ -54,13 +54,13 @@ namespace JobStream.API.Controllers
             return Ok("Candidate resume deleted");
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("[action]/{candidateId}/{companyId}/{vacancyId}")]
         public async Task<IActionResult> ApplyVacancy(int candidateId, int companyId, int vacancyId, [FromForm] ApplyVacancyDTO applyVacancyDTO)
         {
             await _candidateResumeService.ApplyVacancy(candidateId, companyId, vacancyId, applyVacancyDTO);
             return Ok("Your application has been received");
         }
-        [HttpGet("AppliedVacanciesStatus")]
+        [HttpGet("{candidateId}/[action]")]
         public async Task<IActionResult> ViewAppliedJobs(int candidateId)
         {
             var appliedJobs = await _candidateResumeService.ViewStatusOfAppliedJobs(candidateId);

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JobStream.Core.Entities;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace JobStream.Business.DTOs.CandidateResumeDTO
 {
@@ -24,6 +26,8 @@ namespace JobStream.Business.DTOs.CandidateResumeDTO
         public string? Sertifications { get; set; }
         public string? LinkedinLink { get; set; }
         public string? GithubLink { get; set; }
-        public List<string>? CandidateEducations { get; set; }
+        //[JsonIgnore]
+        //ICollection<CandidateEducation>? CandidateEducations { get; set; }
+        //public List<string>? CandidateEducations { get; set; }
     }
 }

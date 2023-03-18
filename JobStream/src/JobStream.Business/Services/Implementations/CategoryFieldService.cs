@@ -11,12 +11,14 @@ namespace JobStream.Business.Services.Implementations
     public class CategoryFieldService : ICategoryFieldService
     {
         private readonly ICategoryFieldRepository _categoryFieldRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryFieldService(ICategoryFieldRepository categoryFieldRepository, IMapper mapper)
+        public CategoryFieldService(ICategoryFieldRepository categoryFieldRepository, IMapper mapper, ICategoryRepository categoryRepository)
         {
             _categoryFieldRepository = categoryFieldRepository;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<List<CategoryFieldDTO>> GetAll()
@@ -39,7 +41,12 @@ namespace JobStream.Business.Services.Implementations
                 throw new AlreadyExistsException("A category field with the same name already exists");
             }
 
-            var categoryField = new CategoryField { Name = entity.Name, CategoryId=entity.CategoryId };
+            var checkForCategory = await _categoryRepository.GetAll().Where(cf => cf.Id == entity.CategoryId).ToListAsync();
+            if (checkForCategory.Count() == 0)
+            {
+                throw new BadRequestException($"There is no category with id: {entity.CategoryId}");
+            }
+            var categoryField = new CategoryField { Name = entity.Name, CategoryId = entity.CategoryId };
 
             await _categoryFieldRepository.CreateAsync(categoryField);
             await _categoryFieldRepository.SaveAsync();
@@ -47,12 +54,24 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateCategoryFieldNameAsync(int id, CategoryFieldPutDTO entity)
         {
-            var categoryFields = _categoryFieldRepository.GetByCondition(a => a.Id == entity.Id, false);
-            if (categoryFields == null) throw new NotFoundException($"There is no category field with id: {id}");
-            if (id != entity.Id) throw new BadRequestException($"{entity.Id} was not found");
-
-            var result = _mapper.Map<CategoryField>(entity);
-            _categoryFieldRepository.Update(result);
+            if (id != entity.Id) throw new BadRequestException($"Category field id: {entity.Id} was not found");
+            var checkForCategory = await _categoryRepository.GetAll().Where(cf => cf.Id == entity.CategoryId).ToListAsync();
+            if (checkForCategory.Count() == 0)
+            {
+                throw new BadRequestException($"There is no category with id: {entity.CategoryId}");
+            }
+            var fieldExistsInCategory = await _categoryFieldRepository.GetAll().Where(c => c.Id == id).Where(c => c.CategoryId == entity.CategoryId).ToListAsync();
+            if (fieldExistsInCategory.Count() == 0)
+            {
+                throw new BadRequestException($"There is no category field with id: {id} in category with id: {entity.CategoryId}");
+            }
+            //var result = _mapper.Map<CategoryField>(entity);
+            foreach (var categoryField in fieldExistsInCategory)
+            {
+                categoryField.CategoryId = entity.CategoryId;
+                categoryField.Name = entity.Name;
+                _categoryFieldRepository.Update(categoryField);
+            }
             await _categoryFieldRepository.SaveAsync();
         }
 

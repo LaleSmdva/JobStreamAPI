@@ -14,8 +14,8 @@ namespace JobStream.Business.DTOs.CategoryDTO
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public ICollection<C.CategoryFieldDTO>? CategoryField { get; set; } 
+        public ICollection<C.CategoryFieldDTO>? CategoryField { get; set; }
         public ICollection<V.VacanciesDTO>? Vacancies { get; set; }
-        public ICollection<CC.CompanyAndCategoryDTO>? CompanyAndCategories { get; set; } 
+        public ICollection<CC.CompanyAndCategoryDTO>? CompanyAndCategories { get; set; }
     }
 }

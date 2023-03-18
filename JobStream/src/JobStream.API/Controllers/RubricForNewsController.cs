@@ -20,14 +20,14 @@ public class RubricForNewsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllNews()
+    public async Task<IActionResult> GetAll()
     {
         var rubricForNews = await _rubricForNewsService.GetAllAsync();
         return Ok(rubricForNews);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] RubricForNewsPostDTO entity)
+    public async Task<IActionResult> Create(RubricForNewsPostDTO entity)
     {
         await _rubricForNewsService.CreateRubricForNewsAsync(entity);
         return Ok("Rubric for news created");
@@ -35,7 +35,7 @@ public class RubricForNewsController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromForm] RubricForNewsPutDTO rubricForNews)
+    public async Task<IActionResult> Update(int id,RubricForNewsPutDTO rubricForNews)    
     {
         await _rubricForNewsService.UpdateRubricForNewsAsync(id, rubricForNews);
         return Ok("Successfully updated");

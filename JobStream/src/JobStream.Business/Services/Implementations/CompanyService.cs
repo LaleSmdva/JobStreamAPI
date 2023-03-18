@@ -12,6 +12,11 @@ using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
+using JobStream.Business.DTOs.ApplicationsDTO;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -31,11 +36,12 @@ namespace JobStream.Business.Services.Implementations
         private readonly ICandidateResumeRepository _candidateResumeRepository;
         private readonly IMailService _mailService;
         private readonly IApplicationRepository _applicationRepository;
+        private readonly ICompanyRepository _companyRepository;
 
 
         public CompanyService(ICompanyRepository repository, IMapper mapper,
             IWebHostEnvironment environment, IFileService fileService, IVacanciesRepository vacanciesRepository,
-            ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository, ICandidateResumeRepository candidateResumeRepository, IMailService mailService, IApplicationRepository applicationRepository)
+            ICategoryRepository categoryRepository, ICompanyAndCategoryRepository companyAndCategoryRepository, UserManager<AppUser> userManager, IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository, ICandidateResumeRepository candidateResumeRepository, IMailService mailService, IApplicationRepository applicationRepository, ICompanyRepository companyRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -50,13 +56,16 @@ namespace JobStream.Business.Services.Implementations
             _candidateResumeRepository = candidateResumeRepository;
             _mailService = mailService;
             _applicationRepository = applicationRepository;
+            _companyRepository = companyRepository;
         }
 
 
         public async Task<List<CompanyDTO>> GetAllAsync()
         {
-            var companies = await _repository.GetAll().Include(v => v.Vacancies)
-                .Include(x => x.CompanyAndCategories).Where(x => x.IsDeleted != true)
+            var companies = await _repository.GetAll()
+                //.Include(v => v.Vacancies)
+                //.Include(x => x.CompanyAndCategories)
+                .Where(x => x.IsDeleted != true)
                  .ToListAsync();
             var result = _mapper.Map<List<CompanyDTO>>(companies);
             return result;
@@ -87,8 +96,8 @@ namespace JobStream.Business.Services.Implementations
             return result;
         }
 
-        
-        public async Task UpdateCompanyAccount(string id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
+
+        public async Task UpdateCompanyAccount(string id, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO)
         {
             /// Updating Company
 
@@ -101,7 +110,7 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new FileFormatException("Choose an image type");
             }
-         
+
             if (company.UserId != id)
                 throw new BadRequestException("Id's do not match");
 
@@ -109,7 +118,6 @@ namespace JobStream.Business.Services.Implementations
             var user = await _userManager.FindByIdAsync(id);
             if (user.Email != companyPutDTO.Email)
                 throw new BadRequestException("Can not change your email address");
-
 
             var fileName = await _fileService.CopyFileAsync(companyPutDTO.Logo, _environment.WebRootPath, "images", "companyLogos");
 
@@ -124,7 +132,7 @@ namespace JobStream.Business.Services.Implementations
             company.Location = companyPutDTO.Location;
             company.Email = companyPutDTO.Email;
 
-       
+
             var appUser = await _userManager.FindByIdAsync(id);
             appUser.Companyname = companyPutDTO.Name;
             appUser.InfoCompany = companyPutDTO.AboutCompany;
@@ -134,27 +142,34 @@ namespace JobStream.Business.Services.Implementations
             await _repository.SaveAsync();
 
             // Add Category
-            List<CompanyAndCategory> companyAndCategoryList = new();
-            foreach (var catID in addedCategoryId)
-            {
-                CompanyAndCategory companyAndCategory = new();
-                companyAndCategory.CategoryId = catID;
-                companyAndCategory.CompanyId = company.Id;
-                companyAndCategoryList.Add(companyAndCategory);
 
-            }
-            foreach (var item in companyAndCategoryList)
-            {
-                await _companyAndCategoryRepository.CreateAsync(item);
-            }
-            await _companyAndCategoryRepository.SaveAsync();
+            //List<CompanyAndCategory> companyAndCategoryList = new();
+            //foreach (var catID in addedCategoryId)
+            //{
+            //    CompanyAndCategory companyAndCategory = new();
+            //    if ((companyAndCategory.CategoryId == catID) && (companyAndCategory.CompanyId == company.Id))
+            //    {
+            //        throw new RepeatedChoiceException("You already added that category");
+            //    }
+            //    companyAndCategory.CategoryId = catID;
+            //    companyAndCategory.CompanyId = company.Id;
+            //    companyAndCategoryList.Add(companyAndCategory);
 
 
-            // Delete Category
+
+            //    foreach (var item in companyAndCategoryList)
+            //    {
+            //        await _companyAndCategoryRepository.CreateAsync(item);
+            //    }
+            //    await _companyAndCategoryRepository.SaveAsync();
+            //}
+
+            // Delete  from companyAndCategory if no vacancies exist with given categoryId in company
             foreach (var categoryId in deletedCategoryId)
             {
                 //Throws exception if category contains vacancies
-                if (await _categoryRepository.GetByCondition(x => x.Id == categoryId).AllAsync(x => x.Vacancies.Count != 0))
+                //if (await _categoryRepository.GetByCondition(x => x.Id == categoryId && x.Id==).AllAsync(x => x.Vacancies.Count != 0))
+                if (_vacanciesRepository.GetAll().Any(x => x.CategoryId == categoryId && x.CompanyId==company.Id))
                 {
                     throw new BadRequestException("You are trying to delete category that contains vacancies");
                 }
@@ -168,8 +183,11 @@ namespace JobStream.Business.Services.Implementations
                 }
             }
             await _companyAndCategoryRepository.SaveAsync();
+
+
+
         }
-        
+
         public async Task DeleteCompany(int id)
         {
             var companies = _repository.GetAll();
@@ -183,6 +201,13 @@ namespace JobStream.Business.Services.Implementations
             result.IsDeleted = true;
             user.IsDeleted = true;
 
+            var vacancies=_vacanciesRepository.GetAll().Where(v=>v.CompanyId==id).ToList();
+            foreach (var vacancy in vacancies)
+            {
+                vacancy.isDeleted = true;
+                _vacanciesRepository.Update(vacancy);
+            }
+            await _vacanciesRepository.SaveAsync();
             //_repository.Delete(result);
             await _repository.SaveAsync();
         }
@@ -206,6 +231,10 @@ namespace JobStream.Business.Services.Implementations
             var category = await _categoryRepository.GetByIdAsync(vacanciesPostDTO.CategoryId);
             var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPostDTO.JobTypeId);
             var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPostDTO.JobScheduleId);
+            if (jobType is null || jobSchedule is null || category is null)
+            {
+                throw new BadRequestException("Enter valid id");
+            }
 
             vacancy.Company = company;
             vacancy.JobSchedule = jobSchedule;
@@ -215,11 +244,13 @@ namespace JobStream.Business.Services.Implementations
             vacancy.JobScheduleId = jobSchedule.Id;
             vacancy.JobTypeId = jobType.Id;
             vacancy.PostedOn = DateTime.Now;
-            vacancy.ModifiedDate = DateTime.Now;
+            //vacancy.ModifiedDate = DateTime.Now;
             vacancy.ClosingDate = DateTime.Now.AddDays(40);
             vacancy.CategoryId = category.Id;
             vacancy.isDeleted = false;
-      
+
+
+
             await _vacanciesRepository.CreateAsync(vacancy);
             await _vacanciesRepository.SaveAsync();
         }
@@ -227,14 +258,14 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateVacancy(int companyId, int vacancyId, VacanciesPutDTO vacanciesPutDTO)
         {
-            var vacancyExistsInCompany=_vacanciesRepository.GetAll().Where(x => x.CompanyId == companyId).Where(x => x.Id == vacancyId);
-            if(vacancyExistsInCompany.Count()==0)
+            var vacancyExistsInCompany = _vacanciesRepository.GetAll().Where(x => x.CompanyId == companyId).Where(x => x.Id == vacancyId);
+            if (vacancyExistsInCompany.Count() == 0)
             {
                 throw new NotFoundException($"That vacancy id {vacancyId} doesn'exist in company with id:{companyId}");
             }
             var vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
             var company = await _repository.GetByIdAsync(companyId);
-            var category =await _categoryRepository.GetByIdAsync(vacanciesPutDTO.CategoryId);
+            var category = await _categoryRepository.GetByIdAsync(vacanciesPutDTO.CategoryId);
             var jobSchedule = await _jobScheduleRepository.GetByIdAsync(vacanciesPutDTO.JobScheduleId);
             var jobType = await _jobTypeRepository.GetByIdAsync(vacanciesPutDTO.JobTypeId);
             //var test = _vacanciesRepository.GetAll().Where(x => x.CompanyId == companyId).Where(x => x.Id == vacancyId).ToList();
@@ -255,13 +286,13 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new NotFoundException("Job schedule with that id not found");
             }
-            if (vacancyId!=vacanciesPutDTO.Id)
+            if (vacancyId != vacanciesPutDTO.Id)
             {
                 throw new NotFoundException("Id's don't match");
             }
 
             //var vacancy = _mapper.Map<Vacancy>(vacanciesPutDTO);
-         
+
             var creationDate = vacancy.PostedOn;
             var closingDate = vacancy.ClosingDate;
 
@@ -274,19 +305,19 @@ namespace JobStream.Business.Services.Implementations
             vacancy.ExperienceLevel = vacanciesPutDTO.ExperienceLevel;
             vacancy.HREmail = vacanciesPutDTO.HREmail;
             vacancy.OfferedBenfits = vacanciesPutDTO.OfferedBenfits;
-           
+
 
             vacancy.PostedOn = creationDate;
             vacancy.ClosingDate = closingDate;
-            vacancy.ModifiedDate = DateTime.Now;
+            //vacancy.ModifiedDate = DateTime.Now;
 
             vacancy.Category = category;
             vacancy.Company = company;
             vacancy.JobSchedule = jobSchedule;
             vacancy.JobType = jobType;
 
-            vacancy.isDeleted= false;   
-         
+            vacancy.isDeleted = false;
+
 
             _vacanciesRepository.Update(vacancy);
             await _vacanciesRepository.SaveAsync();
@@ -317,7 +348,7 @@ namespace JobStream.Business.Services.Implementations
             _vacanciesRepository.Delete(vacancy);
             await _vacanciesRepository.SaveAsync();
         }
-
+      
         public async Task InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation)
         {
             Vacancy vacancy = await _vacanciesRepository.GetByIdAsync(vacancyId);
@@ -328,7 +359,7 @@ namespace JobStream.Business.Services.Implementations
             Applications application = _applicationRepository.GetAll().SingleOrDefault(x => x.VacancyId == vacancyId);
 
             if (application == null) throw new NotFoundException("There is no application for this vacancy");
-            if (application.IsAccepted == true) throw new RepeatedChoiceException("You already rejected this candidate");
+            if (application.IsAccepted == true) throw new RepeatedChoiceException("You already accepted this candidate");
             if (application.CandidateResumeId != candidateId) throw new NotFoundException("No application found from candidate");
             if (application.VacancyId != vacancyId) throw new NotFoundException($"No application for vacancy {vacancyId}");
 
@@ -345,7 +376,7 @@ namespace JobStream.Business.Services.Implementations
                 Subject = $"Interview invitation for {vacancy.Name}",
                 //Body = $"Interview date:{result.InterviewDate}\n{result.Message}\nTime:{result.InterviewDate}\nLocation:{result.InterviewLocation}"
                 Body = $"<html><body><h2>Interview invitation for {vacancy.Name}</h2><p><strong>Interview date:</strong> {result.InterviewDate}</p>" +
-                $"<p><strong>Message:</strong> {result.Message}</p><p><strong>Time:</strong> {result.InterviewDate}</p><p><strong>Location:</strong> {result.InterviewLocation}</p></body></html>"
+                $"<p><strong>Message:</strong> {result.Message}</p><p><strong>Location:</strong> {result.InterviewLocation}</p></body></html>"
 
             });
 
@@ -355,6 +386,9 @@ namespace JobStream.Business.Services.Implementations
             application.CandidateResumeId = candidateId;
             application.VacancyId = vacancyId;
             application.CV = previousCv;
+
+            var appDTO = _mapper.Map<ApplicationsDTO>(application);
+            appDTO.IsAccepted= true;    
 
             _applicationRepository.Update(application);
             await _applicationRepository.SaveAsync();
@@ -390,10 +424,43 @@ namespace JobStream.Business.Services.Implementations
             application.VacancyId = vacancyId;
             application.CV = previousCv;
 
+            var appDTO = _mapper.Map<ApplicationsDTO>(application);
+            appDTO.IsAccepted = true;
+
+
             _applicationRepository.Update(application);
             await _applicationRepository.SaveAsync();
 
         }
 
+       
+
+        public async Task<List<ApplicationsDTO>> GetAllApplications(int companyId)
+        {
+
+            List<Vacancy> vacancy = _vacanciesRepository.GetByCondition(x => x.CompanyId == companyId).AsNoTracking()
+                .ToList();
+            List<Applications> list = new List<Applications>();
+            foreach (var vac in vacancy)
+            {
+                var result = _applicationRepository.GetAll().FirstOrDefault(x => x.VacancyId == vac.Id);
+                if (result != null)
+                {
+                    list.Add(result);
+                }
+            }
+            if (list is null)
+            {
+                throw new NotFoundException("No applications found");
+            }
+            var listDTO=_mapper.Map<List<ApplicationsDTO>>(list);
+            return listDTO;
+
+        }
+
     }
+
+
 }
+
+

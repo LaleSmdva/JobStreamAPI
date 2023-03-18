@@ -11,11 +11,13 @@ using JobStream.Business.Utilities;
 using JobStream.Business.Validators.Account;
 using JobStream.Core.Entities.Identity;
 using JobStream.DataAccess.Contexts;
+using JobStream.DataAccess.Repositories;
 using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TokenHandler = JobStream.Business.HelperServices.Implementations.TokenHandler;
@@ -50,7 +52,6 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
     opt.Lockout.AllowedForNewUsers = false;
 
-    //f
 
     //opt.Tokens.EmailConfirmationTokenProvider= null;
 
@@ -65,16 +66,17 @@ builder.Services.AddAuthentication(opts =>
 {
     opts.TokenValidationParameters = new()
     {
-        ValidateAudience = true,
         ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
         ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecurityKey"])),
-        LifetimeValidator = (_, expires, _, _) => expires != null ? DateTime.UtcNow < expires : false
+        LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.Now : false
 
     };
+    opts.RequireHttpsMetadata = false;
 });
 
 builder.Services.AddFluentValidationAutoValidation();
@@ -88,10 +90,7 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 //AutoMApper
 builder.Services.AddAutoMapper(typeof(CompanyMapper).Assembly);
 
-//builder.Services.AddAutoMapper(typeof(VacanciesMapper).Assembly);
 
-
-//builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -111,13 +110,18 @@ builder.Services.AddScoped<ICategoryFieldRepository, CategoryFieldRepository>();
 builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
 
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IVacanciesService, VacanciesService>();
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddTransient<IMailService, MailService>();
+
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IVacanciesService, VacanciesService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IJobTypeService, JobTypeService>();
 builder.Services.AddScoped<IJobScheduleService, JobScheduleService>();
@@ -136,7 +140,9 @@ builder.Services.AddScoped<ICategoryFieldService, CategoryFieldService>();
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddHangfireServer();
-
+////Cors
+builder.Services.AddCors(options =>
+options.AddDefaultPolicy(policy => policy.WithOrigins("http://127.0.0.1:5500", "http://localhost:5500").AllowAnyHeader().AllowAnyMethod()));
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -155,6 +161,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -166,18 +174,18 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 using (var scope = app.Services.CreateScope())
 {
     //var initializer = app.Services.GetRequiredService<AppDbContextInitializer>(); 
-    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>(); 
+    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>();
     await initializer.SeedRoleAsync();
     await initializer.SeedUserAsync();
 }
 
-
+app.UseStaticFiles();
 //// Hangfire
 app.UseHangfireDashboard();
 app.UseHangfireServer();
 
 //RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 * * ? * *"); //every minute
-RecurringJob.AddOrUpdate<IVacanciesService>(x=>x.VacancyCleanUp(), "0 0 1 1 *");  //every year
+RecurringJob.AddOrUpdate<IVacanciesService>(x => x.VacancyCleanUp(), "0 0 1 1 *");  //every year
 
 
 app.MapControllers();

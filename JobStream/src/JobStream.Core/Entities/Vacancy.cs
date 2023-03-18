@@ -38,6 +38,6 @@ namespace JobStream.Core.Entities
         //new 26
         public ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
         public ICollection<Applications> Applications { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        //public DateTime? ModifiedDate { get; set; }
     }
 }

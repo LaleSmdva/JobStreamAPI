@@ -1,5 +1,6 @@
 ﻿using JobStream.Business.DTOs.AboutUsDTO;
 using JobStream.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace JobStream.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class AboutUsController : ControllerBase
     {
         private readonly IAboutUsService _aboutUsService;
@@ -24,6 +26,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPost("create")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Post([FromForm] AboutUsPostDTO aboutUsPostDTO)
         {
             await _aboutUsService.CreateAboutUsAsync(aboutUsPostDTO);
@@ -31,6 +34,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Put(int id, [FromForm] AboutUsPutDTO aboutUs)
         {
             await _aboutUsService.UpdateAboutUsAsync(id, aboutUs);
@@ -38,6 +42,7 @@ namespace JobStream.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Delete(int id)
         {
             await _aboutUsService.DeleteAboutUsAsync(id);

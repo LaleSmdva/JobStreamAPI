@@ -1,12 +1,6 @@
 ﻿using JobStream.Core.Entities.Identity;
 using JobStream.Core.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace JobStream.Core.Entities;
 
@@ -38,5 +32,8 @@ public class CandidateResume : IEntity
     public string? ProfilePhoto { get; set; }
     ICollection<CandidateResumeAndVacancy>? CandidateResumesAndVacancies { get; set; }
     ICollection<Applications>? Applications { get; set; }
+    public string? CandidateEducation { get; set; }
+    //[JsonIgnore]
+    //ICollection<CandidateEducation>? CandidateEducations { get; set; }
 }
 

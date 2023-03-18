@@ -21,7 +21,7 @@ namespace JobStream.API.Controllers
             var vacancies = _vacanciesService.GetAll();
             return Ok(vacancies);
         }
-        [HttpGet("{id}/details")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetVacancyByIdAsync(int id)
         {
             var vacancies = await _vacanciesService.GetVacancyByIdAsync(id);

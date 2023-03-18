@@ -36,7 +36,7 @@ namespace JobStream.API.Controllers
             return Ok(jobType);
         }
 
-        [HttpGet("GetVacanciesByJobTypeId/{id}")]
+        [HttpGet("{id}/Vacancies")]
         public async Task<IActionResult> GetVacanciesByJobTypeId(int id)
         {
 

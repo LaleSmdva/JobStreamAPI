@@ -22,7 +22,7 @@ public class RubricForArticlesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] RubricForArticlesPostDTO entity)
+    public async Task<IActionResult> Create(RubricForArticlesPostDTO entity)
     {
         await _rubricForArticlesService.CreateRubricForArticlesAsync(entity);
         return Ok("Rubric for article created");
@@ -30,7 +30,7 @@ public class RubricForArticlesController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromForm] RubricForArticlesPutDTO rubricForArticles)
+    public async Task<IActionResult> Update(int id, RubricForArticlesPutDTO rubricForArticles)
     {
         await _rubricForArticlesService.UpdateRubricForArticlesAsync(id, rubricForArticles);
         return Ok("Successfully updated");

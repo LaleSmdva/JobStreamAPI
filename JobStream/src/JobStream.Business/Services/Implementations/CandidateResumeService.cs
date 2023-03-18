@@ -49,7 +49,7 @@ namespace JobStream.Business.Services.Implementations
         public async Task<List<CandidateResumeDTO>> GetAllCandidatesResumesAsync()
         {
             List<CandidateResume> candidateResumes = await _candidateResumeRepository.GetAll()
-                
+
                 .Where(u => u.IsDeleted == false).ToListAsync();
             var list = _mapper.Map<List<CandidateResumeDTO>>(candidateResumes);
             return list;
@@ -57,15 +57,18 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<CandidateResumeDTO> GetCandidateResumeByUserId(string userId)
         {
-           
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
             {
                 throw new NotFoundException("User not found");
             }
-            CandidateResume resume = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(u=>u.AppUserId==userId);
+            CandidateResume resume = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(u => u.AppUserId == userId);
 
-            var result = _mapper.Map<CandidateResumeDTO>(resume);
+
+            CandidateResumeDTO result = _mapper.Map<CandidateResumeDTO>(resume);
+
+
             //result.AppUserId = user.Id;
 
             return result;
@@ -81,7 +84,7 @@ namespace JobStream.Business.Services.Implementations
             if (resume == null) throw new NotFoundException("Candidate not found");
 
             CandidateResume candidateResume = _candidateResumeRepository.GetAll()
-                //.Include(e => e.CandidateEducation)
+               //.Include(e => e.CandidateEducation)
                .FirstOrDefault(e => e.Id == candidateId);
             var result = _mapper.Map<CandidateResumeDTO>(resume);
 
@@ -123,10 +126,7 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task UpdateCandidateResumeAsync(int id, CandidateResumePutDTO candidateResume)
         {
-            if (await _userManager.Users.AllAsync(r => r.Email != candidateResume.Email))
-            {
-                throw new BadRequestException("You cannot change your email address.");
-            }
+
 
             if (!candidateResume.ProfilePhoto.CheckFileFormat("image/"))
             {
@@ -146,6 +146,13 @@ namespace JobStream.Business.Services.Implementations
             user.IsDeleted = false;
 
             var result = _mapper.Map<CandidateResume>(candidateResume);
+            if (result.Email != candidateResume.Email)
+            {
+                throw new BadRequestException("You cannot change your email address.");
+            }
+            /////new
+            //result.CandidateEducations = candidateResume.CandidateEducations;
+            //
             result.ProfilePhoto = await _fileService.CopyFileAsync(candidateResume.ProfilePhoto, _env.WebRootPath, "images", "Resumes", "ProfilePicture");
             result.CV = await _fileService.CopyFileAsync(candidateResume.CV, _env.WebRootPath, "images", "Resumes", "CV");
             result.AppUser = user;
@@ -154,20 +161,20 @@ namespace JobStream.Business.Services.Implementations
 
             //List<CandidateEducation> candidateEducations = new List<CandidateEducation>();
 
-            if (candidateResume.CandidateEducations != null)
-            {
-                foreach (var education in candidateResume.CandidateEducations)
-                {
-                    var ed = new CandidateEducation()
-                    {
-                        EducationInfo = education,
-                        CandidateResumeId = result.Id
-                    };
+            //if (candidateResume.CandidateEducations!= null) { }
+            //{
+                //foreach (var education in candidateResume.CandidateEducations)
+                //{
+                //    var ed = new CandidateEducation()
+                //    {
+                //        EducationInfo = education,
+                //        CandidateResumeId = result.Id
+                //    };
 
-                    await _candidateEducationRepository.CreateAsync(ed);
-                }
-                await _candidateEducationRepository.SaveAsync();
-            }
+                //    await _candidateEducationRepository.CreateAsync(ed);
+                //}
+                //await _candidateEducationRepository.SaveAsync();
+            //}
             _candidateResumeRepository.Update(result);
             await _candidateResumeRepository.SaveAsync();
 
@@ -180,9 +187,9 @@ namespace JobStream.Business.Services.Implementations
             {
                 throw new NotFoundException("Not Found");
             }
-            
+
             CandidateResume resume = await _candidateResumeRepository.GetByIdAsync(id);
-            var user=_userManager.Users.FirstOrDefault(x => x.Id == resume.AppUserId);
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == resume.AppUserId);
             resume.IsDeleted = true;
             user.IsDeleted = true;
             await _candidateResumeRepository.SaveAsync();
@@ -249,20 +256,21 @@ namespace JobStream.Business.Services.Implementations
             return result;
         }
 
-        public async Task<List<ApplicationsResponseDTO>> GetAcceptedVacancies()
+        public async Task<List<ApplicationsResponseDTO>> GetAcceptedVacancies(int candidateId)
         {
-            List<Applications> applications = _applicationRepository.GetAll()
-                .Where(c => c.IsAccepted==true).ToList();
-            var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
+            var acceptedVacancies = await _applicationRepository.GetAll().Where(u => u.CandidateResumeId == candidateId)
+                .Where(r => r.IsAccepted == true).ToListAsync();
+            var result = _mapper.Map<List<ApplicationsResponseDTO>>(acceptedVacancies);
             return result;
 
         }
 
-        public async Task<List<ApplicationsResponseDTO>> GetRejectedVacancies()
+        public async Task<List<ApplicationsResponseDTO>> GetRejectedVacancies(int candidateId)
         {
-            List<Applications> applications = _applicationRepository.GetAll()
-                .Where(c => c.IsAccepted == false).ToList();
-            var result = _mapper.Map<List<ApplicationsResponseDTO>>(applications);
+            var rejectedVacancies = await _applicationRepository.GetAll().Where(u => u.CandidateResumeId == candidateId)
+                .Where(r => r.IsAccepted == false).ToListAsync();
+
+            var result = _mapper.Map<List<ApplicationsResponseDTO>>(rejectedVacancies);
             return result;
 
         }

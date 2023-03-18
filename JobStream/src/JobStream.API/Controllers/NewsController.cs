@@ -28,7 +28,7 @@ namespace JobStream.API.Controllers
         }
 
 
-        [HttpGet("GetNewsByTitle/{title}")]
+        [HttpGet("search/{title}")]
         public IActionResult GetNewsByTitle(string title)
         {
             var news = _newsService.GetNewsByTitle(title);
@@ -44,12 +44,12 @@ namespace JobStream.API.Controllers
         }
 
 
-        [HttpGet("newsByRubricId{id}")]
-        public async Task<IActionResult> GetNewsByRubricId(int id)
-        {
-            var news = await _newsService.GetNewsByRubricId(id);
-            return Ok(news);
-        }
+        //[HttpGet("{rubricId}")]
+        //public async Task<IActionResult> GetNewsByRubricId(int rubricId)
+        //{
+        //    var news = await _newsService.GetNewsByRubricId(rubricId);
+        //    return Ok(news);
+        //}
 
 
         [HttpPost]

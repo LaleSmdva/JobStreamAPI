@@ -3,31 +3,31 @@ using JobStream.Business.DTOs.CandidateEducationDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
+using JobStream.DataAccess.Repositories;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace JobStream.Business.Services.Implementations
 {
     public class CandidateEducationService :ICandidateEducationService
     {
+       
         private readonly ICandidateEducationRepository _candidateEducationRepository;
-        private readonly ICandidateResumeRepository _candidateResumeRepository;
         private readonly IMapper _mapper;
 
-        public CandidateEducationService(IMapper mapper,
-            ICandidateEducationRepository candidateEducationRepository,
-            ICandidateResumeRepository candidateResumeRepository)
-        {
 
+        public CandidateEducationService(IMapper mapper, ICandidateEducationRepository candidateEducationRepository)
+        {
             _mapper = mapper;
             _candidateEducationRepository = candidateEducationRepository;
-            _candidateResumeRepository = candidateResumeRepository;
         }
 
         public async Task<List<CandidateEducationDTO>> GetAllCandidatesEducationAsync()
         {
             var candidateEds = await _candidateEducationRepository.GetAll().ToListAsync();
             var list = _mapper.Map<List<CandidateEducationDTO>>(candidateEds);
+          
             return list;
         }
 
@@ -47,7 +47,7 @@ namespace JobStream.Business.Services.Implementations
         public async Task DeleteCandidateEducationInfoAsync(int candidateId, List<int> educationIds)
         {
             
-            var candidate = await _candidateResumeRepository.GetAll().FirstOrDefaultAsync(c => c.Id == candidateId);
+            var candidate = await _candidateEducationRepository.GetAll().FirstOrDefaultAsync(c => c.Id == candidateId);
 
             if (candidate == null)
             {

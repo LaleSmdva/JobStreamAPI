@@ -16,7 +16,7 @@ namespace JobStream.DataAccess.Configurations
 			//builder.HasOne(b => b.CandidateResume).WithOne(c => c.CandidateEducation)
 			//.HasForeignKey<CandidateResume>(s => s.Id);
 
-			builder.Property(c => c.EducationInfo).IsRequired(true).HasMaxLength(300);
+			//builder.Property(c => c.EducationInfo).IsRequired(true).HasMaxLength(300);
 		}
 	}
 }

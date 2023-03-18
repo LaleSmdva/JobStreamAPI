@@ -22,13 +22,13 @@ namespace JobStream.API.Controllers
             return Ok(jobSchedules);
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetJobScheduleByIdAsync(int id)
         {
             var jobSchedule = await _jobScheduleService.GetJobScheduleByIdAsync(id);
             return Ok(jobSchedule);
         }
-        [HttpGet("GetAllVacancies/{id}")]
+        [HttpGet("{id}/Vacancies")]
         public async Task<IActionResult> GetAllVacanciesByJobScheduleIdAsync(int id)
         {
             var vacancies = await _jobScheduleService.GetAllVacanciesByJobScheduleIdAsync(id);

@@ -12,8 +12,9 @@ namespace JobStream.Business.DTOs.ApplicationsDTO
         public int Id { get; set; }
         public string? CV { get; set; }
         public int? VacancyId { get; set; }
-        public Vacancy? Vacancy { get; set; }
+        //public Vacancy? Vacancy { get; set; }
         public int? CandidateResumeId { get; set; }
-        public CandidateResume? CandidateResume { get; set; }
+        public bool? IsAccepted { get; set; }
+        //public CandidateResume? CandidateResume { get; set; }
     }
 }

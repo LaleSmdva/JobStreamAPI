@@ -1,24 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal;
-using Hangfire;
-using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
-using JobStream.Business.Validators.Vacancies;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations
 {
@@ -26,22 +11,11 @@ namespace JobStream.Business.Services.Implementations
     {
         private readonly IVacanciesRepository _vacanciesRepository;
         private readonly IMapper _mapper;
-        private readonly ICompanyRepository _companyRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IJobTypeRepository _jobTypeRepository;
-        private readonly IJobScheduleRepository _jobScheduleRepository;
 
-        public VacanciesService(IMapper mapper, IVacanciesRepository vacanciesRepository,
-            ICompanyRepository companyRepository, ICategoryRepository categoryRepository,
-            IJobTypeRepository jobTypeRepository, IJobScheduleRepository jobScheduleRepository)
+        public VacanciesService(IMapper mapper, IVacanciesRepository vacanciesRepository)
         {
-
             _mapper = mapper;
             _vacanciesRepository = vacanciesRepository;
-            _companyRepository = companyRepository;
-            _categoryRepository = categoryRepository;
-            _jobTypeRepository = jobTypeRepository;
-            _jobScheduleRepository = jobScheduleRepository;
         }
 
         public List<VacanciesDTO> GetAll()
@@ -54,14 +28,16 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<List<VacanciesDTO>> GetVacanciesByCategoryAsync(List<int> categoryIds)
         {
-            //List<Vacancy> vacancy = await _vacanciesRepository.GetByIdAsync(categoryId).Where(v => v.isDeleted == false).ToList();
             List<Vacancy> vacanciesDTOs = new List<Vacancy>();
             foreach (var categoryId in categoryIds)
             {
-                var vacancies = _vacanciesRepository.GetAll().Where(x => x.CategoryId == categoryId);
+                var vacancies = _vacanciesRepository.GetByCondition(x => x.CategoryId == categoryId);
                 foreach (var vacancy in vacancies)
                 {
-                    vacanciesDTOs.Add(vacancy);
+                    if (vacancy != null)
+                    {
+                        vacanciesDTOs.Add(vacancy);
+                    }
                 }
             }
             var list = _mapper.Map<List<VacanciesDTO>>(vacanciesDTOs);
@@ -83,9 +59,9 @@ namespace JobStream.Business.Services.Implementations
             return _vacanciesRepository.GetAll().Where(v => v.ClosingDate <= currentDateUtc);
         }
 
-       
-         ////////////  Hangfire  //////////// 
-      
+
+        ////////////  Hangfire  //////////// 
+
         //[AutomaticRetry(Attempts = 0)]
         public async Task VacancyCleanUp()
         {
@@ -103,10 +79,31 @@ namespace JobStream.Business.Services.Implementations
 
         public async Task<List<VacanciesDTO>> SearchVacancies(string? keyword, string? location, List<int>? categoryId, string? companyName)
         {
-            List<Vacancy> vacancies = _vacanciesRepository.GetAll()
-             .Where(v => v.Name.Contains(keyword) || v.Location.Contains(location)
-                 || categoryId.Contains(v.CategoryId) || v.Company.Name.Contains(companyName))
-             .ToList();
+            var vacancies = _vacanciesRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                vacancies = vacancies.Where(x => x.Name.Contains(keyword));
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                vacancies = vacancies.Where(x => x.Location.Contains(location));
+            }
+
+            if (categoryId != null && categoryId.Count > 0)
+            {
+                vacancies = vacancies.Where(x => categoryId.Contains(x.CategoryId));
+            }
+
+            if (!string.IsNullOrEmpty(companyName))
+            {
+                vacancies = vacancies.Where(x => x.Company.Name.Contains(companyName));
+            }
+            if (vacancies.Count() == 0)
+            {
+                throw new NotFoundException("Not found");
+            }
             var result = _mapper.Map<List<VacanciesDTO>>(vacancies);
             return result;
         }

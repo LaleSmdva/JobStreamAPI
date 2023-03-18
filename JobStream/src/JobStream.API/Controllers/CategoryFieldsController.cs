@@ -1,8 +1,5 @@
-﻿using JobStream.Business.DTOs.CategoryDTO;
-using JobStream.Business.DTOs.CategoryFieldDTO;
-using JobStream.Business.Services.Implementations;
+﻿using JobStream.Business.DTOs.CategoryFieldDTO;
 using JobStream.Business.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobStream.API.Controllers
@@ -25,7 +22,7 @@ namespace JobStream.API.Controllers
             return Ok(categoryFields);
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create(CategoryFieldPostDTO entity)
         {
             await _categoryFieldService.CreateCategoryFieldAsync(entity);
@@ -44,7 +41,7 @@ namespace JobStream.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryFieldService.DeleteCategoryFieldAsync(id);
-            return Ok("Category deleted");
+            return Ok("Category field deleted");
         }
     }
 }

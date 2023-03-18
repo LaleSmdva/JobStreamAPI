@@ -22,14 +22,20 @@ namespace JobStream.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCompanies()
+        public async Task<IActionResult> GetAll()
         {
-            var companies = await _categoryService.GetAllCategories();
-            return Ok(companies);
+            var categories = await _categoryService.GetAllCategories();
+            return Ok(categories);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCategory(int id)
+        {
+            var category = await _categoryService.GetCategoryAsync(id);
+            return Ok(category);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> AddCompany(CategoriesPostDTO category)
+        [HttpPost]
+        public async Task<IActionResult> Post(CategoriesPostDTO category)
         {
             await _categoryService.CreateCategoryAsync(category);
             return Ok("Successfully created");
@@ -44,7 +50,7 @@ namespace JobStream.API.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.DeleteCategoryAsync(id);
             return Ok("Category deleted");

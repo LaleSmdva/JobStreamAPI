@@ -7,6 +7,7 @@ using JobStream.Core.Entities;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Encodings;
 
 namespace JobStream.Business.Services.Implementations;
 
@@ -14,22 +15,43 @@ public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IVacanciesRepository _vacanciesRepository;
 
 
-    public CategoryService(IMapper mapper,ICategoryRepository repository)
+    public CategoryService(IMapper mapper, ICategoryRepository repository, IVacanciesRepository vacanciesRepository)
     {
         _mapper = mapper;
         _repository = repository;
+        _vacanciesRepository = vacanciesRepository;
     }
     public async Task<List<CategoriesDTO>> GetAllCategories()
     {
         var categories = await _repository.GetAll()
+            //.Include(x => x.CategoryField)
+            //.Include(x => x.Vacancies)
+            //.Include(c => c.CompanyAndCategories)
+             .ToListAsync();
+        if(categories.Count== 0)
+        {
+            throw new NotFoundException("No category found");
+        }
+        var result = _mapper.Map<List<CategoriesDTO>>(categories);
+        return result;
+    }
+
+    public async Task<CategoriesDTO> GetCategoryAsync(int id)
+    {
+        var category = await _repository.GetAll()
             .Include(x => x.CategoryField)
             .Include(x => x.Vacancies)
-            .Include(c => c.CompanyAndCategories)
-             //.ThenInclude(cc => cc.Company) 
-             .ToListAsync();
-        var result = _mapper.Map<List<CategoriesDTO>>(categories);
+            .Include(c => c.CompanyAndCategories).FirstOrDefaultAsync(c=>c.Id==id);
+        if(category is null)
+        {
+            throw new NotFoundException("Not found");
+        }
+
+        var result = _mapper.Map<CategoriesDTO>(category);
+       
         return result;
     }
 
@@ -105,12 +127,19 @@ public class CategoryService : ICategoryService
     public async Task DeleteCategoryAsync(int id)
     {
         var categories = _repository.GetAll().ToList();
-
-        if (categories.All(x => x.Id != id))
+        var category=await _repository.GetByIdAsync(id);
+        if(category is null)
         {
-            throw new NotFoundException("Not Found");
+            throw new NotFoundException("Category not found");
         }
-        var category = await _repository.GetByIdAsync(id);
+        var vacancies=_vacanciesRepository.GetByCondition(c => c.CategoryId == id).ToList();
+        foreach (var vacancy in vacancies)
+        {
+            if(vacancy.CategoryId==id)
+            {
+                throw new BadRequestException("Category contains vacancies");
+            }
+        }
         _repository.Delete(category);
         await _repository.SaveAsync();
 

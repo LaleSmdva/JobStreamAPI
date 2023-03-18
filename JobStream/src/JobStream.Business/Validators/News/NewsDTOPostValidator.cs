@@ -15,7 +15,9 @@ namespace JobStream.Business.Validators.News
         {
             RuleFor(c => c.Title)
      .NotNull()
-     .NotEmpty();
+     .NotEmpty()
+     .MaximumLength(200)
+     .WithMessage("Max length for title is 200 symbols");
 
             RuleFor(c => c.Content)
             .NotNull()

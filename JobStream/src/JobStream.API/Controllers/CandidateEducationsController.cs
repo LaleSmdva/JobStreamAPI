@@ -33,7 +33,7 @@ namespace JobStream.API.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{candidateId}/DeleteEducation")]
+        [HttpDelete("{candidateId}")]
         public async Task<IActionResult>  DeleteCandidateEducationInfoAsync(int candidateId, List<int> educationIds)
         {
             await _candidateEducation.DeleteCandidateEducationInfoAsync(candidateId,educationIds);

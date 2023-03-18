@@ -138,12 +138,18 @@ namespace JobStream.DataAccess.Migrations
                     b.Property<int?>("CandidateResumeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EducationInfo")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Institution")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Major")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidateResumeId");
 
                     b.ToTable("CandidateEducation");
                 });
@@ -163,6 +169,9 @@ namespace JobStream.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CandidateEducation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DesiredPosition")
@@ -642,9 +651,6 @@ namespace JobStream.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -838,6 +844,15 @@ namespace JobStream.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("RubricForArticles");
+                });
+
+            modelBuilder.Entity("JobStream.Core.Entities.CandidateEducation", b =>
+                {
+                    b.HasOne("JobStream.Core.Entities.CandidateResume", "CandidateResume")
+                        .WithMany()
+                        .HasForeignKey("CandidateResumeId");
+
+                    b.Navigation("CandidateResume");
                 });
 
             modelBuilder.Entity("JobStream.Core.Entities.CandidateResume", b =>

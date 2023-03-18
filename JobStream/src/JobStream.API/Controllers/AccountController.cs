@@ -2,7 +2,9 @@
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Business.Validators.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Net;
 
 namespace JobStream.API.Controllers
@@ -62,22 +64,25 @@ namespace JobStream.API.Controllers
         }
 
 
-        [HttpPost("[action]")]
-        //[ValidateRolesModel] ??
-        public async Task<IActionResult> CreateRole(string userName, [FromQuery] List<string> roles)
+        [HttpPost("{userId}/[action]")]
+        //[Authorize(Roles = "Admin,Moderator")]
+
+        public async Task<IActionResult> CreateRole(string userId, [FromQuery] List<string> roles)
         {
-            await _accountService.CreateRoleAsync(userName, roles);
+            await _accountService.CreateRoleAsync(userId, roles);
             return Ok("Role added successfully");
 
         }
 
-        [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateRole(string userName, [FromQuery] List<string> newRoles, [FromQuery] List<string> deletedRoles)
+        [HttpPut("{userId}/[action]")]
+        //[Authorize(Roles = "Admin,Moderator")]
+        public async Task<IActionResult> UpdateRole(string userId, [FromQuery] List<string> newRoles, [FromQuery] List<string> deletedRoles)
         {
-            await _accountService.UpdateRoleAsync(userName, newRoles, deletedRoles);
+            await _accountService.UpdateRoleAsync(userId, newRoles, deletedRoles);
             return Ok("Role updated successfully");
         }
         [HttpGet("{id}/roles")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> GetRolesById(string id)
         {
             var roles=await _accountService.GetRolesById(id);

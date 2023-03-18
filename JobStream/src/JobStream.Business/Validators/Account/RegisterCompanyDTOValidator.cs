@@ -13,7 +13,7 @@ namespace JobStream.Business.Validators.Account
 		public RegisterCompanyDTOValidator()
 		{
 			RuleFor(c => c.Companyname).NotNull().WithMessage("Enter the name of company").NotEmpty().WithMessage("Enter the name of company")
-				.Length(3, 200).WithMessage("Fullname can have at least 3 and a max of 200 characters");
+				.Length(3, 200).WithMessage("Company name can have at least 3 and a max of 200 characters");
 
 			RuleFor(c => c.Email).NotNull().WithMessage("Enter email").NotEmpty().WithMessage("Enter email")
 				.EmailAddress().WithMessage("Invalid email address");

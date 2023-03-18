@@ -10,8 +10,8 @@ namespace JobStream.Business.HelperServices.Interfaces
 {
 	public interface ITokenHandler
 	{
-		Task<LoginTokenResponseDTO> GenerateTokenAsync(AppUser user,int hours);
-		Task<string> GenerateRefreshToken();
-		Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
+		Task<LoginTokenResponseDTO> GenerateTokenAsync(AppUser user);
+		Task<string> GenerateRefreshToken(AppUser user,DateTime expires);
+		//Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
 	}
 }

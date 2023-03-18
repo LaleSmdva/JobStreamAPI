@@ -147,6 +147,7 @@ namespace JobStream.Business.Services.Implementations
                 throw new CreateRoleFailedException($"{errorMessages}");
             }
             
+            await _userManager.UpdateAsync(candidate);
 
             await _candidateResumeRepository.SaveAsync();
             //////// 
@@ -169,11 +170,11 @@ namespace JobStream.Business.Services.Implementations
             return roles;
         }
 
-        public async Task<bool> CreateRoleAsync(string userName, List<string> roles)
+        public async Task<bool> CreateRoleAsync(string userId, List<string> roles)
         {
 
-            if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentNullException("Username is required");
-            var User = await _userManager.FindByNameAsync(userName);
+            if (string.IsNullOrWhiteSpace(userId)) throw new ArgumentNullException("Username is required");
+            var User = await _userManager.FindByIdAsync(userId);
 
             List<string> allRoles = new();
 
@@ -201,10 +202,10 @@ namespace JobStream.Business.Services.Implementations
         }
 
 
-        public async Task<bool> UpdateRoleAsync(string userName, List<string> newRoles, List<string> deletedRoles)
+        public async Task<bool> UpdateRoleAsync(string userId, List<string> newRoles, List<string> deletedRoles)
         {
-            if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentNullException("Username is required");
-            var user = await _userManager.FindByNameAsync(userName);
+            if (string.IsNullOrWhiteSpace(userId)) throw new ArgumentNullException("Username is required");
+            var user = await _userManager.FindByIdAsync(userId);
 
             List<string> allRoles = new();
 

@@ -24,8 +24,8 @@ namespace JobStream.Business.Services.Interfaces
         Task DeleteCandidateResume(int id); //delete account
         Task ApplyVacancy(int candidateId, int companyId, int vacancyId, ApplyVacancyDTO applyVacancyDTO);
         Task<List<ApplicationsResponseDTO>> ViewStatusOfAppliedJobs(int candidateId);
-        Task<List<ApplicationsResponseDTO>> GetAcceptedVacancies();
-        Task<List<ApplicationsResponseDTO>> GetRejectedVacancies();
+        Task<List<ApplicationsResponseDTO>> GetAcceptedVacancies(int candidateId);
+        Task<List<ApplicationsResponseDTO>> GetRejectedVacancies(int candidateId);
 
 
     }

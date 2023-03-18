@@ -4,14 +4,8 @@ using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Business.Exceptions;
 using JobStream.Business.Services.Interfaces;
 using JobStream.Core.Entities;
-using JobStream.DataAccess.Repositories.Implementations;
 using JobStream.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobStream.Business.Services.Implementations;
 
@@ -78,7 +72,8 @@ public class JobScheduleService : IJobScheduleService
     {
         if (id != jobSchedulePutDTO.Id)
             throw new BadRequestException($"{jobSchedulePutDTO.Id} was not found");
-        var schedule = _repository.GetAll().FirstOrDefault(a => a.Id == jobSchedulePutDTO.Id);
+        //var schedule = _repository.GetAll().FirstOrDefault(a => a.Id == jobSchedulePutDTO.Id);
+        var schedule = _repository.GetByCondition(a => a.Id == jobSchedulePutDTO.Id, false);
         if (schedule == null) throw new NotFoundException("There is no schedule with that id ");
 
         var result = _mapper.Map<JobSchedule>(jobSchedulePutDTO);

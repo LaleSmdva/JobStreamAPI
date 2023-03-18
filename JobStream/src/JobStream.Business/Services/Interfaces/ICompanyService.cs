@@ -1,4 +1,5 @@
-﻿using JobStream.Business.DTOs.CompanyDTO;
+﻿using JobStream.Business.DTOs.ApplicationsDTO;
+using JobStream.Business.DTOs.CompanyDTO;
 using JobStream.Business.DTOs.InvitationDTO;
 using JobStream.Business.DTOs.VacanciesDTO;
 using JobStream.Core.Entities;
@@ -19,7 +20,7 @@ namespace JobStream.Business.Services.Interfaces
 
         //register da olur
         //Task CreateAsync(CompanyPostDTO entity);
-        Task UpdateCompanyAccount(string id, List<int> addedCategoryId, List<int> deletedCategoryId, CompanyPutDTO companyPutDTO);
+        Task UpdateCompanyAccount(string id, List<int> addedCategoryId, CompanyPutDTO companyPutDTO);
         Task DeleteCompany(int id);
         Task AddVacancyToCompany(int companyId, VacanciesPostDTO vacanciesPostDTO);
         Task UpdateVacancy(int companyId, int vacancyId, VacanciesPutDTO vacanciesPutDTO);
@@ -27,5 +28,6 @@ namespace JobStream.Business.Services.Interfaces
         //Update vacancy qaldi
         Task InviteCandidateToInterview(int vacancyId, int candidateId, InvitationPostDTO invitation);
         Task RejectCandidate(int vacancyId, int candidateId);
+        Task<List<ApplicationsDTO>> GetAllApplications(int companyId);
     }
 }

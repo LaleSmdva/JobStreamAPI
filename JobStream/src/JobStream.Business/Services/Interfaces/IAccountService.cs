@@ -22,8 +22,8 @@ namespace JobStream.Business.Services.Interfaces
         Task RegisterCandidate(RegisterCandidateDTO registerCandidate);
 
 		Task<List<object>> GetAllRolesAsync();
-		Task<bool> CreateRoleAsync(string userName, List<string> roles);
-		Task<bool> UpdateRoleAsync(string userName, List<string> newRoles, List<string> deletedRoles);
+		Task<bool> CreateRoleAsync(string userId, List<string> roles);
+		Task<bool> UpdateRoleAsync(string userId, List<string> newRoles, List<string> deletedRoles);
 		Task<List<string>> GetRolesById(string id);
 
 		Task RegisterCompany(RegisterCompanyDTO registerCompany);
